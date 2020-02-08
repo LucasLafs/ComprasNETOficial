@@ -39,21 +39,25 @@ require_once("../header/cabecalho.php");
                           </div> -->
                         <div class="card-body">
                             <table id="table-data-licitacoes"
-                                   class="table table-condesed table-responsive vertical-align" style="width: 100%;">
+                                   class="table table-condesed table-responsive table-hover vertical-align" style="width: 100%;">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
+                                    <th scope="col" class="vertical-align"></th>
                                     <th scope="col">UASG</th>
                                     <th scope="col">Data Entrega</th>
                                     <th scope="col">Descrição</th>
                                     <th scope="col">Objeto</th>
                                     <th scope="col">Situação</th>
-                                    <th scope="col" class="vertical-align">Actions</th>
+                                    <th scope="col">Acoes</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
-                              <!--  <div class="tab1-loading overlay"></div>
-                                <div class="tab1-loading loading-img"></div>-->
+                                <div class="tab1-loading overlay loadTable" style="display: none"></div>
+                                <div class="tab1-loading loading-img loadTable" style="display: none"></div>
+                                <!--  <div class="tab1-loading overlay"></div>
+                                  <div class="tab1-loading loading-img"></div>-->
                                 </tbody>
                             </table>
                         </div>
@@ -71,24 +75,24 @@ require_once("../header/cabecalho.php");
 <!-- /.box -->
 <script>
 
-$(document).ready(function() {
+    $(document).ready(function() {
 
-    /* Imports  */
+        /* Imports  */
 
-    var DataTables = document.createElement('script');
-    DataTables.src = '../js/DataTables.js';
-    document.head.appendChild(DataTables);
+        var DataTables = document.createElement('script');
+        DataTables.src = '../js/DataTables.js';
+        document.head.appendChild(DataTables);
 
 
-    $(window).on('load', function () {
-        getCotacoes();
-        $('.tab1-loading').hide();
+        $(window).on('load', function () {
+            getCotacoes();
+            $('.tab1-loading').hide();
+
+        });
+
+        $(function () {
+            $(".menu-open").find('.menu-geral').find('a[href="./cotacoes.php"]').addClass('active');
+        });
 
     });
-
-    $(function () {
-        $(".menu-open").find('.menu-geral').find('a[href="./cotacoes.php"]').addClass('active');
-    });
-
-});
 </script>

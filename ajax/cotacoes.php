@@ -1,9 +1,9 @@
-<?php 
+<?php
 require_once ("../ajax/conexao.php");
 
 if($_REQUEST['act']){
     if ( $_REQUEST['act'] == 'getLicitacoes'){
-       return getLicitacoes();
+        return getLicitacoes();
     } else if ( $_REQUEST['act'] == 'getItensLicitacao'){
         return getItensLicitacao();
     } else {
@@ -18,18 +18,19 @@ function getLicitacoes(){
     $query = mysqli_query($con, $sql);
     if($query){
         if(mysqli_num_rows($query) > 0){
-            
+
             $obj = [];
             while($licitacoes = mysqli_fetch_assoc($query)){
 
                 $obj[] = [
-                    $licitacoes['identificador'],  
+                    $licitacoes['identificador'],
+                    '',
                     $licitacoes['uasg'],
                     $licitacoes['data_entrega_proposta'],
                     $licitacoes['informacoes_gerais'],
                     $licitacoes['objeto'],
                     $licitacoes['situacao_aviso'],
-                    '',
+                    "<button class='btn btn-sm btn-edit'><i class='fa fa-print'></i></button>"
                 ];
             }
 
@@ -81,7 +82,7 @@ function getItensLicitacao(){
 
                 $obj[] = [
                     $itens['lic_id'],
-                    $itens['lic_uasg'],  
+                    $itens['lic_uasg'],
                     $itens['num_aviso'],
                     $itens['descricao_item'],
                     $itens['cod_item_material'],
@@ -96,7 +97,7 @@ function getItensLicitacao(){
             echo 0;
         }
     }
-    
+
 
 }
 

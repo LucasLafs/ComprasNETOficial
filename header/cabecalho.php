@@ -120,7 +120,7 @@ else
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link" style="height: 57px;">
       <!-- 1c5581 <img src="../layout/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" -->
-        <img src="../imagens/logo-futura.png" alt="AdminLTE Logo" class="brand-image" style='width: 175px; height: 50px; margin-left: 2px'>
+        <img src="../layout/images/logo-futura.png" alt="AdminLTE Logo" class="brand-image" style='width: 175px; height: 50px; margin-left: 2px'>
     </a>
 
     <!-- Sidebar -->

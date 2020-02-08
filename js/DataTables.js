@@ -27,6 +27,9 @@ function getCotacoes() {
         // data: "act=getLicitacoes",
         // dataType: 'json',
         cache: false,
+        beforeSend: function () {
+            $(".loadTable").show();
+        },
         success: function(data) {
             // console.log(data);
             data = JSON.parse(data);
@@ -39,6 +42,11 @@ function getCotacoes() {
                 "columns": [
                     {
                         "visible": false,
+                    },
+                    {
+                        className: "details-control",
+                        "orderable": false,
+                        width: "7%",
                     },
                     {
                         className: "vertical-align",
@@ -57,16 +65,16 @@ function getCotacoes() {
                         className: "vertical-align",
                     },
                     {
-                        className: "details-control",
+                        className: "vertical-align",
                         "orderable": false,
-                        width: "7%",
+                        width: "10%",
                     },
                 ],
                 "order": [3, 'desc'],
                 "fnDrawCallback": function () {
 
                     $('#table-data-licitacoes tbody').off('click').on('click', 'td.details-control', function() {
-                        $(".tab1-loading").show();
+
                         var tr = $(this).closest('tr');
                         var row = table.row(tr);
 
@@ -87,6 +95,9 @@ function getCotacoes() {
                                 url: '../ajax/cotacoes.php',
                                 data: 'act=getItensLicitacao&identificador=' + identificador,
                                 cache: false,
+                                beforeSend: function () {
+                                    $(".loadTable").show();
+                                },
                                 success: function(data) {
                                     var itens = [];
                                     data = JSON.parse(data);
@@ -99,9 +110,9 @@ function getCotacoes() {
 
                                     console.log(itens);
 
-                                    $("#tblItens").DataTable({
+                                    $("table.tblItens").DataTable({
+                                        retrieve: true,
                                         "responsive": true,
-                                       // "retrieve": true,
                                         "searching": false,
                                         "lengthChange": false,
                                         "paging": false,
@@ -137,12 +148,14 @@ function getCotacoes() {
                                     });
                                 }
                             });
+
+                            $(".loadTable").hide();
                         }
                     });
 
                     function format(d) {
                         // `d` is the original data object for the row
-                        return '<div style="background: #f5f5f5"><table cellpadding="5" cellspacing="0" border="0" id="tblItens"> <thead>' +
+                        return '<div style="background: #f5f5f5; width: 100%"><table class="table table-responsive table-condesed tblItens" cellpadding="5" cellspacing="0" border="0"> <thead>' +
                             '        <tr> ' +
                             '         <th scope="col">ID Licitacao</th>' +
                             '         <th scope="col">UASG Cotação</th>' +
@@ -161,8 +174,6 @@ function getCotacoes() {
 
 
             console.log(data);
-
-            $(".tab1-loading").hide();
 
         }
 
