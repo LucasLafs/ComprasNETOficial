@@ -4,7 +4,7 @@ require_once ("../ajax/conexao.php");
 if ($_REQUEST['act']) {
     $request = $_REQUEST['act'];
     if ($request == 'cadastro') {
-        saveFabri($_REQUEST);
+        return saveFabri($_REQUEST);
     }
 
 }
