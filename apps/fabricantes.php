@@ -8,7 +8,7 @@ require_once("../header/cabecalho.php");
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Cotações Gerais</h1>
+                    <h1 class="m-0 text-dark">Fornecedores</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -22,18 +22,26 @@ require_once("../header/cabecalho.php");
                 <div class='col-md-12'>
                     <!-- Default box -->
                     <div class="card">
+                        <div class="card-header" style="min-height: 50px;">
+                            <div class="alert alert-success" role="alert">
+                                <i class='fa fa-check-circle text-green'></i>
+                            </div>
+                            <div class="card-tools">
+                                <button class="btn btn-tool" data-toggle="modal" data-target="#modalCadastroFabri" title="Adicionar Fornecedor">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
                         <div class="card-body">
                             <table id=tblFornecedores"
                                    class="table table-condesed table-responsive vertical-align" style="width: 100%;">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
-                                    <th scope="col">UASG</th>
-                                    <th scope="col">Data Entrega</th>
-                                    <th scope="col">Descrição</th>
-                                    <th scope="col">Objeto</th>
-                                    <th scope="col">Situação</th>
-                                    <th scope="col" class="vertical-align">Actions</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">E-mail</th>
+                                    <th scope="col">Contato</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -49,6 +57,11 @@ require_once("../header/cabecalho.php");
                 </div>
             </div>
         </div>
+        <?php
+            include ('modais/cadastroFabricante.php');
+            include ('modais/editarFabricante.php');
+            include ('modais/exclusao.php');
+        ?>
     </section>
 </div>
 <!-- /.box -->
