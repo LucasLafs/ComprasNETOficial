@@ -6,20 +6,27 @@ function getFabris() {
         data: 'act=allFabris',
         cache: false,
         beforeSend: function () {
-            $('#btnCadastrarFabricante').hide();
             $(".loadTable").show();
         },
         success: function(data) {
+            console.log(data);                      
 
-            data = JSON.parse(data);
+            if (data == 0) {
+                $('#btnCadastrarFabricante').show();
+                $("#tblFabricantes").hide();
+                $("#msgSemFabricante").show();
+              
+                return false;
+            } else {
+                $("#tblFabricantes").show();
+                $("#msgSemFabricante").hide();
+            }
 
-            console.log(data);
+            data = JSON.parse(data);           
 
             var fabricantes = [];
 
             $.each(data, function (i, d) {
-                //fabricantes.push(d);
-
                 var descricao = d.descricao != '' ? d.descricao : '-';
 
                 fabricantes.push([
@@ -36,9 +43,7 @@ function getFabris() {
                 ])
             });
 
-
-
-            var table = $("body").find("#tblFabricantes");
+            var table = $("#tblFabricantes");         
 
             if ( $.fn.DataTable.isDataTable( '#tblFabricantes' )) {
                 table.dataTable().fnClearTable();
@@ -54,15 +59,15 @@ function getFabris() {
                 "columns": [
                     {
                         className: "vertical-align",
+                        width: '550px',
+                    },
+                    {
+                        className: "vertical-align",
                         width: '450px',
                     },
                     {
                         className: "vertical-align",
-                        width: '350px',
-                    },
-                    {
-                        className: "vertical-align",
-                        width: '500px',
+                        width: '550px',
                     },
                     {
                         "orderable": false,

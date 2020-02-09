@@ -28,7 +28,8 @@ require_once("../header/cabecalho.php");
                                     <button style="display: none; margin-top: 0; float: right;" class="btn btn-tool" id="btnCadastrarFabricante" data-toggle="modal" data-target="#modalCadastroFabri" title="Adicionar Fabricante">
                                         <i class="fas fa-plus"></i>
                                     </button>
-                                    <table id="tblFabricantes" class="table table-hover table-responsive" style="width: 100%;">
+                                    <h4 id='msgSemFabricante' style='display: none;' class='text-info text-center'>Nenhum fabricante cadastrado.</h4>
+                                    <table style='display: none;' id="tblFabricantes" class="table table-hover table-responsive" style="width: 100%;">
                                         <thead>
                                         <tr>
                                             <th scope="col">Nome</th>

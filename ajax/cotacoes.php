@@ -17,7 +17,8 @@ function getLicitacoes(){
     $sql = "SELECT uasg, identificador, DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta, informacoes_gerais, objeto, situacao_aviso FROM licitacoes_cab limit 5000";
     $query = mysqli_query($con, $sql);
     if($query){
-        if(mysqli_num_rows($query) > 0){
+        $offset = mysqli_num_rows($query);
+        if( $offset > 0){
 
             $obj = [];
             while($licitacoes = mysqli_fetch_assoc($query)){
@@ -35,11 +36,12 @@ function getLicitacoes(){
             }
 
             echo json_encode($obj);
-        } else {
-            require_once ("../api/request_licitacoes.php");
-            // $_REQUEST['act'] = '&requestLicitacoes';
-            requestLicGeraisComprasNet();
         }
+        //  else {
+            // require_once ("../api/request_licitacoes.php");
+            // $_REQUEST['act'] = '&requestLicitacoes';
+            // requestLicGeraisComprasNet();
+        // }
 
     } else {
         echo 'Query Error';

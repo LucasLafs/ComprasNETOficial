@@ -37,6 +37,8 @@ function allFabris()
         }
 
         echo json_encode($obj);
+    } else {
+        echo json_encode(0);
     }
 }
 

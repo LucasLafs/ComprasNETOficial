@@ -1,4 +1,19 @@
 
+function getLicGerais(){
+    $.ajax({
+        type: "GET",
+        url: '../api/request_licitacoes.php',
+        data: 'act=requestLicitacoes',
+        cache: false,
+        success: function (data){
+            console.log(data);
+        }
+            // require_once ("../api/request_licitacoes.php");
+            // $_REQUEST['act'] = '&requestLicitacoes';
+            // requestLicGeraisComprasNet();
+    })
+}
+
 function getCotacoes() {
     $.ajax({
         type: "GET",

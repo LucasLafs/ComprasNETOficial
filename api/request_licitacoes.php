@@ -6,9 +6,10 @@ require_once ("../ajax/conexao.php");
 if($_REQUEST['act']){
     if ($_REQUEST['act'] == 'requestLicitacoes'){
         requestLicGeraisComprasNet();
-        exit;
     } else if ($_REQUEST['act'] == 'requestItensLicitacao') {
         return requestItensLicitacao();
+    } else {
+        echo "404 NOT FOUND";
     }
 }
 
@@ -16,12 +17,16 @@ function requestLicGeraisComprasNet(){
     header("Access-Control-Allow-Origin: *"); 
     // header("Vary: Origin");
 
-    $offset_total = 0;
+    $con = bancoMysqli();
+    $sql = "SELECT COUNT(*) as total FROM licitacoes_cab";
+    $query = mysqli_query($con, $sql);
+    $offset = mysqli_fetch_assoc($query);
+    $offset = $offset['total'];
 
     $curl = curl_init();
     curl_setopt_array($curl, [
         CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => "http://compras.dados.gov.br/licitacoes/v1/licitacoes.json?offset=" . $offset_total
+        CURLOPT_URL => "http://compras.dados.gov.br/licitacoes/v1/licitacoes.json?offset=" . $offset
     ]);
 
     $offset_total = json_decode(curl_exec($curl));
@@ -32,9 +37,8 @@ function requestLicGeraisComprasNet(){
 
     $offset_total = $offset_total->count;
     // $offset_total = 5000;
-    $i = 0;
+    $i = $offset;
 
-    $con = bancoMysqli();
 
     while ($i < $offset_total) {
         $curl = curl_init();

@@ -53,7 +53,7 @@ require_once("../header/cabecalho.php");
 
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id='licitacao-itens'>
                                 <div class="tab1-loading overlay loadTable" style="display: none"></div>
                                 <div class="tab1-loading loading-img loadTable" style="display: none"></div>
                                 <!--  <div class="tab1-loading overlay"></div>
@@ -86,6 +86,7 @@ require_once("../header/cabecalho.php");
 
         $(window).on('load', function () {
             getCotacoes();
+            getLicGerais();
             $('.tab1-loading').hide();
 
         });
