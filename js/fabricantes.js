@@ -1,49 +1,83 @@
 function getFabris() {
-    $.get('api/allFuncs')
-        .done(function (response) {
 
-            var data = [];
+    $.ajax({
+        type: 'GET',
+        url: '../ajax/fabricantes.php',
+        data: 'act=allFabris',
+        cache: false,
+        beforeSend: function () {
+            $('#btnCadastrarFabricante').hide();
+            $(".loadTable").show();
+        },
+        success: function(data) {
 
-            var sexo = '';
+            data = JSON.parse(data);
 
-            $.each(response, function (i ,d) {
-                sexo = 'Não Informado';
-                if (d.sexo != null) {
-                    sexo = d.sexo == 'M' ? 'Masculino' : 'Feminino';
-                }
+            console.log(data);
 
-                data.push([
+            var fabricantes = [];
+
+            $.each(data, function (i, d) {
+                //fabricantes.push(d);
+
+                var descricao = d.descricao != '' ? d.descricao : '-';
+
+                fabricantes.push([
                     d.nome,
-                    d.sobrenome,
-                    d.idade,
-                    sexo,
-                    " <button  data-toggle='modal' data-target='#modalEditaFunc' class='btn btn-sm btn-edit text-info pull-left'\n" +
-                    "      title='Editar Funcionario' data-id='" + d.id + "'>\n" +
+                    d.email,
+                    descricao,
+                    " <button  data-toggle='modal' data-target='#modalEditaFabri' class='btn btn-sm btn-edit text-info pull-left'\n" +
+                    "      title='Editar Fabricante' data-id='" + d.id + "'>\n" +
                     "                                <span class='fa fa-edit'/>\n" +
                     "          </button>  " +
-                    "<button class='btn btn-sm btn-trash' title='Excluir Funcionario' data-toggle='modal' data-target='#exclusao' data-id='" + d.id + "'  data-nome='" + d.nome + "'>\n" +
+                    "<button class='btn btn-sm btn-trash' title='Excluir Fabricante' data-toggle='modal' data-target='#exclusao' " +
+                    "data-id='" + d.id + "' data-item='o fabricante'  data-nome='" + d.nome + "'>\n" +
                     "                 <span class='fa fa-trash'/> </button>",
                 ])
             });
 
-            var table = $('#tblFuncionarios');
 
-            if ( $.fn.DataTable.isDataTable( '#tblFuncionarios' )) {
+
+            var table = $("body").find("#tblFabricantes");
+
+            if ( $.fn.DataTable.isDataTable( '#tblFabricantes' )) {
                 table.dataTable().fnClearTable();
                 table.dataTable().fnDestroy();
             }
 
+            $(".loadTable").hide();
+
             table.DataTable({
-                data: data,
+                retrieve: true,
+                "responsive": true,
+                data: fabricantes,
+                "columns": [
+                    {
+                        className: "vertical-align",
+                        width: '450px',
+                    },
+                    {
+                        className: "vertical-align",
+                        width: '350px',
+                    },
+                    {
+                        className: "vertical-align",
+                        width: '500px',
+                    },
+                    {
+                        "orderable": false,
+                        width: "80px",
+                    },
+                ],
+                "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-10 pull-right cadastrarFabricante'>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
+                fnInitComplete: function () {
+                    $('div.cadastrarFabricante').html($('#btnCadastrarFabricante').show());
+                }
             });
-
-            $('.tab1-loading').hide();
-
-        })
-        .fail(function () {
-            console.log('fail');
-        });
-
+        }
+    });
 }
 
 function saveFabri(action) {
@@ -56,7 +90,7 @@ function saveFabri(action) {
 
     $.ajax({
         type: 'POST',
-        url: '../ajax/fabricantes',
+        url: '../ajax/fabricantes.php',
         data: data,
         beforeSend: function () {
             $("#form" + action).hide();
@@ -65,7 +99,7 @@ function saveFabri(action) {
         success: function (data) {
             console.log(data);
             if (!data) {
-                $("#msgStoreFunc").html('Nao foi possivel cadastrar').show();
+                $("#msgStoreFabri").html('Nao foi possivel cadastrar').show();
                 return false;
             }
 
@@ -78,7 +112,9 @@ function saveFabri(action) {
 
             if (action == 'CadastroFabri') {
                 $('#form' +action+' input').each(function() {
-                    $(this).val('');
+                    if ($(this).attr('name') != 'act' ) {
+                        $(this).val('');
+                    }
                 });
             }
 
@@ -94,3 +130,79 @@ function saveFabri(action) {
         },
     });
 }
+
+
+
+function excluirFabricante (idFabri)
+{
+    var data = {};
+
+    data = {
+        act: 'excluir',
+        idFabri: idFabri,
+    };
+
+
+    $.ajax({
+        type: 'POST',
+        url: '../ajax/fabricantes.php',
+        data: data,
+        beforeSend: function () {
+            $(".loadModal").show();
+        },
+        success: function (data) {
+            if (!data) {
+                alert('Nao foi possivel excluir');
+                return false;
+            }
+
+            getFabris();
+
+            $("#exclusao").modal('hide');
+
+            $(".alert-success i").append("   Excluído com Sucesso");
+            $(".alert-success").show();
+            $(".loadModal").hide();
+
+            window.setTimeout(function() {
+                $(".alert-success i").html("");
+                $(".alert-success").hide();
+
+            }, 2000);
+        },
+    });
+}
+
+
+$("#modalEditaFabri").on('show.bs.modal', function (e) {
+    let id = $(e.relatedTarget).attr('data-id');
+
+    let form = $(this).find('form');
+    form.find('#id').val(id);
+
+    $.ajax({
+        type: 'GET',
+        url: '../ajax/fabricantes.php?act=getFabri&id=' + id,
+        beforeSend: function () {
+            $(".loadModal").show();
+        },
+        success: function (data) {
+
+            data = JSON.parse(data);
+
+            $.each(data, function (campo, value) {
+                form.find('input').each(function(){
+
+                    if ($(this).attr('name') == campo) {
+                        $(this).val(value);
+                    }
+
+
+                });
+            });
+
+            $(".loadModal").hide();
+        },
+    });
+
+});

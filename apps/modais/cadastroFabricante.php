@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="offset-2 col-md-8">
                             <label for="">Nome</label>
-                            <input type="text" class="form-control input" name="nome" required>
+                            <input type="text" class="form-control input uppercase" name="nome" required>
                             <br>
                         </div>
                     </div>
@@ -31,11 +31,11 @@
                     <div class="row">
                         <div class="offset-2 col-md-8">
                             <label for="">Descricao</label>
-                            <input type="number" class="form-control input" name="descricao" maxlength="2">
+                            <input type="text" class="form-control input" name="descricao" maxlength="80">
                             <br>
                         </div>
-
                     </div>
+                    <input type="hidden" name="act" value="cadastro">
                 </form>
 
                 <div class="tab1-loading overlay loadModal" style="display: none"></div>
@@ -43,7 +43,6 @@
 
             </div>
             <div class="modal-footer">
-                <input type="hidden" name="act" value="cadastro">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 <button type="button" class="btn btn-primary"
                         onclick="saveFabri('CadastroFabri')">Cadastrar</button>

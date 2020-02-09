@@ -10,8 +10,6 @@
                 </button>
             </div>
             <form action="" method="post">
-                {{ method_field('delete') }}
-                {{ csrf_field() }}
 
                 <div class="modal-body">
                     <p class="text-center">Deseja Realmente Excluir?</p>
@@ -20,7 +18,7 @@
                 <div class="tab1-loading loading-img loadModal" style="display: none"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button"  class="btn btn-danger" id="idFuncionario">Apagar</button>
+                    <button type="button"  class="btn btn-danger" id="idFabri" onclick="excluirFabricante($(this).val())">Apagar</button>
                 </div>
             </form>
         </div>

@@ -8,7 +8,7 @@ require_once("../header/cabecalho.php");
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Fornecedores</h1>
+                    <h1 class="m-0 text-dark">Fabricantes</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -22,31 +22,30 @@ require_once("../header/cabecalho.php");
                 <div class='col-md-12'>
                     <!-- Default box -->
                     <div class="card">
-                        <div class="card-header" style="min-height: 50px;">
-                            <div class="alert alert-success" role="alert">
-                                <i class='fa fa-check-circle text-green'></i>
-                            </div>
-                            <div class="card-tools">
-                                <button class="btn btn-tool" data-toggle="modal" data-target="#modalCadastroFabri" title="Adicionar Fornecedor">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- /.card-header -->
                         <div class="card-body">
-                            <table id=tblFornecedores"
-                                   class="table table-condesed table-responsive vertical-align" style="width: 100%;">
-                                <thead>
-                                <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">E-mail</th>
-                                    <th scope="col">Contato</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button style="display: none; margin-top: 0; float: right;" class="btn btn-tool" id="btnCadastrarFabricante" data-toggle="modal" data-target="#modalCadastroFabri" title="Adicionar Fabricante">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <table id="tblFabricantes" class="table table-hover table-responsive" style="width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Nome</th>
+                                            <th scope="col">E-mail</th>
+                                            <th scope="col">Descricao</th>
+                                            <th scope="col">Acoes</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <div class="tab1-loading overlay loadTable" style="display: none"></div>
+                                        <div class="tab1-loading loading-img loadTable" style="display: none"></div>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
                         </div>
                         <!-- /.card-body -->
                         <!-- <div class="card-footer">
@@ -58,10 +57,33 @@ require_once("../header/cabecalho.php");
             </div>
         </div>
         <?php
-            include ('modais/cadastroFabricante.php');
-            include ('modais/editarFabricante.php');
-            include ('modais/exclusao.php');
+        include ('modais/cadastroFabricante.php');
+        include ('modais/editarFabricante.php');
+        include ('modais/exclusao.php');
         ?>
     </section>
 </div>
 <!-- /.box -->
+
+<script>
+
+    $(document).ready(function() {
+
+        /* Imports  */
+
+        var fabricantes = document.createElement('script');
+        fabricantes.src = '../js/fabricantes.js';
+        document.head.appendChild(fabricantes);
+
+
+        $(window).on('load', function () {
+            getFabris();
+            $('.tab1-loading').hide();
+        });
+
+        $(function () {
+            $(".menu-open").find('.menu-geral').find('a[href="./fabricantes.php"]').addClass('active');
+        });
+
+    });
+</script>

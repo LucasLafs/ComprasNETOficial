@@ -52,7 +52,6 @@ function getItensLicitacao(){
     $identificador = $_REQUEST['identificador'];
 
     $sql = "SELECT 
-        lic_uasg,
         lic_id,
         num_aviso,
         num_item_licitacao,
@@ -80,7 +79,8 @@ function getItensLicitacao(){
             $obj = [];
             while($itens = mysqli_fetch_assoc($query)){
 
-                $obj[] = [
+                $obj[] = $itens;
+               /* $obj[] = [
                     $itens['lic_id'],
                     $itens['lic_uasg'],
                     $itens['num_aviso'],
@@ -89,7 +89,7 @@ function getItensLicitacao(){
                     $itens['quantidade'],
                     $itens['unidade'],
                     $itens['valor_estimado'],
-                ];
+                ];*/
             }
 
             echo json_encode($obj);

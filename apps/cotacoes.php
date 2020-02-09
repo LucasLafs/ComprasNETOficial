@@ -39,7 +39,7 @@ require_once("../header/cabecalho.php");
                           </div> -->
                         <div class="card-body">
                             <table id="table-data-licitacoes"
-                                   class="table table-condesed table-responsive table-hover vertical-align" style="width: 100%;">
+                                   class="table table-responsive table-hover vertical-align" style="width: 100%;">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -79,9 +79,9 @@ require_once("../header/cabecalho.php");
 
         /* Imports  */
 
-        var DataTables = document.createElement('script');
-        DataTables.src = '../js/DataTables.js';
-        document.head.appendChild(DataTables);
+        var cotacoes = document.createElement('script');
+        cotacoes.src = '../js/cotacoes.js';
+        document.head.appendChild(cotacoes);
 
 
         $(window).on('load', function () {
