@@ -43,7 +43,7 @@ require_once("../header/cabecalho.php");
                         <div class='col-md-4'>
                           <div class='form-group form-conf-email'>
                             <label for='remetente_conf_conta'>Remetente</label>
-                            <input id='remetente_conf_conta' name="remetente_conf_conta" class='form-control' type=text />
+                            <input class='input form-control' id='remetente_conf_conta' name="remetente_conf_conta" type=text />
                           </div>
                         </div>
                       </div>
@@ -51,7 +51,7 @@ require_once("../header/cabecalho.php");
                         <div class='col-md-4'>
                           <div class='form-group form-conf-email'>
                             <label for='smtp_conf_conta'>Servidor SMTP</label>
-                            <input id='smtp_conf_conta' name="smtp_conf_conta" class='form-control' type=text />
+                            <input class='input form-control' id='smtp_conf_conta' name="smtp_conf_conta" type=text />
                           </div>
                         </div>
                       </div>
@@ -59,7 +59,7 @@ require_once("../header/cabecalho.php");
                         <div class='col-md-4'>
                           <div class='form-group form-conf-email'>
                             <label for='port_conf_conta'>Porta SMTP</label>
-                            <input id='port_conf_conta' name="port_conf_conta" class='form-control' type=text />
+                            <input class='input form-control' id='port_conf_conta' name="port_conf_conta" type=text />
                           </div>
                         </div>
                       </div>
@@ -67,7 +67,7 @@ require_once("../header/cabecalho.php");
                         <div class="col-md-4">
                           <div class='form-group form-conf-email'>
                             <label for='nome_conf_conta'>Usuario</label>
-                            <input id='nome_conf_conta' name="nome_conf_conta" class='form-control' type=text></input>
+                            <input class='input form-control' id='nome_conf_conta' name="nome_conf_conta" type=text></input>
                           </div>
                         </div>
                       </div>
@@ -75,7 +75,7 @@ require_once("../header/cabecalho.php");
                         <div class='col-md-4'>
                           <div class='form-group form-conf-email'>
                             <label for='senha_conf_conta'>Senha</label>
-                            <input id='senha_conf_conta' name="senha_conf_conta" class='form-control' type=password></input>
+                            <input class='input form-control' id='senha_conf_conta' name="senha_conf_conta" type=password></input>
                           </div>
                         </div>
                       </div>
@@ -83,7 +83,7 @@ require_once("../header/cabecalho.php");
                         <div class='col-md-4'>
                           <div class='form-group form-conf-email'>
                             <label for='copia_conf_conta'>Cópia E-mail</label>
-                            <input id='copia_conf_conta' name="copia_conf_conta" class='form-control' type=text></input>
+                            <input class='input form-control' id='copia_conf_conta' name="copia_conf_conta" type=text></input>
                           </div>
                         </div>
                       </div>
@@ -109,15 +109,15 @@ require_once("../header/cabecalho.php");
                         <div class='col-md-12'>
                           <div class='form-group form-body-email'>
                             <label for='assunto_email'>Assunto</label>
-                            <input id='assunto_email' name="assunto_email" class='form-control' type=text />
+                            <input class='input form-control' id='assunto_email' name="assunto_email" type=text />
                           </div>
                         </div>
                       </div>
                       <div class='row'>
                         <div class="col-md-12">
                           <div class='form-group form-body-email'>
-                            <label for='corpo_email'>Corpo</label>
-                            <textarea id='corpo_email' name="corpo_email" class='form-control' type=text rows='14'></textarea>
+                            <label for='corpo_email'>Mensagem</label>
+                            <textarea id='corpo_email' name="corpo_email" type=text class='form-control' style="border: 1px solid #069 !important;" rows='15'></textarea>
                           </div>
                         </div>
                       </div>

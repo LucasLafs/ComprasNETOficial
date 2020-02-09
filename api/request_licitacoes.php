@@ -1,5 +1,6 @@
 <?php 
 
+set_time_limit(0);
 require_once ("../ajax/conexao.php");
 
 if($_REQUEST['act']){
@@ -29,14 +30,13 @@ function requestLicGeraisComprasNet(){
     // echo json_encode($licitacoes);
     // exit;
 
-    // $offset_total = $offset_total->count;
-    $offset_total = 5000;
-    $i = 2500;
+    $offset_total = $offset_total->count;
+    // $offset_total = 5000;
+    $i = 0;
 
     $con = bancoMysqli();
 
     while ($i < $offset_total) {
-        set_time_limit(300);
         $curl = curl_init();
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER => 1,
@@ -55,7 +55,13 @@ function requestLicGeraisComprasNet(){
             foreach ($licitacao AS $campo => $value) {
 
                 if (!is_object($value)) {
-                    $licitacao->$campo = $value != null ? "'$value'" : 'null';
+                    // $licitacao->$campo = $value != null ? "'$value'" : 'null';
+                    if($value != null){
+                        $value = str_replace("\"", "'", $value);
+                        $licitacao->$campo = "\"$value\"";
+                    } else {
+                        $licitacao->$campo = 'null';
+                    }
                 }
 
             }
@@ -107,6 +113,7 @@ function requestLicGeraisComprasNet(){
                 echo "ERROR: " . mysqli_error($con);
                 echo "<br>";
                 echo $sql;
+                exit;
             }
 
             //resolver problema de inserção db 
@@ -121,7 +128,14 @@ function requestLicGeraisComprasNet(){
                     foreach($item_licitacao AS $campo => $value ){
                         // relacionamentos serão feitos pela Lic_id;
                         if (!is_object($value)) {
-                            $item_licitacao->$campo = $value != null ? "'$value'" : 'null';
+                            // $item_licitacao->$campo = $value != null ? "\"$value\"" : 'null';
+                            if($value != null){
+                                $value = str_replace("\"", "'", $value);
+                                $item_licitacao->$campo = "\"$value\"";
+                            } else {
+                                $item_licitacao->$campo = 'null';
+                            }
+                        
                         }
                     }
                 
@@ -165,6 +179,8 @@ function requestLicGeraisComprasNet(){
                     // echo $sql;
                     if(!mysqli_query($con, $sql)){
                         print_r(mysqli_error($con));
+                        echo $sql;
+                        exit;
                     }
 
                 }
@@ -182,19 +198,21 @@ function requestLicGeraisComprasNet(){
                 foreach ($orgao_licitacao AS $campo => $value) {
 
                     if (!is_object($value)) {
-                        $orgao_licitacao->$campo = $value != null ? "'$value'" : 'null';
+                        $orgao_licitacao->$campo = $value != null ? "\"$value\"" : 'null';
                     }
 
                 }
                 
-                $sql = "INSERT INTO licitacao_orgao (uasg, lic_orgao, lic_estado) VALUES ($orgao_licitacao->uasg, $orgao_licitacao->orgao, $orgao_licitacao->estado)";
+                $sql = "INSERT INTO licitacao_orgao (uasg, lic_orgao, lic_estado) VALUES ($uasg, $orgao_licitacao->orgao, $orgao_licitacao->estado)";
                 if(!mysqli_query($con, $sql)){
                     print_r(mysqli_error($con));
+                    echo $sql;
+                    exit;
                 }
             }
 
         }
-        
+        echo '<pre>'; echo $i . ' UASG: ' . $uasg ; echo '</pre>';
         $i += 500;
     }
 
