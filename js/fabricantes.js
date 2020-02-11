@@ -59,7 +59,7 @@ function getFabris() {
                 "columns": [
                     {
                         className: "vertical-align",
-                        width: '550px',
+                        width: '450px',
                     },
                     {
                         className: "vertical-align",
@@ -71,7 +71,7 @@ function getFabris() {
                     },
                     {
                         "orderable": false,
-                        width: "80px",
+                        width: "100px",
                     },
                 ],
                 "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-10 pull-right cadastrarFabricante'>>" +
