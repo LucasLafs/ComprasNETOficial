@@ -71,6 +71,12 @@ function getCotacoes() {
                         width: "7%",
                     },
                 ],
+                "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-10 pull-right forceSincronismo'>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
+                fnInitComplete: function () {
+                    $('div.forceSincronismo').html($('#btnForceSincronismo').show());
+                },
                 "order": [3, 'desc'],
                 "fnDrawCallback": function () {
 

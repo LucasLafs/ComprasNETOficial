@@ -62,7 +62,8 @@ function requestLicGeraisComprasNet(){
                     // $licitacao->$campo = $value != null ? "'$value'" : 'null';
                     if($value != null){
                         $value = str_replace("\"", "'", $value);
-                        $licitacao->$campo = "\"$value\"";
+                        $value = str_replace("\\", "/", $value);
+                        $licitacao->$campo = '"' . "$value" . '"';
                     } else {
                         $licitacao->$campo = 'null';
                     }
@@ -112,7 +113,7 @@ function requestLicGeraisComprasNet(){
                 $licitacao->data_publicacao
                 )
             ";
-
+            echo "TOMA NO CU";
             if (!mysqli_query($con, $sql)) {
                 echo "ERROR: " . mysqli_error($con);
                 echo "<br>";
@@ -135,7 +136,8 @@ function requestLicGeraisComprasNet(){
                             // $item_licitacao->$campo = $value != null ? "\"$value\"" : 'null';
                             if($value != null){
                                 $value = str_replace("\"", "'", $value);
-                                $item_licitacao->$campo = "\"$value\"";
+                                $value = str_replace("\\", "/", $value);
+                                $item_licitacao->$campo = '"' . "$value" . '"';
                             } else {
                                 $item_licitacao->$campo = 'null';
                             }

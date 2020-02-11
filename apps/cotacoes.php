@@ -26,6 +26,7 @@ require_once("../header/cabecalho.php");
         <div class="container-fluid">
             <div class="row">
                 <div class='col-md-12'>
+
                     <!-- Default box -->
                     <div class="card">
                         <!-- <div class="card-header">
@@ -38,28 +39,33 @@ require_once("../header/cabecalho.php");
                             </div>
                           </div> -->
                         <div class="card-body">
-                            <table id="table-data-licitacoes"
-                                   class="table table-responsive table-hover vertical-align" style="width: 100%;">
-                                <thead>
-                                <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col" class="vertical-align"></th>
-                                    <th scope="col">UASG</th>
-                                    <th scope="col">Data Entrega</th>
-                                    <th scope="col">Descrição</th>
-                                    <th scope="col">Objeto</th>
-                                    <th scope="col">Situação</th>
-                                    <th scope="col">Acoes</th>
-
-                                </tr>
-                                </thead>
-                                <tbody id='licitacao-itens'>
-                                <div class="tab1-loading overlay loadTable" style="display: none"></div>
-                                <div class="tab1-loading loading-img loadTable" style="display: none"></div>
-                                <!--  <div class="tab1-loading overlay"></div>
-                                  <div class="tab1-loading loading-img"></div>-->
-                                </tbody>
-                            </table>
+                            <div class='row'>
+                                <div class='col-md-12'>
+                                    <button style="display: none; margin-top: 0; float: right;" class="btn btn-tool" id="btnForceSincronismo" onClick='forceSincronismo();' title="Forçar sincronismo">
+                                        <i class="fas fa-sync"></i>
+                                    </button>
+                                    <table id="table-data-licitacoes" class="table table-responsive table-hover vertical-align" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col" class="vertical-align"></th>
+                                                <th scope="col">UASG</th>
+                                                <th scope="col">Data Entrega</th>
+                                                <th scope="col">Descrição</th>
+                                                <th scope="col">Objeto</th>
+                                                <th scope="col">Situação</th>
+                                                <th scope="col">Acoes</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id='licitacao-itens'>
+                                            <div class="tab1-loading overlay loadTable" style="display: none"></div>
+                                            <div class="tab1-loading loading-img loadTable" style="display: none"></div>
+                                            <!--  <div class="tab1-loading overlay"></div>
+                                    <div class="tab1-loading loading-img"></div>-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                         <!-- <div class="card-footer">
@@ -74,7 +80,6 @@ require_once("../header/cabecalho.php");
 </div>
 <!-- /.box -->
 <script>
-
     $(document).ready(function() {
 
         /* Imports  */
@@ -84,14 +89,14 @@ require_once("../header/cabecalho.php");
         document.head.appendChild(cotacoes);
 
 
-        $(window).on('load', function () {
+        $(window).on('load', function() {
             getCotacoes();
             getLicGerais();
             $('.tab1-loading').hide();
 
         });
 
-        $(function () {
+        $(function() {
             $(".menu-open").find('.menu-geral').find('a[href="./cotacoes.php"]').addClass('active');
         });
 
