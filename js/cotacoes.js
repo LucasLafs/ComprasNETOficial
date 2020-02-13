@@ -47,28 +47,32 @@ function getCotacoes() {
                     {
                         className: "details-control",
                         "orderable": false,
-                        width: "7%",
+                        width: "5%",
                     },
                     {
+                        witdh: "6%",
                         className: "vertical-align",
                     },
                     {
+                        witdh: "6%",
                         className: "vertical-align",
                     },
                     {
-                        className: "vertical-align",
-                        width: '25%',
-                    },
-                    {
+                        width: '15%',
                         className: "vertical-align",
                     },
                     {
+                        width: '45%',
+                        className: "vertical-align",
+                    },
+                    {
+                        width: '10%',
                         className: "vertical-align",
                     },
                     {
                         className: "vertical-align",
                         "orderable": false,
-                        width: "7%",
+                        width: "5%",
                     },
                 ],
                 "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-10 pull-right forceSincronismo'>>" +
@@ -121,8 +125,8 @@ function getCotacoes() {
                                             d.quantidade,
                                             d.unidade,
                                             d.valor_estimado,
-                                            " <button class='btn btn-sm btn-edit text-info pull-left'\n" +
-                                            "      title='Enviar E-mail'> <span class='fas fa-mail-bulk'/>\n" +
+                                            " <button class='btn btn-sm btn-edit text-info pull-left sendMail'\n" +
+                                            "      title='Enviar E-mail' id='"+d.id+"' onclick='getInfosEmail("+d.id+")' value='"+d.id+"'> <span class='fas fa-mail-bulk'/>\n" +
                                             "          </button>  " +
                                             "<button class='btn btn-sm btn-edit text-info' title='Imprimir Item' data-toggle='modal' data-target='#exclusao' " +
                                             "data-id='" + d.lic_id + "' data-item='o fabricante'  data-nome='" + d.descricao_item + "'>\n" +

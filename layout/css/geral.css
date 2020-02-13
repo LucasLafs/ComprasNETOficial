@@ -1,10 +1,10 @@
 td.details-control {
-    background: url('../layout/images/mais.svg') no-repeat center center;
+    background: url('../images/mais.svg') no-repeat center center;
     cursor: pointer;
     background-size: 33px 43px;
 }
 tr.shown td.details-control {
-    background: url('../layout/images/menos.svg') no-repeat center center;
+    background: url('../images/menos.svg') no-repeat center center;
     background-size:  33px 43px;
 }
 
@@ -80,7 +80,7 @@ tr.shown td.details-control {
     background-attachment: scroll;
     background-clip: border-box;
     background-color: transparent;
-    background-image: url("../layout/images/Spinner-0.8s-40px.gif");
+    background-image: url("../images/Spinner-0.8s-40px.gif");
     background-origin: padding-box;
     background-position: 50% 50%;
     background-repeat: no-repeat;

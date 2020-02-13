@@ -6,6 +6,10 @@ $(document).ready(function() {
     DataTables.src = '../js/DataTables.js';
     document.head.appendChild(DataTables);
 
+    var sendMail = document.createElement('script');
+    sendMail.src = '../js/sendMail.js';
+    document.head.appendChild(sendMail);
+
 
     $(window).on('load', function () {
         $(".sidebar-mini").addClass('sidebar-collapse');

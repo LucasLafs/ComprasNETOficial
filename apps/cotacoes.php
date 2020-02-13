@@ -91,7 +91,7 @@ require_once("../header/cabecalho.php");
 
         $(window).on('load', function() {
             getCotacoes();
-            getLicGerais();
+           // getLicGerais();
             $('.tab1-loading').hide();
 
         });

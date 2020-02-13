@@ -80,7 +80,8 @@ function saveSmtp() {
     exit;
 }
 
-function getSmtp(){
+function getSmtp()
+{
     
     $con = bancoMysqli();
     $sql = 'SELECT remetente, server_smtp, port_smtp, usuario, senha, cop_email FROM conn_smtp';
