@@ -52,7 +52,7 @@ $(function () {
                                         });
                                     } else {
                                         Swal.fire({
-                                            title: 'E-mail nao enviado.',
+                                            title: 'E-mail não enviado.',
                                             text: 'Tente novamente ou entre em contato com os desenvolvedores.',
                                             icon: 'error',
                                             showCancelButton: false,
@@ -69,8 +69,8 @@ $(function () {
                     });
                 } else {
                     Swal.fire({
-                        title: 'Esse item nao possui fabricante.',
-                        text: 'Nao e possivel enviar o e-mail.',
+                        title: 'Esse item não possui fabricante.',
+                        text: 'Não é possivel enviar o e-mail.',
                         icon: 'warning',
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',

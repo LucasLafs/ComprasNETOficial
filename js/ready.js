@@ -23,10 +23,10 @@ $(document).ready(function() {
                 getFabris();
             }
 
-            if ($("#table-data-licitacoes").length > 0) {
+          /*  if ($("#table-data-licitacoes").length > 0) {
 
                 getCotacoes();
-            }
+            }*/
 
         });
 

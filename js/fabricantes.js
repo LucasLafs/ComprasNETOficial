@@ -53,25 +53,26 @@ function getFabris() {
             $(".loadTable").hide();
 
             table.DataTable({
-                retrieve: true,
-                "responsive": true,
+               // retrieve: true,
                 data: fabricantes,
+                //"autoWidth": false,
+                "responsive": true,
                 "columns": [
                     {
                         className: "vertical-align",
-                        width: '450px',
+                        width: '30%',
                     },
                     {
                         className: "vertical-align",
-                        width: '450px',
+                        width: '30%',
                     },
                     {
                         className: "vertical-align",
-                        width: '550px',
+                        width: '30%',
                     },
                     {
                         "orderable": false,
-                        width: "100px",
+                        width: '10%',
                     },
                 ],
                 "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-10 pull-right cadastrarFabricante'>>" +

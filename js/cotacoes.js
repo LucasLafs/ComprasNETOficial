@@ -62,7 +62,7 @@ function getCotacoes() {
                         className: "vertical-align",
                     },
                     {
-                        width: '45%',
+                        width: '65%',
                         className: "vertical-align",
                     },
                     {
@@ -117,6 +117,10 @@ function getCotacoes() {
 
                                     $.each(data, function(i, d) {
                                         itens.push([
+                                            '<label class="container">\n' +
+                                            '  <input type="checkbox" checked="checked">\n' +
+                                            '  <span class="checkmark"></span>\n' +
+                                            '</label>',
                                             d.lic_id,
                                            // d.lic_uasg,
                                             d.num_aviso,
@@ -127,10 +131,8 @@ function getCotacoes() {
                                             d.valor_estimado,
                                             " <button class='btn btn-sm btn-edit text-info pull-left sendMail'\n" +
                                             "      title='Enviar E-mail' id='"+d.id+"' onclick='getInfosEmail("+d.id+")' value='"+d.id+"'> <span class='fas fa-mail-bulk'/>\n" +
-                                            "          </button>  " +
-                                            "<button class='btn btn-sm btn-edit text-info' title='Imprimir Item' data-toggle='modal' data-target='#exclusao' " +
-                                            "data-id='" + d.lic_id + "' data-item='o fabricante'  data-nome='" + d.descricao_item + "'>\n" +
-                                            "                 <span class='fa fa-print'/> </button>",
+                                            "          </button>",
+                                          //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
                                         ]);
                                         //itens.push(d);
                                     });
@@ -147,41 +149,41 @@ function getCotacoes() {
                                         },
                                         "columns": [
                                             {
-                                                className: "vertical-align",
-                                                width: "150px",
-                                            },/*
-                                            {
-                                                className: "vertical-align",
-                                                width: "80px",
-                                            },*/
-                                            {
-                                                className: "vertical-align",
-                                                width: "150px",
+                                              className: "vertical-align",
+                                              width: "5%"
                                             },
                                             {
                                                 className: "vertical-align",
-                                                width: "580px",
+                                                width: "13%"
                                             },
                                             {
                                                 className: "vertical-align",
-                                                width: "150px",
+                                                width: "10%",
                                             },
                                             {
                                                 className: "vertical-align",
-                                                width: "100px",
+                                                width: "30%",
                                             },
                                             {
                                                 className: "vertical-align",
-                                                width: "100px",
+                                                width: "9%",
                                             },
                                             {
                                                 className: "vertical-align",
-                                                width: "150px",
+                                                width: "8%",
+                                            },
+                                            {
+                                                className: "vertical-align",
+                                                width: "8%",
+                                            },
+                                            {
+                                                className: "vertical-align",
+                                                width: "7%",
                                             },
                                             {
                                                 className: "vertical-align",
                                                 "orderable": false,
-                                                width: "150px",
+                                                width: "8%",
                                             }
                                         ],
 
@@ -195,17 +197,22 @@ function getCotacoes() {
 
                     function format(d) {
                         // `d` is the original data object for the row
-                        return '<div style="background: #f5f5f5; width: 100%"><table class="table table-responsive table-condesed tblItens" cellpadding="5" cellspacing="0" border="0"> <thead>' +
+                        return '<div class="row"><div class="col-12"><label class="container left"><input type="checkbox" checked="checked"> <span class="checkmark"></span>\n' +
+                          '</label><button style="float: right; margin-right: -8px; margin-bottom: 10px;\n' +
+                          '    display: none;" class="btn btn-sm btn-edit text-info pull-left sendMail"\n '+
+                          '  title="Enviar E-mail" id="'+d.id+'" onclick="getInfosEmail('+d.id+')" value="'+d.id+'"> <span class=\'fas fa-mail-bulk\'/>\n' +
+                          '              </button></div><div class="table-responsive" style="background: #f5f5f5;">' +
+                          '<table style="width: 100% !important;" class="table table-responsive table-condesed tblItens text-center" cellpadding="5" cellspacing="0" border="0"> <thead>' +
                             '        <tr> ' +
+                            '         <th scope="col"></th>' +
                             '         <th scope="col">ID Licitacao</th>' +
-                         //   '         <th scope="col">UASG Cotação</th>' +
-                            '         <th scope="col">Numero Aviso</th>' +
+                            '         <th scope="col">Número Aviso</th>' +
                             '         <th scope="col">Descrição do Item</th>' +
                             '         <th scope="col">Código do Item</th>' +
                             '         <th scope="col">Quantidade</th>' +
                             '         <th scope="col">Unidade</th>' +
                             '         <th scope="col">Valor Estimado</th>' +
-                            '         <th scope="col">Acoes</th>' +
+                            '         <th scope="col">Ações</th>' +
                             '        </tr>' +
                             '      </thead><tbody></tbody></table> </div>'
                             ;

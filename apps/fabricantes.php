@@ -29,13 +29,13 @@ require_once("../header/cabecalho.php");
                                         <i class="fas fa-plus"></i>
                                     </button>
                                     <h4 id='msgSemFabricante' style='display: none;' class='text-info text-center'>Nenhum fabricante cadastrado.</h4>
-                                    <table style='display: none;' id="tblFabricantes" class="table table-hover table-responsive" style="width: 100%;">
+                                    <table id="tblFabricantes" class="table table-hover table-responsive" style="width: 100%; display: none; ">
                                         <thead>
                                         <tr>
                                             <th scope="col">Nome</th>
                                             <th scope="col">E-mail</th>
-                                            <th scope="col">Descricao</th>
-                                            <th scope="col">Acoes</th>
+                                            <th scope="col">Descrição</th>
+                                            <th scope="col">Ações</th>
                                         </tr>
                                         </thead>
                                         <tbody>

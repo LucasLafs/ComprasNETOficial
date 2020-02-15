@@ -44,7 +44,7 @@ require_once("../header/cabecalho.php");
                                     <button style="display: none; margin-top: 0; float: right;" class="btn btn-tool" id="btnForceSincronismo" onClick='forceSincronismo();' title="Forçar sincronismo">
                                         <i class="fas fa-sync"></i>
                                     </button>
-                                    <table id="table-data-licitacoes" class="table table-responsive table-hover vertical-align" style="width: 100%;">
+                                    <table id="table-data-licitacoes" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
                                         <thead>
                                             <tr>
                                                 <th scope="col"></th>
@@ -54,7 +54,7 @@ require_once("../header/cabecalho.php");
                                                 <th scope="col">Descrição</th>
                                                 <th scope="col">Objeto</th>
                                                 <th scope="col">Situação</th>
-                                                <th scope="col">Acoes</th>
+                                                <th scope="col">Ações</th>
                                             </tr>
                                         </thead>
                                         <tbody id='licitacao-itens'>
@@ -91,7 +91,7 @@ require_once("../header/cabecalho.php");
 
         $(window).on('load', function() {
             getCotacoes();
-           // getLicGerais();
+            getLicGerais();
             $('.tab1-loading').hide();
 
         });

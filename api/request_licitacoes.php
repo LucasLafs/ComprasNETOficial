@@ -261,7 +261,9 @@ function requestParseOrgaosGov($uasg){
         $doc = $doc->saveHTML();
 
         $doc = explode('<table border="0" width="100%" cellspacing="1" cellpadding="2" class="td"><tr bgcolor="#FFFFFF">', $doc);
-        $doc = explode('bgcolor="#FFFFFF" class="tex3a" align="center"', $doc[1]);
+
+        $doc = explode('bgcolor="#FFFFFF" class="tex3a" align="center"', $doc[0]);
+
         $doc = explode('<td>', $doc[1]);
 
         $data = array();
