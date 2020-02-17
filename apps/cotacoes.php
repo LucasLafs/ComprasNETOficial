@@ -12,7 +12,7 @@ require_once("../header/cabecalho.php");
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="./dashboard.php">Dashboard</a></li>
                         <li class="breadcrumb-item active">Cotações Gerais</li>
                     </ol>
                 </div><!-- /.col -->
@@ -41,7 +41,7 @@ require_once("../header/cabecalho.php");
                         <div class="card-body">
                             <div class='row'>
                                 <div class='col-md-12'>
-                                    <button style="display: none; margin-top: 0; float: right;" class="btn btn-tool" id="btnForceSincronismo" onClick='forceSincronismo();' title="Forçar sincronismo">
+                                    <button style="display: none; margin-top: 0; float: right;" class="btn btn-tool" id="btnForceSincronismo" onClick='getLicGerais();' title="Forçar sincronismo">
                                         <i class="fas fa-sync"></i>
                                     </button>
                                     <table id="table-data-licitacoes" class="table table-responsive table-hover vertical-align" style="width: 100%;">
@@ -92,6 +92,7 @@ require_once("../header/cabecalho.php");
         $(window).on('load', function() {
             getCotacoes();
             getLicGerais();
+            // getProdGerais();
             $('.tab1-loading').hide();
 
         });

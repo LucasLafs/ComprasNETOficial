@@ -6,12 +6,33 @@ function getLicGerais(){
         data: 'act=requestLicitacoes',
         cache: false,
         success: function (data){
-            console.log(data);
+            if (Array.isArray(data)){
+                console.log('Success');
+            }
         }
             // require_once ("../api/request_licitacoes.php");
             // $_REQUEST['act'] = '&requestLicitacoes';
             // requestLicGeraisComprasNet();
     })
+}
+
+function getProdGerais() {
+    $.ajax({
+        type: 'POST',
+        url: '../api/request_produtos.php',
+        data: '',
+        cache: false,
+        success: function (data){
+            if(Array.isArray){
+                console.log('Success');
+                console.log(data);
+
+            } else {
+                console.log(data);
+            }
+        }
+    });
+
 }
 
 function getCotacoes() {
@@ -27,6 +48,7 @@ function getCotacoes() {
         success: function(data) {
             // console.log(data);
             data = JSON.parse(data);
+            let offsetInt = data.length;
             var obj = [];
 
             var element = $("#table-data-licitacoes");
@@ -71,7 +93,7 @@ function getCotacoes() {
                         width: "7%",
                     },
                 ],
-                "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-10 pull-right forceSincronismo'>>" +
+                "dom": "<'row'<'col-sm-2 pull-left'f><'offset-5 col-sm-5 pull-right forceSincronismo'>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
                 fnInitComplete: function () {

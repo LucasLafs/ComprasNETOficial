@@ -2,6 +2,7 @@
 
 set_time_limit(0);
 require_once ("../ajax/conexao.php");
+require_once ("./request_produtos.php");
 
 if($_REQUEST['act']){
     if ($_REQUEST['act'] == 'requestLicitacoes'){
@@ -21,7 +22,7 @@ function requestLicGeraisComprasNet(){
     $sql = "SELECT COUNT(*) as total FROM licitacoes_cab";
     $query = mysqli_query($con, $sql);
     $offset = mysqli_fetch_assoc($query);
-    $offset = $offset['total'];
+    $offset = $offset['total'] ? $offset['total'] : 0;
 
     $curl = curl_init();
     curl_setopt_array($curl, [
@@ -34,10 +35,15 @@ function requestLicGeraisComprasNet(){
     
     // echo json_encode($licitacoes);
     // exit;
-
-    $offset_total = $offset_total->count;
+    if($offset_total){
+        $offset_total = $offset_total->count;
+    } else {
+        echo 'API (COMPRASNET) FORA DO AR';
+        exit;
+    }
     // $offset_total = 5000;
     $i = $offset;
+    // $i = 474;
 
 
     while ($i < $offset_total) {
@@ -50,7 +56,7 @@ function requestLicGeraisComprasNet(){
         $result = json_decode(curl_exec($curl));
         
         $licitacoes = $result->_embedded->licitacoes;
-        
+
         foreach($licitacoes as $licitacao){
             
             $identificador = $licitacao->identificador;
@@ -113,15 +119,13 @@ function requestLicGeraisComprasNet(){
                 $licitacao->data_publicacao
                 )
             ";
-            echo "TOMA NO CU";
+
             if (!mysqli_query($con, $sql)) {
                 echo "ERROR: " . mysqli_error($con);
                 echo "<br>";
                 echo $sql;
                 exit;
             }
-
-            //resolver problema de inserção db 
 
             $itens_licitacao = requestItensLicitacao($identificador);
             
@@ -130,6 +134,10 @@ function requestLicGeraisComprasNet(){
 
                 foreach($itens_licitacao as $item_licitacao){
                     
+                    $num_item_comprasnet = $item_licitacao->numero_item_licitacao;
+                    $descricao_item = $item_licitacao->descricao_item;
+                    $qtd_item_comprasnet = $item_licitacao->quantidade;
+
                     foreach($item_licitacao AS $campo => $value ){
                         // relacionamentos serão feitos pela Lic_id;
                         if (!is_object($value)) {
@@ -184,9 +192,102 @@ function requestLicGeraisComprasNet(){
 
                     // echo $sql;
                     if(!mysqli_query($con, $sql)){
-                        print_r(mysqli_error($con));
+                        echo "<br>";
+                        echo "ERROR: " . mysqli_error($con);
+                        echo "<br>";
                         echo $sql;
                         exit;
+                    } 
+
+                    if ($descricao_item != '' && $descricao_item != null && $descricao_item != 'null' ){
+
+                        $sql = 'SELECT MAX(id) as id FROM licitacao_itens';
+                        $query = mysqli_query($con, $sql);
+                        if($query){
+                            $last_id = mysqli_fetch_assoc($query);
+                            $last_id = $last_id['id'];
+                        }
+//{ "body": {"lista" : [ ["COMPRASNET",2,"algodao preto torcido nr. 3-0 agulha 1/2 12000000ui",3000, ""] ] } }
+//15305402000011999
+                        $ret = reqApiFutura($num_item_comprasnet, $descricao_item, $qtd_item_comprasnet );
+
+                        if(count($ret) > 0){
+                            // print_r($ret);
+                            foreach($ret as $arrays){
+                                foreach($arrays as $array => $value){
+                                    if($value != null){
+                                        $value = str_replace("\"", "'", $value);
+                                        $value = str_replace("\\", "/", $value);
+                                        $arrays[$array] = '"' . "$value" . '"';
+                                    } else {
+                                        $arrays[$array] = 'null';
+                                    }
+                                }
+                                
+
+                                if($arrays[9] && $arrays[10]){
+
+                                    $desc_fabricante = $arrays[10];
+                                    $cod_fabricante = $arrays[9];
+                                    $sql = "INSERT INTO fabricantes (
+                                        nome,
+                                        email,
+                                        descricao,
+                                        cod_fabricante
+                                    ) VALUES (
+                                        $desc_fabricante,
+                                        '',
+                                        $desc_fabricante,
+                                        $cod_fabricante
+                                    )
+                                    ";
+
+                                    if(!mysqli_query($con, $sql)){
+                                        echo "<br>";
+                                        echo "ERROR: " . mysqli_error($con);
+                                        echo $sql;
+                                        exit;
+                                    }
+                                    
+                                    $sql = 'SELECT MAX(id) as id FROM fabricantes';
+
+                                    if($query = mysqli_query($con, $sql)){
+                                        $last_fab_id = mysqli_fetch_assoc($query);
+                                        $last_fab_id = $last_fab_id['id'];
+                                    }
+                                }
+
+                                $str = implode(',' , $arrays);
+                                $sql = "INSERT INTO produtos_futura (
+                                    item_id,
+                                    fabricante_id,
+                                    nome_portal,
+                                    num_item_licitacao,
+                                    cod_jd_produto,
+                                    desc_licitacao_portal,
+                                    quantidade_item_licitacao,
+                                    desc_licitacao_jd,
+                                    cod_produto_jd,
+                                    quantidade_embalagem_produto_jd,
+                                    desc_produto_jd,
+                                    cod_fabricante_jd,
+                                    nome_fabricante,
+                                    estoque_disp_jd
+                                ) VALUES (
+                                    $last_id, $last_fab_id, $str
+                                )
+                                ";
+
+                                if(!mysqli_query($con, $sql)){
+                                    echo "<br>";
+                                    echo "ERROR: " . mysqli_error($con);
+                                    echo $sql;
+                                    exit;
+                                }
+
+                            }
+                        }
+
                     }
 
                 }
@@ -198,7 +299,7 @@ function requestLicGeraisComprasNet(){
 
             $orgao_licitacao = requestParseOrgaosGov($uasg);
 
-            if($orgao_licitacao) {
+            if($orgao_licitacao == 'pqp') {
                 $orgao_licitacao = json_decode($orgao_licitacao);
 
                 foreach ($orgao_licitacao AS $campo => $value) {
