@@ -54,6 +54,7 @@ function getItensLicitacao(){
     $identificador = $_REQUEST['identificador'];
 
     $sql = "SELECT 
+        id,
         lic_id,
         num_aviso,
         num_item_licitacao,

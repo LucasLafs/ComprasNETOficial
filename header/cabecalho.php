@@ -24,7 +24,7 @@ else
   <title>COMPRASNET | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../css/geral.css">
+  <link rel="stylesheet" href="../layout/css/geral.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../layout/plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -98,7 +98,7 @@ else
         </div>
       </li>
       <li class="nav-item">
-          <a href="../apps/logout.php" class="nav-link">
+          <a href="../apps/logout.php" class="nav-link" title="Sair">
           <i class="fas fa-sign-out-alt"></i>
         </a>
       </li>
@@ -189,8 +189,6 @@ else
 <script src="../layout/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- ChartJS -->
 <script src="../layout/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="../layout/plugins/sparklines/sparkline.js"></script>
 <!-- JQVMap -->
 <script src="../layout/plugins/jqvmap/jquery.vmap.min.js"></script>
 <script src="../layout/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
@@ -209,10 +207,11 @@ else
 <script src="../layout/dist/js/adminlte.js"></script>
 <!-- Test -->
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
+<!-- DataTables -->
 <script defer src="../layout/plugins/datatables/jquery.dataTables.js"></script>
 <script defer src="../layout/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-
+<!-- Sweet Alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <!-- Arquivo JS inicial  -->
 <script src="../js/ready.js"></script>
 </body>
