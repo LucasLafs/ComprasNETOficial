@@ -5,6 +5,9 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Schema comprasnet_db
 -- -----------------------------------------------------
 
@@ -29,21 +32,20 @@ CREATE TABLE IF NOT EXISTS `comprasnet_db`.`conn_smtp` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
---
--- Table structure for table `fabricantes`
---
 
-DROP TABLE IF EXISTS `fabricantes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fabricantes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome_completo` varchar(85) DEFAULT NULL,
-  `email` varchar(65) DEFAULT NULL,
-  `descricao` varchar(85) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- -----------------------------------------------------
+-- Table `comprasnet_db`.`fabricantes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comprasnet_db`.`fabricantes` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(85) NULL DEFAULT NULL,
+  `email` VARCHAR(65) NULL DEFAULT NULL,
+  `descricao` VARCHAR(85) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 22
+DEFAULT CHARACTER SET = utf8;
+
 
 -- -----------------------------------------------------
 -- Table `comprasnet_db`.`licitacoes_cab`
@@ -58,19 +60,20 @@ CREATE TABLE IF NOT EXISTS `comprasnet_db`.`licitacoes_cab` (
   `numero_processo` VARCHAR(20) NULL DEFAULT NULL,
   `numero_itens` INT(11) NULL DEFAULT NULL,
   `situacao_aviso` VARCHAR(45) NULL DEFAULT NULL,
-  `objeto` VARCHAR(999) NULL DEFAULT NULL,
-  `informacoes_gerais` VARCHAR(999) NULL DEFAULT NULL,
+  `objeto` VARCHAR(9999) NULL DEFAULT NULL,
+  `informacoes_gerais` VARCHAR(9999) NULL DEFAULT NULL,
   `tipo_recurso` VARCHAR(45) NULL DEFAULT NULL,
-  `nome_responsavel` VARCHAR(90) NULL DEFAULT NULL,
-  `funcao_responsavel` VARCHAR(90) NULL DEFAULT NULL,
+  `nome_responsavel` VARCHAR(180) NULL DEFAULT NULL,
+  `funcao_responsavel` VARCHAR(180) NULL DEFAULT NULL,
   `data_entrega_edital` DATETIME NULL DEFAULT NULL,
-  `endereco_entrega_edital` VARCHAR(145) NULL DEFAULT NULL,
+  `endereco_entrega_edital` VARCHAR(180) NULL DEFAULT NULL,
   `data_abertura_proposta` DATETIME NULL DEFAULT NULL,
   `data_entrega_proposta` DATETIME NULL DEFAULT NULL,
   `data_publicacao` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `identificador_UNIQUE` (`identificador` ASC))
 ENGINE = InnoDB
+AUTO_INCREMENT = 1812
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -85,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `comprasnet_db`.`licitacao_itens` (
   `num_item_licitacao` INT(11) NULL DEFAULT NULL,
   `cod_item_servico` INT(11) NULL DEFAULT NULL,
   `cod_item_material` INT(11) NULL DEFAULT NULL,
-  `descricao_item` VARCHAR(999) NULL DEFAULT NULL,
+  `descricao_item` VARCHAR(9999) NULL DEFAULT NULL,
   `sustentavel` INT(11) NULL DEFAULT NULL,
   `quantidade` VARCHAR(45) NULL DEFAULT NULL,
   `unidade` VARCHAR(45) NULL DEFAULT NULL,
@@ -103,6 +106,21 @@ CREATE TABLE IF NOT EXISTS `comprasnet_db`.`licitacao_itens` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 22272
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `comprasnet_db`.`licitacao_orgao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comprasnet_db`.`licitacao_orgao` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `uasg` INT(11) NULL DEFAULT NULL,
+  `lic_orgao` VARCHAR(90) NULL DEFAULT NULL,
+  `lic_estado` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1806
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -163,6 +181,18 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
+-- Table `comprasnet_db`.`smtp_body`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `comprasnet_db`.`smtp_body` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `smtp_assunto` VARCHAR(90) NULL DEFAULT NULL,
+  `smtp_corpo` TEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
 -- Table `comprasnet_db`.`usuarios`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comprasnet_db`.`usuarios` (
@@ -172,30 +202,8 @@ CREATE TABLE IF NOT EXISTS `comprasnet_db`.`usuarios` (
   `senha` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `comprasnet_db`.`smtp_body`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `comprasnet_db`.`smtp_body` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `smtp_assunto` VARCHAR(90) NULL,
-  `smtp_corpo` TEXT(1000) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `comprasnet_db`.`licitacao_orgao`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `comprasnet_db`.`licitacao_orgao` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `uasg` INT NULL,
-  `lic_orgao` VARCHAR(90) NULL,
-  `lic_estado` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
