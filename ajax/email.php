@@ -12,6 +12,10 @@ if ($_REQUEST['act']) {
         $id_item = $_REQUEST['id'];
         return getItensFabri($id_item);
     } else if ($request == 'sendEmail') {
+        if (isset($_REQUEST['item_id'])) {
+          $item_id = $_REQUEST['item_id'];
+          return prepareMail(0, $item_id);
+        }
         $idRef = $_REQUEST['id'];
         return prepareMail($idRef);
     }
@@ -24,9 +28,8 @@ function getItensFabri($id_item)
     $sql = "SELECT 
                 f.nome, 
                 f.email, 
-                pf.id,
-                pf.descricao_cliente 
-                FROM produto_fabricantes as pf
+                pf.id
+                FROM produtos_futura as pf
                 INNER JOIN fabricantes AS f ON f.id = pf.fabricante_id
                 WHERE item_id = $id_item";
 
@@ -43,7 +46,6 @@ function getItensFabri($id_item)
     } else {
         echo json_encode(0);
     }
-
 }
 
 
@@ -65,23 +67,34 @@ function getConfs()
 
 }
 
-function prepareMail($idRef)
+function prepareMail($idRef, $item_id = 0)
 {
     $con = bancoMysqli();
 
+    $produto_id = $idRef;
+    $where = "pf.id = $idRef";
+    if ($idRef == 0) {
+      $where = "i.id = $item_id";
+    }
+
     $sql = "SELECT
-                f.email, 
+                f.id AS fabricante_id,
+                f.nome,
+                f.email,
+                i.id AS item_id, 
                 i.num_item_licitacao AS item,
                 i.unidade,
                 i.quantidade,
                 i.valor_estimado,
                 i.quantidade * i.valor_estimado AS valor_total,
-                pf.id,
-                pf.descricao_cliente AS descricao
-                FROM produto_fabricantes as pf
+                pf.id AS produto_id,
+                pf.desc_licitacao_jd AS descricao,
+                o.lic_orgao AS orgao
+                FROM produtos_futura as pf
                 INNER JOIN licitacao_itens AS i ON i.id = pf.item_id
+                INNER JOIN licitacao_orgao AS o ON o.uasg = i.lic_uasg
                 INNER JOIN fabricantes AS f ON f.id = pf.fabricante_id
-                WHERE pf.id = $idRef";
+                WHERE $where";
 
     //echo $sql; exit;
 
@@ -90,31 +103,35 @@ function prepareMail($idRef)
     if (mysqli_num_rows($query) > 0) {
         $infos = mysqli_fetch_assoc($query);
 
-        $body = "<p>Dantas, bom dia.</p>
+        if ($idRef == 0) {
+          $produto_id = $infos['produto_id'];
+        }
+
+        $body = "<p>".$infos['nome'].", bom dia.</p>
                     <p>Segue em anexo o Edital referente ao pregão em assunto.</p>
                     <p>Abaixo o item e a estimativa de preço.</p><br>
 
                     <table width='950' style='text-align: center; font-size: 15px; border: 1px solid black;'>
                         
                          <tr>
-                            <td width='10%' style='background: #ff9d00'>ORGAO</td>
-                            <td style='background: #ff9d00' colspan='5'><b>TOTAL GLOBAL</b></td>                           
+                            <td width='10%' style='background: #ff9d00'>ORGÃO</td>
+                            <td style='background: #ff9d00' colspan='5'>" . $infos['orgao'] . "</td>                           
                         </tr>
                         <tr>
-                            <td style='background: #ff9d00'>PREGRAO</td>
-                            <td style='background: #ff9d00' colspan='5'><b>TOTAL GLOBAL</b></td>                           
+                            <td style='background: #ff9d00'>PREGRÃO</td>
+                            <td style='background: #ff9d00' colspan='5'>TOTAL GLOBAL</td>                           
                         </tr>
                         <tr>
-                            <td style='background: #ff9d00'>DATA E HORA PREVISTA PARA A LICITACAO</td>
+                            <td style='background: #ff9d00'>DATA E HORA PREVISTA PARA A LICITAÇÃO</td>
                             <td style='background: #ff9d00' colspan='5'><b>28/02/2020 as 15:40 h</b></td>                           
                         </tr>
                         
                         <tr>
                             <td style='background: #f5f5f5;'>Item</td>
-                            <td style='background: #f5f5f5;'>Descricao</td>
+                            <td style='background: #f5f5f5;'>Descrição</td>
                             <td style='background: #f5f5f5;'>Unidade de Fornecimento</td>
                             <td style='background: #f5f5f5;'>Quantidade</td>
-                            <td style='background: #f5f5f5;'>Valor Unitario Estimado</td>
+                            <td style='background: #f5f5f5;'>Valor Unitário Estimado</td>
                             <td style='background: #f5f5f5;'>Valor Total</td>
                         </tr>
                         <tr>
@@ -142,13 +159,34 @@ function prepareMail($idRef)
                         <small>Tel: 21-3311-5186</small>
                     ";
         if (sendMail('testando', $body, $infos['email'])) {
-            echo json_encode(true);
+
+          $sql = "SELECT * FROM email_enviados WHERE produto_id = $produto_id AND item_id = " . $infos['item_id'] . " AND fabricante_id =  " . $infos['fabricante_id'];
+
+          $query = mysqli_query($con, $sql);
+
+          if (mysqli_num_rows($query) == 0) {
+
+            $sql = "INSERT INTO email_enviados (item_id, 
+                                              fabricante_id, 
+                                              produto_id, 
+                                              email_enviado, 
+                                              resposta) 
+                                      VALUES (".$infos['item_id'].",
+                                                ".$infos['fabricante_id'].",
+                                                $produto_id,
+                                                'Y',
+                                                'OK')";
+
+            if (!mysqli_query($con, $sql)) {
+              echo 'não cadastrou';
+            }
+          }
+            echo json_encode(['status' => true]);
         } else {
             echo json_encode(false);
         }
     } else {
         echo $sql;
-
     }
 
 

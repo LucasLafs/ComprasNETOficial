@@ -80,9 +80,11 @@ function getItensLicitacao(){
         if(mysqli_num_rows($query) > 0){
 
             $obj = [];
+            $arr = [];
             while($itens = mysqli_fetch_assoc($query)){
 
-                $obj[] = $itens;
+              $arr[] = $itens;
+
                /* $obj[] = [
                     $itens['lic_id'],
                     $itens['lic_uasg'],
@@ -94,6 +96,18 @@ function getItensLicitacao(){
                     $itens['valor_estimado'],
                 ];*/
             }
+
+            $obj['itens'] = $arr;
+
+            $sql = "SELECT item_id FROM produtos_futura";
+            $query = mysqli_query($con, $sql);
+
+            $itensComProduto = [];
+            while ($itens = mysqli_fetch_assoc($query)) {
+              $itensComProduto[] =  $itens['item_id'];
+            }
+
+            $obj['itensComProduto'] = $itensComProduto;
 
             echo json_encode($obj);
         } else {

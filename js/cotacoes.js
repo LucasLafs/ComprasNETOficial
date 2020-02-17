@@ -89,6 +89,8 @@ function getCotacoes() {
                         var tr = $(this).closest('tr');
                         var row = table.row(tr);
 
+                        var checkbox = '';
+
                         if (row.child.isShown()) {
                             // This row is already open - close it
                             row.child.hide();
@@ -98,7 +100,6 @@ function getCotacoes() {
                             var infos = row.data();
                             var identificador = infos[0];
 
-                            row.child(format(row.data())).show();
                             tr.addClass('shown');
 
                             $.ajax({
@@ -106,6 +107,7 @@ function getCotacoes() {
                                 url: '../ajax/cotacoes.php',
                                 data: 'act=getItensLicitacao&identificador=' + identificador,
                                 cache: false,
+                                async: true,
                                 beforeSend: function () {
                                     $(".loadTable").show();
                                 },
@@ -113,14 +115,31 @@ function getCotacoes() {
                                     var itens = [];
                                     data = JSON.parse(data);
 
-                                    console.log(data);
+                                    var itensComProduto = data.itensComProduto;
 
-                                    $.each(data, function(i, d) {
+                                    var input;
+                                    var value;
+                                    var disabled;
+                                    var title;
+
+                                    $.each(data.itens, function(i, d) {
+                                      // value='"+d.id+"'
+                                      input = '';
+                                      value = '';
+                                      disabled = 'disabled';
+                                      title = 'Esse item não possui fabricante';
+                                      if (itensComProduto.indexOf(d.id) > -1) {
+                                          disabled = '';
+                                          title = 'Enviar E-mail';
+                                          value = "value='"+d.id+"'";
+                                          input = '<label class="container" >\n' +
+                                                    '  <input type="checkbox"  value="'+d.id+'" class="checkOneItem'+identificador+'">\n' +
+                                                    '  <span class="checkmark"></span>\n' +
+                                                  '</label>';
+                                      }
+                                      console.log(itensComProduto.indexOf(d.id));
                                         itens.push([
-                                            '<label class="container">\n' +
-                                            '  <input type="checkbox" checked="checked">\n' +
-                                            '  <span class="checkmark"></span>\n' +
-                                            '</label>',
+                                            input,
                                             d.lic_id,
                                            // d.lic_uasg,
                                             d.num_aviso,
@@ -130,27 +149,30 @@ function getCotacoes() {
                                             d.unidade,
                                             d.valor_estimado,
                                             " <button class='btn btn-sm btn-edit text-info pull-left sendMail'\n" +
-                                            "      title='Enviar E-mail' id='"+d.id+"' onclick='getInfosEmail("+d.id+")' value='"+d.id+"'> <span class='fas fa-mail-bulk'/>\n" +
+                                            "      title='"+title+"' id='"+d.id+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
                                             "          </button>",
                                           //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
                                         ]);
                                         //itens.push(d);
                                     });
 
-                                    console.log(itens);
+                                  //  console.log(itens);
 
                                     $("table.tblItens").DataTable({
                                         retrieve: true,
                                         "responsive": true,
                                         "searching": false,
+                                        "paginate": false,
+                                        "bInfo" : false,
                                         data: itens,
                                         "language": {
                                             "emptyTable": "Sem itens disponiveis",
                                         },
                                         "columns": [
                                             {
-                                              className: "vertical-align",
-                                              width: "5%"
+                                                className: "vertical-align",
+                                                "orderable": false,
+                                                width: "5%",
                                             },
                                             {
                                                 className: "vertical-align",
@@ -186,25 +208,34 @@ function getCotacoes() {
                                                 width: "8%",
                                             }
                                         ],
-
                                     });
                                 }
                             });
+
+                         /*   console.log(checkbox);
+
+                          console.log('lengttth checkbox dentro de suucess'  + $(".checkOneItem"+ identificador).length);
+                            if ($(document, $(".checkOneItem"+ identificador).length > 0)) {
+                              console.log('cai no if ');
+                              checkbox = '<label class="container"><input type="checkbox" value="'+identificador+'" class="checkAllItens"> <span class="checkmark"></span></label>';
+                            }*/
+
+                            row.child(format(row.data(), identificador)).show();
 
                             $(".loadTable").hide();
                         }
                     });
 
-                    function format(d) {
+                    function format(d, id) {
                         // `d` is the original data object for the row
-                        return '<div class="row"><div class="col-12"><label class="container left"><input type="checkbox" checked="checked"> <span class="checkmark"></span>\n' +
-                          '</label><button style="float: right; margin-right: -8px; margin-bottom: 10px;\n' +
-                          '    display: none;" class="btn btn-sm btn-edit text-info pull-left sendMail"\n '+
-                          '  title="Enviar E-mail" id="'+d.id+'" onclick="getInfosEmail('+d.id+')" value="'+d.id+'"> <span class=\'fas fa-mail-bulk\'/>\n' +
+
+                        return '<div class="row"><div class="col-12"><button style="float: right; margin-right: -8px; margin-bottom: 10px;\n' +
+                          '    display: none;" class="btn btn-sm btn-edit text-info pull-left enviarVariosEmails" id="enviarVariosEmails'+id+'" value="'+id+'" title="Enviar E-mail" >' +
+                          '<span id="loadingAllEmails"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;</span> <span class=\'fas fa-mail-bulk\'/>\n' +
                           '              </button></div><div class="table-responsive" style="background: #f5f5f5;">' +
                           '<table style="width: 100% !important;" class="table table-responsive table-condesed tblItens text-center" cellpadding="5" cellspacing="0" border="0"> <thead>' +
                             '        <tr> ' +
-                            '         <th scope="col"></th>' +
+                            '         <th scope="col"><label class="container"><input type="checkbox" value="'+id+'" class="checkAllItens"> <span class="checkmark"></span></label></th>' +
                             '         <th scope="col">ID Licitacao</th>' +
                             '         <th scope="col">Número Aviso</th>' +
                             '         <th scope="col">Descrição do Item</th>' +
@@ -227,3 +258,53 @@ function getCotacoes() {
 
     });
 }
+
+
+$(document).on('click', '.checkAllItens', function () {
+  var id = $(this).val();
+  var atual = $(this).prop('checked');
+  var Ncheked = 0;
+  var checked = 0;
+  var prop = false;
+
+  $("#enviarVariosEmails" + id).hide();
+
+  if (atual == true) {
+    prop = true;
+   if ($(".checkOneItem" + id).length > 1) {
+     $("#enviarVariosEmails" + id).show();
+   }
+  }
+
+  $.each($(".checkOneItem" + id), function () {
+
+    $(this).prop('checked', prop);
+
+    $(this).click(function () {
+      checked = 0;
+      Ncheked = 0;
+
+      if ($(this).prop('checked') == false) {
+        $(".checkAllItens").prop('checked', false);
+      } else {
+        $.each($(".checkOneItem" + id), function () {
+          if ($(this).prop('checked') == false) {
+            Ncheked++;
+          } else {
+            checked++;
+          }
+        });
+
+        if (Ncheked == 0) {
+          $(".checkAllItens").prop('checked', true);
+        }
+
+        if (checked > 1) {
+          $("#enviarVariosEmails").show();
+        } else {
+          $("#enviarVariosEmails").hide();
+        }
+      }
+    });
+  });
+});

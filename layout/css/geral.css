@@ -1,3 +1,7 @@
+#loadingAllEmails {
+  display: none;
+}
+
 td.details-control {
     background: url('../images/mais.svg') no-repeat center center;
     cursor: pointer;
@@ -177,3 +181,4 @@ tr.shown td.details-control {
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+

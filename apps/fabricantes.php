@@ -22,6 +22,12 @@ require_once("../header/cabecalho.php");
                 <div class='col-md-12'>
                     <!-- Default box -->
                     <div class="card">
+                      <div class="card-header" style="min-height: 50px;">
+                        <div class="alert alert-success" role="alert">
+                          <i class="fa fa-check-circle text-green"></i>
+                        </div>
+
+                      </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -32,10 +38,10 @@ require_once("../header/cabecalho.php");
                                     <table id="tblFabricantes" class="table table-hover table-responsive" style="width: 100%; display: none; ">
                                         <thead>
                                         <tr>
-                                            <th scope="col">Nome</th>
-                                            <th scope="col">E-mail</th>
-                                            <th scope="col">Descrição</th>
-                                            <th scope="col">Ações</th>
+                                            <th scope="col" style="width: 30% !important;">Nome</th>
+                                            <th scope="col" style="min-width: 30%; !important">E-mail</th>
+                                            <th scope="col" style="min-width: 30%; !important">Descrição</th>
+                                            <th scope="col" style="min-width: 10%; !important">Ações</th>
                                         </tr>
                                         </thead>
                                         <tbody>
