@@ -21,6 +21,28 @@ if ($_REQUEST['act']) {
     }
 }
 
+//saudacao inicial
+function saudacao()
+{
+  $hora = date('H', strtotime("-3 hours"));
+  if(($hora > 12) AND ($hora < 18))
+  {
+    return "Boa tarde";
+  }
+  else if(($hora >= 18) AND ($hora <= 23))
+  {
+    return "Boa noite";
+  }
+  else if(($hora >= 0) AND ($hora <= 4))
+  {
+    return "Boa noite";
+  }
+  else if(($hora > 4) AND ($hora <=12))
+  {
+    return "Bom dia";
+  }
+}
+
 function getItensFabri($id_item)
 {
     $con = bancoMysqli();
@@ -47,8 +69,6 @@ function getItensFabri($id_item)
         echo json_encode(0);
     }
 }
-
-
 
 function getConfs()
 {
@@ -88,11 +108,17 @@ function prepareMail($idRef, $item_id = 0)
                 i.valor_estimado,
                 i.quantidade * i.valor_estimado AS valor_total,
                 pf.id AS produto_id,
+<<<<<<< Updated upstream
                 pf.desc_licitacao_jd AS descricao,
                 o.lic_orgao AS orgao
+=======
+                pf.desc_produto_jd AS descricao,
+                o.lic_orgao AS orgao,
+                DATE_FORMAT(lic.data_entrega_proposta, '%d/%m/%Y %H:%i') AS data_entrega
+>>>>>>> Stashed changes
                 FROM produtos_futura as pf
                 INNER JOIN licitacao_itens AS i ON i.id = pf.item_id
-                INNER JOIN licitacao_orgao AS o ON o.uasg = i.lic_uasg
+                LEFT JOIN licitacao_orgao AS o ON o.uasg = i.lic_uasg
                 INNER JOIN fabricantes AS f ON f.id = pf.fabricante_id
                 WHERE $where";
 
@@ -107,14 +133,27 @@ function prepareMail($idRef, $item_id = 0)
           $produto_id = $infos['produto_id'];
         }
 
+<<<<<<< Updated upstream
         $body = "<p>".$infos['nome'].", bom dia.</p>
                     <p>Segue em anexo o Edital referente ao pregão em assunto.</p>
                     <p>Abaixo o item e a estimativa de preço.</p><br>
+=======
+        $conf_body = getBody();
+        $crash_text =  explode('<tabela>', $conf_body['smtp_corpo']);
+
+        $antes = $crash_text[0];
+        $depois = $crash_text[1];
+
+
+
+        $body = "<p>".$infos['nome'].", " . saudacao() ."  </p>
+                    " . utf8_decode($antes) . "
+>>>>>>> Stashed changes
 
                     <table width='950' style='text-align: center; font-size: 15px; border: 1px solid black;'>
                         
                          <tr>
-                            <td width='10%' style='background: #ff9d00'>ORGÃO</td>
+                            <td width='10%' style='background: #ff9d00'>" . utf8_decode('ORGÃO') . "</td>
                             <td style='background: #ff9d00' colspan='5'>" . $infos['orgao'] . "</td>                           
                         </tr>
                         <tr>
@@ -122,16 +161,21 @@ function prepareMail($idRef, $item_id = 0)
                             <td style='background: #ff9d00' colspan='5'>TOTAL GLOBAL</td>                           
                         </tr>
                         <tr>
+<<<<<<< Updated upstream
                             <td style='background: #ff9d00'>DATA E HORA PREVISTA PARA A LICITAÇÃO</td>
                             <td style='background: #ff9d00' colspan='5'><b>28/02/2020 as 15:40 h</b></td>                           
+=======
+                            <td style='background: #ff9d00'>DATA E HORA PREVISTA PARA A " . utf8_decode('LICITAÇÃO') . "</td>
+                            <td style='background: #ff9d00' colspan='5'><b>".$infos['data_entrega']." h</b></td>                           
+>>>>>>> Stashed changes
                         </tr>
                         
                         <tr>
                             <td style='background: #f5f5f5;'>Item</td>
-                            <td style='background: #f5f5f5;'>Descrição</td>
+                            <td style='background: #f5f5f5;'>" . utf8_decode('Descrição') . "</td>
                             <td style='background: #f5f5f5;'>Unidade de Fornecimento</td>
                             <td style='background: #f5f5f5;'>Quantidade</td>
-                            <td style='background: #f5f5f5;'>Valor Unitário Estimado</td>
+                            <td style='background: #f5f5f5;'>Valor " . utf8_decode('Unitário') . "  Estimado</td>
                             <td style='background: #f5f5f5;'>Valor Total</td>
                         </tr>
                         <tr>
@@ -148,6 +192,7 @@ function prepareMail($idRef, $item_id = 0)
                         </tr>
                        
                     </table> <br>
+<<<<<<< Updated upstream
                     
                     <p>Solicitamos autorização para participar do referido Certame.</p>
                        <p>Grata,</p> 
@@ -159,6 +204,11 @@ function prepareMail($idRef, $item_id = 0)
                         <small>Tel: 21-3311-5186</small>
                     ";
         if (sendMail('testando', $body, $infos['email'])) {
+=======
+                    ". utf8_decode($depois) ."
+                    ";
+        if (sendMail(utf8_decode($conf_body['smtp_assunto']), $body, $infos['email'])) {
+>>>>>>> Stashed changes
 
           $sql = "SELECT * FROM email_enviados WHERE produto_id = $produto_id AND item_id = " . $infos['item_id'] . " AND fabricante_id =  " . $infos['fabricante_id'];
 
@@ -241,6 +291,11 @@ function sendMail($subject, $body, $para, $cc = '')
 
     //Destinatario
     $Mailer->AddAddress($para);
+
+    // Copias
+    if ($mailConfs['cop_email'] != null ) {
+      $Mailer->AddCC($mailConfs['cop_email'] );
+    }
 
     if($Mailer->Send()){
         return true;

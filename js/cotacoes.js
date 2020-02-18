@@ -1,4 +1,3 @@
-
 function getLicGerais(){
     $.ajax({
         type: "GET",
@@ -6,7 +5,18 @@ function getLicGerais(){
         data: 'act=requestLicitacoes',
         cache: false,
         success: function (data){
+<<<<<<< Updated upstream
             console.log(data);
+=======
+            if (Array.isArray(data)){
+              $(".alert-sincronismo").fadeIn();
+
+
+              window.setTimeout(function() {
+                $(".alert-sincronismo").fadeOut();
+              }, 2000);
+            }
+>>>>>>> Stashed changes
         }
             // require_once ("../api/request_licitacoes.php");
             // $_REQUEST['act'] = '&requestLicitacoes';
@@ -143,7 +153,8 @@ function getCotacoes() {
                                             d.lic_id,
                                            // d.lic_uasg,
                                             d.num_aviso,
-                                            d.descricao_item,
+                                            d.cod_produto != null ? d.desc_produto : d.descricao_item,
+                                            d.fabricante != null ? d.fabricante : '-',
                                             d.cod_item_material,
                                             d.quantidade,
                                             d.unidade,
@@ -175,16 +186,19 @@ function getCotacoes() {
                                                 width: "5%",
                                             },
                                             {
+                                              visible: false,
+                                            },
+                                            {
                                                 className: "vertical-align",
                                                 width: "13%"
                                             },
                                             {
                                                 className: "vertical-align",
-                                                width: "10%",
+                                                width: "45%",
                                             },
                                             {
                                                 className: "vertical-align",
-                                                width: "30%",
+                                                width: "20%",
                                             },
                                             {
                                                 className: "vertical-align",
@@ -236,9 +250,10 @@ function getCotacoes() {
                           '<table style="width: 100% !important;" class="table table-responsive table-condesed tblItens text-center" cellpadding="5" cellspacing="0" border="0"> <thead>' +
                             '        <tr> ' +
                             '         <th scope="col"><label class="container"><input type="checkbox" value="'+id+'" class="checkAllItens"> <span class="checkmark"></span></label></th>' +
-                            '         <th scope="col">ID Licitacao</th>' +
+                            '         <th scope="col">ID Licitação</th>' +
                             '         <th scope="col">Número Aviso</th>' +
                             '         <th scope="col">Descrição do Item</th>' +
+                            '         <th scope="col">Fabricante</th>' +
                             '         <th scope="col">Código do Item</th>' +
                             '         <th scope="col">Quantidade</th>' +
                             '         <th scope="col">Unidade</th>' +

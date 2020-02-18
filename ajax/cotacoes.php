@@ -54,10 +54,10 @@ function getItensLicitacao(){
     $identificador = $_REQUEST['identificador'];
 
     $sql = "SELECT 
-        id,
+        i.id,
         lic_id,
         num_aviso,
-        num_item_licitacao,
+        i.num_item_licitacao,
         cod_item_servico,
         cod_item_material,
         descricao_item,
@@ -69,9 +69,14 @@ function getItensLicitacao(){
         beneficio,
         valor_estimado,
         decreto_7174,
-        criterio_julgamento
+        criterio_julgamento,
+        pf.cod_jd_produto AS cod_produto,
+        pf.desc_produto_jd as desc_produto,
+        f.Nome AS fabricante
         FROM
-        licitacao_itens
+        licitacao_itens AS i
+        LEFT JOIN produtos_futura AS pf ON pf.item_id = i.id
+        LEFT JOIN fabricantes AS f ON f.id = pf.fabricante_id
         WHERE
         lic_id = '$identificador'
     ";
@@ -109,6 +114,27 @@ function getItensLicitacao(){
 
             $obj['itensComProduto'] = $itensComProduto;
 
+<<<<<<< Updated upstream
+=======
+
+            //Buscando quais itens já foram enviado e-mail
+            $sql = "SELECT item_id, DATE_FORMAT(data_envio, '%d/%m/%Y %H:%i:%s') AS data_envio FROM email_enviados WHERE email_enviado = 'Y'";
+            $query = mysqli_query($con, $sql);
+
+            $emailEnviados = [];
+
+            if (mysqli_num_rows($query) > 0) {
+              while ($itens = mysqli_fetch_assoc($query)) {
+                $item_id = $itens['item_id'];
+                $emailEnviados[] =  $item_id;
+                $datas_envio[$item_id] = $itens['data_envio'];
+              }
+            }
+
+            $obj['email_enviados'] = $emailEnviados;
+            $obj['datas_envio'] = $datas_envio;
+
+>>>>>>> Stashed changes
             echo json_encode($obj);
         } else {
             echo 0;

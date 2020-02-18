@@ -57,7 +57,7 @@ function saveSmtp() {
 
             if(!empty($senha)){
                 $fields .= ', senha';
-                $values .= ", '" . md5($senha) . "'";
+                $values .= ", '" . $senha . "'";
             }
 
             if(!empty($copia)){
