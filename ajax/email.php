@@ -112,7 +112,7 @@ function prepareMail($idRef, $item_id = 0)
                 DATE_FORMAT(lic.data_entrega_proposta, '%d/%m/%Y %H:%i') AS data_entrega
                 FROM produtos_futura as pf
                 INNER JOIN licitacao_itens AS i ON i.id = pf.item_id
-                INNER JOIN licitacao_orgao AS o ON o.uasg = i.lic_uasg
+                LEFT JOIN licitacao_orgao AS o ON o.uasg = i.lic_uasg
                 INNER JOIN fabricantes AS f ON f.id = pf.fabricante_id
                 INNER JOIN licitacoes_cab AS lic ON lic.identificador = i.lic_id
                 WHERE $where";
