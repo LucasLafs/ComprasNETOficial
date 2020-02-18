@@ -29,19 +29,15 @@ require_once("../header/cabecalho.php");
 
                     <!-- Default box -->
                     <div class="card">
-                        <!-- <div class="card-header">
-                            <h3 class="card-title">Cotações</h3>
-                            <div class="card-tools">
-                              <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fas fa-minus"></i></button>
-                              <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                                <i class="fas fa-times"></i></button>
-                            </div>
-                          </div> -->
+                         <div class="card-header" style="border-bottom: none !important; margin-bottom: -30px;">
+                           <div class="alert alert-success alert-sincronismo" role="alert" style="max-width: 240px; margin-bottom: 15px;">
+                             <i class="fa fa-check-circle text-green">&nbsp;Sincronismo realizado com sucesso.</i>
+                           </div>
+                          </div>
                         <div class="card-body">
                             <div class='row'>
                                 <div class='col-md-12'>
-                                    <button style="display: none; margin-top: 0; float: right;" class="btn btn-tool" id="btnForceSincronismo" onClick='forceSincronismo();' title="Forçar sincronismo">
+                                    <button style="display: none; margin-top: 0; float: right;" class="btn btn-tool" id="btnForceSincronismo" onClick='getLicGerais();' title="Forçar sincronismo">
                                         <i class="fas fa-sync"></i>
                                     </button>
                                     <table id="table-data-licitacoes" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
@@ -88,11 +84,11 @@ require_once("../header/cabecalho.php");
         cotacoes.src = '../js/cotacoes.js';
         document.head.appendChild(cotacoes);
 
-
         $(window).on('load', function() {
             getCotacoes();
             getLicGerais();
             $('.tab1-loading').hide();
+            $("#loadingAllEmails").hide();
 
         });
 

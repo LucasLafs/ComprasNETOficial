@@ -1,7 +1,3 @@
-#loadingAllEmails {
-  display: none;
-}
-
 td.details-control {
     background: url('../images/mais.svg') no-repeat center center;
     cursor: pointer;

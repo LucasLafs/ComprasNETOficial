@@ -18,6 +18,7 @@ function getFabris() {
               
                 return false;
             } else {
+              console.log('cai no else');
                 $("#tblFabricantes").show();
                 $("#msgSemFabricante").hide();
             }
@@ -45,34 +46,34 @@ function getFabris() {
 
             var table = $("#tblFabricantes");         
 
-            if ( $.fn.DataTable.isDataTable( '#tblFabricantes' )) {
+         /*   if ( $.fn.DataTable.isDataTable( '#tblFabricantes' )) {
                 table.dataTable().fnClearTable();
                 table.dataTable().fnDestroy();
             }
-
+*/
             $(".loadTable").hide();
 
             table.DataTable({
-               // retrieve: true,
+                retrieve: true,
                 data: fabricantes,
-                //"autoWidth": false,
+                "autoWidth": false,
                 "responsive": true,
                 "columns": [
                     {
                         className: "vertical-align",
-                        width: '30%',
+                        width: '1000px',
                     },
                     {
                         className: "vertical-align",
-                        width: '30%',
+                        width: '1000px',
                     },
                     {
                         className: "vertical-align",
-                        width: '30%',
+                        width: '1000px',
                     },
                     {
                         "orderable": false,
-                        width: '10%',
+                        width: '150px',
                     },
                 ],
                 "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-10 pull-right cadastrarFabricante'>>" +
@@ -105,14 +106,15 @@ function saveFabri(action) {
         success: function (data) {
             console.log(data);
             if (!data) {
-                $("#msgStoreFabri").html('Nao foi possivel cadastrar').show();
+                $("#msgStoreFabri").html('Não foi possivel cadastrar').show();
                 return false;
             }
 
             getFabris();
 
+            $(".alert-success i").html("");
             $(".alert-success i").append("   " + msg + " com Sucesso");
-            $(".alert-success").show();
+            $(".alert-success").fadeIn();
             $(".loadModal").hide();
             $("#modal" + action).modal('hide');
 
@@ -126,9 +128,7 @@ function saveFabri(action) {
 
 
             window.setTimeout(function() {
-                $(".alert-success i").html("");
-                $(".alert-success").hide();
-
+                $(".alert-success").fadeOut();
             }, 2000);
 
 

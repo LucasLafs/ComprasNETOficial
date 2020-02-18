@@ -116,26 +116,40 @@ function getCotacoes() {
                                     data = JSON.parse(data);
 
                                     var itensComProduto = data.itensComProduto;
+                                    var email_enviados = data.email_enviados;
+                                    var datas = data.datas_envio;
+
+                                    console.log(datas);
 
                                     var input;
                                     var value;
                                     var disabled;
                                     var title;
+                                    var flag;
 
                                     $.each(data.itens, function(i, d) {
                                       // value='"+d.id+"'
+                                      flag = '';
                                       input = '';
                                       value = '';
                                       disabled = 'disabled';
                                       title = 'Esse item não possui fabricante';
                                       if (itensComProduto.indexOf(d.id) > -1) {
                                           disabled = '';
+                                         // flag = 'E-mail Enviado.';
                                           title = 'Enviar E-mail';
                                           value = "value='"+d.id+"'";
                                           input = '<label class="container" >\n' +
                                                     '  <input type="checkbox"  value="'+d.id+'" class="checkOneItem'+identificador+'">\n' +
                                                     '  <span class="checkmark"></span>\n' +
                                                   '</label>';
+                                      }
+
+                                      if (email_enviados.indexOf(d.id) > -1) {
+                                        var info = "E-mail enviado: " + datas[d.id];
+                                        title = 'E-mail Enviado';
+                                        value = "value='"+d.id+"'";
+                                        flag = "<i class='fa fa-check-circle text-success' title='"+info+"' style='float: right; margin-top: -13px; font-size: 12px;'></i>";
                                       }
                                       console.log(itensComProduto.indexOf(d.id));
                                         itens.push([
@@ -150,7 +164,7 @@ function getCotacoes() {
                                             d.valor_estimado,
                                             " <button class='btn btn-sm btn-edit text-info pull-left sendMail'\n" +
                                             "      title='"+title+"' id='"+d.id+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
-                                            "          </button>",
+                                            "          </button>" + flag,
                                           //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
                                         ]);
                                         //itens.push(d);

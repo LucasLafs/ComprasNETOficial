@@ -3,6 +3,7 @@ require "conexao.php";
 require ("PHPMailer/src/SMTP.php");
 require ("PHPMailer/src/Exception.php");
 require ("PHPMailer/src/PHPMailer.php");
+date_default_timezone_set("America/Sao_Paulo");
 
 //sendMail('teste', 'testando', 'tanaiiir@gmail.com');
 
@@ -18,6 +19,8 @@ if ($_REQUEST['act']) {
         }
         $idRef = $_REQUEST['id'];
         return prepareMail($idRef);
+    } else if ($request == 'test') {
+      getBody();
     }
 }
 
@@ -67,6 +70,21 @@ function getConfs()
 
 }
 
+function getBody()
+{
+    $con = bancoMysqli();
+
+    $sql = "SELECT * FROM smtp_body";
+    $query = mysqli_query($con, $sql);
+
+    if (mysqli_num_rows($query) > 0) {
+      $confs = mysqli_fetch_assoc($query);
+
+      return $confs;
+
+    }
+}
+
 function prepareMail($idRef, $item_id = 0)
 {
     $con = bancoMysqli();
@@ -81,6 +99,7 @@ function prepareMail($idRef, $item_id = 0)
                 f.id AS fabricante_id,
                 f.nome,
                 f.email,
+                i.lic_uasg,
                 i.id AS item_id, 
                 i.num_item_licitacao AS item,
                 i.unidade,
@@ -89,14 +108,14 @@ function prepareMail($idRef, $item_id = 0)
                 i.quantidade * i.valor_estimado AS valor_total,
                 pf.id AS produto_id,
                 pf.desc_licitacao_jd AS descricao,
-                o.lic_orgao AS orgao
+                o.lic_orgao AS orgao,
+                DATE_FORMAT(lic.data_entrega_proposta, '%d/%m/%Y %H:%i') AS data_entrega
                 FROM produtos_futura as pf
                 INNER JOIN licitacao_itens AS i ON i.id = pf.item_id
                 INNER JOIN licitacao_orgao AS o ON o.uasg = i.lic_uasg
                 INNER JOIN fabricantes AS f ON f.id = pf.fabricante_id
+                INNER JOIN licitacoes_cab AS lic ON lic.identificador = i.lic_id
                 WHERE $where";
-
-    //echo $sql; exit;
 
     $query = mysqli_query($con, $sql);
 
@@ -107,23 +126,32 @@ function prepareMail($idRef, $item_id = 0)
           $produto_id = $infos['produto_id'];
         }
 
+        $conf_body = getBody();
+        $crash_text =  explode('<tabela>', $conf_body['smtp_corpo']);
+
+        $antes = $crash_text[0];
+        $depois = $crash_text[1];
+
+
+
         $body = "<p>".$infos['nome'].", bom dia.</p>
-                    <p>Segue em anexo o Edital referente ao pregão em assunto.</p>
-                    <p>Abaixo o item e a estimativa de preço.</p><br>
+                    $antes
 
                     <table width='950' style='text-align: center; font-size: 15px; border: 1px solid black;'>
+                    
+                         <tr>
+                            <td style='background: #ff9d00'>UASG</td>
+                            <td style='background: #ff9d00' colspan='5'>".$infos['lic_uasg']. "</td>                           
+                        </tr>
                         
                          <tr>
                             <td width='10%' style='background: #ff9d00'>ORGÃO</td>
                             <td style='background: #ff9d00' colspan='5'>" . $infos['orgao'] . "</td>                           
                         </tr>
-                        <tr>
-                            <td style='background: #ff9d00'>PREGRÃO</td>
-                            <td style='background: #ff9d00' colspan='5'>TOTAL GLOBAL</td>                           
-                        </tr>
+                   
                         <tr>
                             <td style='background: #ff9d00'>DATA E HORA PREVISTA PARA A LICITAÇÃO</td>
-                            <td style='background: #ff9d00' colspan='5'><b>28/02/2020 as 15:40 h</b></td>                           
+                            <td style='background: #ff9d00' colspan='5'><b>".$infos['data_entrega']." h</b></td>                           
                         </tr>
                         
                         <tr>
@@ -149,16 +177,9 @@ function prepareMail($idRef, $item_id = 0)
                        
                     </table> <br>
                     
-                    <p>Solicitamos autorização para participar do referido Certame.</p>
-                       <p>Grata,</p> 
-                       
-                        <small>--</small><br>
-                        <small>Elda Silva</small><br>
-                        <small>Auxiliar de Licitação</small><br>
-                        <small>Futura Distribuidora de Medicamentos e Produtos de Saúde</small><br>
-                        <small>Tel: 21-3311-5186</small>
+                    $depois
                     ";
-        if (sendMail('testando', $body, $infos['email'])) {
+        if (sendMail($conf_body['smtp_assunto'], $body, $infos['email'])) {
 
           $sql = "SELECT * FROM email_enviados WHERE produto_id = $produto_id AND item_id = " . $infos['item_id'] . " AND fabricante_id =  " . $infos['fabricante_id'];
 
@@ -170,17 +191,27 @@ function prepareMail($idRef, $item_id = 0)
                                               fabricante_id, 
                                               produto_id, 
                                               email_enviado, 
-                                              resposta) 
+                                              resposta,
+                                              data_envio) 
                                       VALUES (".$infos['item_id'].",
                                                 ".$infos['fabricante_id'].",
                                                 $produto_id,
                                                 'Y',
-                                                'OK')";
+                                                'OK',
+                                                '" . date("Y-m-d H:i:s") . "')";
 
             if (!mysqli_query($con, $sql)) {
               echo 'não cadastrou';
             }
+          } else {
+            $sql = "UPDATE email_enviados SET data_envio = '" . date("Y-m-d H:i:s") . "' WHERE item_id = " . $infos['item_id'];
+            echo $sql;
+            mysqli_query($con, $sql);
           }
+          
+          
+          
+          
             echo json_encode(['status' => true]);
         } else {
             echo json_encode(false);

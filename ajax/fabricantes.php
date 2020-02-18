@@ -48,7 +48,6 @@ function getFabri($id)
     $sql = "SELECT * FROM fabricantes WHERE id = $id";
     $query = mysqli_query($con, $sql);
     if (mysqli_num_rows($query) > 0) {
-
         $fabricante = mysqli_fetch_assoc($query);
 
         echo json_encode($fabricante);
@@ -69,12 +68,10 @@ function save($request)
 
     if (mysqli_query($con, $sql)) {
         echo json_encode(true);
-
     } else {
         echo $sql;
         echo json_encode(false);
     }
-
 }
 
 function update($request)

@@ -81,24 +81,17 @@ function getItensLicitacao(){
 
             $obj = [];
             $arr = [];
+            $emailEnviados = [];
+            $datas_envio = [];
+
             while($itens = mysqli_fetch_assoc($query)){
 
               $arr[] = $itens;
-
-               /* $obj[] = [
-                    $itens['lic_id'],
-                    $itens['lic_uasg'],
-                    $itens['num_aviso'],
-                    $itens['descricao_item'],
-                    $itens['cod_item_material'],
-                    $itens['quantidade'],
-                    $itens['unidade'],
-                    $itens['valor_estimado'],
-                ];*/
             }
 
             $obj['itens'] = $arr;
 
+            //Buscando itens disponiveis para enviar e-mail
             $sql = "SELECT item_id FROM produtos_futura";
             $query = mysqli_query($con, $sql);
 
@@ -108,6 +101,21 @@ function getItensLicitacao(){
             }
 
             $obj['itensComProduto'] = $itensComProduto;
+
+
+            //Buscando quais itens já foram enviado e-mail
+            $sql = "SELECT item_id, DATE_FORMAT(data_envio, '%d/%m/%Y %H:%i:%s') AS data_envio FROM email_enviados WHERE email_enviado = 'Y'";
+            $query = mysqli_query($con, $sql);
+
+            $emailEnviados = [];
+            while ($itens = mysqli_fetch_assoc($query)) {
+              $item_id = $itens['item_id'];
+              $emailEnviados[] =  $item_id;
+              $datas_envio[$item_id] = $itens['data_envio'];
+            }
+
+            $obj['email_enviados'] = $emailEnviados;
+            $obj['datas_envio'] = $datas_envio;
 
             echo json_encode($obj);
         } else {

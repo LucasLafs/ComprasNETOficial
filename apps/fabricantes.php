@@ -22,7 +22,7 @@ require_once("../header/cabecalho.php");
                 <div class='col-md-12'>
                     <!-- Default box -->
                     <div class="card">
-                      <div class="card-header" style="min-height: 50px;">
+                      <div class="card-header" style="min-height: 30px; border-bottom: none !important;">
                         <div class="alert alert-success" role="alert">
                           <i class="fa fa-check-circle text-green"></i>
                         </div>
@@ -35,13 +35,13 @@ require_once("../header/cabecalho.php");
                                         <i class="fas fa-plus"></i>
                                     </button>
                                     <h4 id='msgSemFabricante' style='display: none;' class='text-info text-center'>Nenhum fabricante cadastrado.</h4>
-                                    <table id="tblFabricantes" class="table table-hover table-responsive" style="width: 100%; display: none; ">
+                                    <table id="tblFabricantes" class="table table-hover table-responsive text-center" style="width: 100%; display: none; ">
                                         <thead>
                                         <tr>
-                                            <th scope="col" style="width: 30% !important;">Nome</th>
-                                            <th scope="col" style="min-width: 30%; !important">E-mail</th>
-                                            <th scope="col" style="min-width: 30%; !important">Descrição</th>
-                                            <th scope="col" style="min-width: 10%; !important">Ações</th>
+                                            <th scope="col">Nome</th>
+                                            <th scope="col">E-mail</th>
+                                            <th scope="col">Descrição</th>
+                                            <th scope="col">Ações</th>
                                         </tr>
                                         </thead>
                                         <tbody>
