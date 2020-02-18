@@ -38,10 +38,10 @@ require_once("../header/cabecalho.php");
                                     <table id="tblFabricantes" class="table table-hover table-responsive" style="width: 100%; display: none; ">
                                         <thead>
                                         <tr>
-                                            <th scope="col" style="width: 30% !important;">Nome</th>
-                                            <th scope="col" style="min-width: 30%; !important">E-mail</th>
-                                            <th scope="col" style="min-width: 30%; !important">Descrição</th>
-                                            <th scope="col" style="min-width: 10%; !important">Ações</th>
+                                            <th scope="col" style="width: 30%;">Nome</th>
+                                            <th scope="col" style="min-width: 30%;">E-mail</th>
+                                            <th scope="col" style="min-width: 30%;">Descrição</th>
+                                            <th scope="col" style="min-width: 10%;">Ações</th>
                                         </tr>
                                         </thead>
                                         <tbody>

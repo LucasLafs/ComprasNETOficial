@@ -76,6 +76,10 @@ function getCotacoes() {
                         className: "vertical-align",
                     },
                     {
+                        className: "vertical-align",
+
+                    },
+                    {
                         witdh: "6%",
                         className: "vertical-align",
                     },
@@ -97,10 +101,15 @@ function getCotacoes() {
                         width: "5%",
                     },
                 ],
-                "dom": "<'row'<'col-sm-2 pull-left'f><'offset-5 col-sm-5 pull-right forceSincronismo'>>" +
+                "dom": "<'row'<'col-2 pull-left'f><'col-2 filtroProduto'><'col-2 filtroObjeto'><'col-2 filtroEstado'><'col-2 filtroFabricantes'><'col filtroBtn'><'col-1 pull-right forceSincronismo'>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
                 fnInitComplete: function () {
+                    $('div.filtroProduto').html($('#buscarProduto')).show();
+                    $('div.filtroObjeto').html($('#buscarObjeto')).show();
+                    $('div.filtroEstado').html($('#buscarEstado')).show();
+                    $('div.filtroFabricantes').html($('#buscarFabricantes')).show();
+                    $('div.filtroBtn').html($('#btnBuscar').show());
                     $('div.forceSincronismo').html($('#btnForceSincronismo').show());
                 },
                 "order": [3, 'desc'],
@@ -274,7 +283,6 @@ function getCotacoes() {
             });
 
             $(".loadTable").hide();
-            console.log(data);
 
         }
 

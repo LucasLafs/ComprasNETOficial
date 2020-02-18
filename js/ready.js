@@ -42,3 +42,20 @@ $(document).ready(function() {
     });
 
 });
+
+function saveTimeout() {
+
+    let $time = $('#time').val();
+
+
+    $.ajax({
+        type: 'POST',
+        url: '../api/request_licitacoes.php',
+        data: 'act=saveTimeout&time=' + $time,
+        cache: false,
+        success: function(data){
+            console.log(data);
+        }
+    })
+
+}
