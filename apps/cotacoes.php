@@ -42,17 +42,17 @@ require_once("../header/cabecalho.php");
                             <div class='row'>
                                 <div class='col-md-12'>
                                     <form id='filtros-form'>
-                                        <label style="padding-left: 10px" id="buscarProduto">Produto<br>
-                                        <input style='width: 160px' class='input text'/>
+                                        <label  id="buscarProduto">Produto<br>
+                                            <input style='width: 200px' class='input text'/>
                                         </label>
                                         <label style="padding-left: 10px" id="buscarObjeto">Objeto ou Descricao<br>
-                                        <input style='width: 160px' class='input text'/>
+                                            <input style='width: 200px' class='input text'/>
                                         </label>
-                                        <label style="padding-left: 10px" id="buscarEstado">Estado<br>
-                                        <input style='width: 150px' class='input text'/>
+                                            <label style="padding-left: 10px" id="buscarEstado">Estado<br>
+                                        <input style='width: 200px' class='input text'/>
                                         </label>
-                                        <label  id="buscarFabricantes">Fabricantes<br>
-                                        <input style='width: 160px' class='input text'/>
+                                            <label  id="buscarFabricantes">Fabricantes<br>
+                                        <input style='width: 200px' class='input text'/>
                                         </label>
                                     </form>
                                     <button style="display: none; margin-top: 0; float: right;" class="btn btn-tool" id="btnBuscar" onClick='buscarFiltro();' title="Buscar Filtro">
