@@ -185,7 +185,6 @@ CREATE TABLE IF NOT EXISTS `comprasnet_db`.`email_enviados` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
 -- -----------------------------------------------------
 -- Table `comprasnet_db`.`produtos_futura`
 -- -----------------------------------------------------

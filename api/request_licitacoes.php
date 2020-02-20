@@ -1,6 +1,7 @@
 <?php 
 
 set_time_limit(0);
+libxml_use_internal_errors(true);   
 require_once ("../ajax/conexao.php");
 require_once ("./request_produtos.php");
 
@@ -9,9 +10,19 @@ if($_REQUEST['act']){
         requestLicGeraisComprasNet();
     } else if ($_REQUEST['act'] == 'requestItensLicitacao') {
         return requestItensLicitacao();
+    } else if ($_REQUEST['act'] == 'saveTimeout'){
+        return saveTimeout();
     } else {
         echo "404 NOT FOUND";
     }
+}
+
+function saveTimeout(){
+
+    $time = $_REQUEST['time'];
+
+    echo $time;
+    exit;
 }
 
 function requestLicGeraisComprasNet(){
@@ -299,7 +310,7 @@ function requestLicGeraisComprasNet(){
 
             $orgao_licitacao = requestParseOrgaosGov($uasg);
 
-            if($orgao_licitacao == 'pqp') {
+            if($orgao_licitacao) {
                 $orgao_licitacao = json_decode($orgao_licitacao);
 
                 foreach ($orgao_licitacao AS $campo => $value) {
@@ -377,7 +388,6 @@ function requestParseOrgaosGov($uasg){
 
         $doc = explode('</td>', $doc[4]);
         $data['estado'] = trim($doc[0]);
-        
         return json_encode($data);
     }
     exit;
