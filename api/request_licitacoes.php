@@ -9,9 +9,19 @@ if($_REQUEST['act']){
         requestLicGeraisComprasNet();
     } else if ($_REQUEST['act'] == 'requestItensLicitacao') {
         return requestItensLicitacao();
+    } else if ($_REQUEST['act'] == 'saveTimeout'){
+        return saveTimeout();
     } else {
         echo "404 NOT FOUND";
     }
+}
+
+function saveTimeout(){
+    
+    $time = $_REQUEST['time'];
+    
+    echo $time;
+    exit;
 }
 
 function requestLicGeraisComprasNet(){
