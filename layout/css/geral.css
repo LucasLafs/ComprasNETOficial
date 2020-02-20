@@ -8,6 +8,10 @@ tr.shown td.details-control {
     background-size:  33px 43px;
 }
 
+.none {
+  display: none;
+}
+
 .uppercase {
     text-transform: uppercase;
 }
