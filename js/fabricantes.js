@@ -1,4 +1,5 @@
 function getFabris() {
+  console.log('chamando funcao');
 
     $.ajax({
         type: 'GET',
@@ -12,14 +13,15 @@ function getFabris() {
             console.log(data);                      
 
             if (data == 0) {
-                $('#btnCadastrarFabricante').show();
-                $("#tblFabricantes").hide();
+                $('.btnCadastrarFabricante').removeClass('none');
                 $("#msgSemFabricante").show();
+                $("#divTblFabricantes").hide();
+                $(".loadTable").hide();
               
                 return false;
             } else {
               console.log('cai no else');
-                $("#tblFabricantes").show();
+                $("#divTblFabricantes").show();
                 $("#msgSemFabricante").hide();
             }
 
@@ -46,11 +48,11 @@ function getFabris() {
 
             var table = $("#tblFabricantes");         
 
-         /*   if ( $.fn.DataTable.isDataTable( '#tblFabricantes' )) {
+            if ( $.fn.DataTable.isDataTable( '#tblFabricantes' )) {
                 table.dataTable().fnClearTable();
                 table.dataTable().fnDestroy();
             }
-*/
+
             $(".loadTable").hide();
 
             table.DataTable({
@@ -79,9 +81,9 @@ function getFabris() {
                 "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-10 pull-right cadastrarFabricante'>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
-                fnInitComplete: function () {
-                    $('div.cadastrarFabricante').html($('#btnCadastrarFabricante').show());
-                }
+                /*fnInitComplete: function () {
+                    $('div.cadastrarFabricante').html($('.btnCadastrarFabricante').removeClass('none'));
+                }*/
             });
         }
     });
@@ -110,7 +112,7 @@ function saveFabri(action) {
                 return false;
             }
 
-            getFabris();
+
 
             $(".alert-success i").html("");
             $(".alert-success i").append("   " + msg + " com Sucesso");
@@ -126,6 +128,7 @@ function saveFabri(action) {
                 });
             }
 
+           getFabris();
 
             window.setTimeout(function() {
                 $(".alert-success").fadeOut();
@@ -166,7 +169,8 @@ function excluirFabricante (idFabri)
 
             $("#exclusao").modal('hide');
 
-            $(".alert-success i").append("   Excluído com Sucesso");
+            $(".alert-success i").html("");
+            $(".alert-success i").append("Excluído com Sucesso");
             $(".alert-success").show();
             $(".loadModal").hide();
 
