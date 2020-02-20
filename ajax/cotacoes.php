@@ -14,19 +14,7 @@ if($_REQUEST['act']){
 function getLicitacoes(){
 
     $con = bancoMysqli();
-    $sql = "SELECT
-        uasg,
-        identificador,
-        DATE_FORMAT(data_abertura_proposta, '%d/%m/%Y') AS data_abertura_proposta,
-        DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta,
-        informacoes_gerais,
-        objeto,
-        situacao_aviso
-        FROM licitacoes_cab
-        ORDER BY data_abertura_proposta
-        limit 5000
-        ";
-
+    $sql = "SELECT uasg, identificador, DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta, informacoes_gerais, objeto, situacao_aviso FROM licitacoes_cab order by data_entrega_proposta limit 5000";
     $query = mysqli_query($con, $sql);
     if($query){
         $offset = mysqli_num_rows($query);
@@ -39,7 +27,6 @@ function getLicitacoes(){
                     $licitacoes['identificador'],
                     '',
                     $licitacoes['uasg'],
-                    $licitacoes['data_abertura_proposta'],
                     $licitacoes['data_entrega_proposta'],
                     $licitacoes['informacoes_gerais'],
                     $licitacoes['objeto'],

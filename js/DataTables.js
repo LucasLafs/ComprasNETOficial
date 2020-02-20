@@ -7,7 +7,7 @@ $.extend( true, $.fn.dataTable.defaults, {
         "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
         "zeroRecords": "Nenhum registro encontrado.",
         "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-        "sSearch": "Pesquisa Geral ",
+        "sSearch": "Pesquisar: ",
         "oAria": {
             "sSortAscending": ": Ordenar colunas de forma ascendente",
             "sSortDescending": ": Ordenar colunas de forma descendente"
