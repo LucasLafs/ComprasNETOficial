@@ -1,7 +1,6 @@
 <?php 
 
 set_time_limit(0);
-libxml_use_internal_errors(true);   
 require_once ("../ajax/conexao.php");
 require_once ("./request_produtos.php");
 
@@ -26,7 +25,7 @@ function saveTimeout(){
 }
 
 function requestLicGeraisComprasNet(){
-    header("Access-Control-Allow-Origin: *"); 
+    libxml_use_internal_errors(true);   
     // header("Vary: Origin");
 
     $con = bancoMysqli();
@@ -309,8 +308,8 @@ function requestLicGeraisComprasNet(){
 //          }
 
             $orgao_licitacao = requestParseOrgaosGov($uasg);
-
-            if($orgao_licitacao) {
+            print_r($orgao_licitacao);
+            if(count($orgao_licitacao) > 0) {
                 $orgao_licitacao = json_decode($orgao_licitacao);
 
                 foreach ($orgao_licitacao AS $campo => $value) {
@@ -368,27 +367,48 @@ function requestParseOrgaosGov($uasg){
     if($result){
         libxml_use_internal_errors(true);   
 
-        $doc = new DOMDocument();
-        $doc->loadHTML($result);
-        $doc = $doc->saveHTML();
+        $document = new DOMDocument();
+        $document->loadHTML($result);
+        $document = $document->saveHTML();
 
-        $doc = explode('<table border="0" width="100%" cellspacing="1" cellpadding="2" class="td"><tr bgcolor="#FFFFFF">', $doc);
+        $parse = 0;
+        while ($parse < 3){
+            $doc = $document;
 
-        $doc = explode('bgcolor="#FFFFFF" class="tex3a" align="center"', $doc[0]);
+            $doc = explode('<table border="0" width="100%" cellspacing="1" cellpadding="2" class="td"><tr bgcolor="#FFFFFF">', $doc);
 
-        $doc = explode('<td>', $doc[1]);
+            echo $parse;
+            if (isset($doc[$parse])){
+            $doc = explode('bgcolor="#FFFFFF" class="tex3a" align="center"', $doc[$parse]);
+            }
 
-        $data = array();
+            if(isset($doc[1])){
+            $doc = explode('<td>', $doc[1]);
+            }
 
-        $uasg = explode('</td>', $doc[2]);
-        $data['uasg'] = trim($uasg[0]);
+            $data = array();
 
-        $orgao = explode('</td>', $doc[3]);
-        $data['orgao'] = trim($orgao[0]);
+            if(isset($doc['2'])){
+                $uasg = explode('</td>', $doc[2]);
+                $data['uasg'] = trim($uasg[0]);
+            }
 
-        $doc = explode('</td>', $doc[4]);
-        $data['estado'] = trim($doc[0]);
-        return json_encode($data);
+            if(isset($doc[3])){
+                $orgao = explode('</td>', $doc[3]);
+                $data['orgao'] = trim($orgao[0]);
+            }
+
+            if(isset($doc[4])){
+                $doc = explode('</td>', $doc[4]);
+                $data['estado'] = trim($doc[0]);
+            }
+
+            $parse++;
+            if(count($data) > 0){
+                if ($data['orgao'] != '' && $data['orgao'] != 'undefined' && $data['estado'] != 'null'){
+                    return json_encode($data);
+                }
+            }
+        }
     }
-    exit;
 }
