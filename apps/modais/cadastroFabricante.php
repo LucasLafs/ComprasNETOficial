@@ -25,7 +25,6 @@
                             <label>E-mail</label>
                             <input type="email" class="form-control input" name="email">
                             <br>
-
                         </div>
                     </div>
                     <div class="row">

@@ -100,7 +100,7 @@ require_once("../header/cabecalho.php");
               <div class="card" style="min-height: 605px">
                 <div class="card-header">
                   <div class="alert alert-success alert-body" role="alert" style="margin-bottom: -24px !important;">
-                    <i class="fa fa-check-circle text-green">Editado com sucesso</i>
+                    <i class="fa fa-check-circle text-green">&nbsp;Editado com sucesso</i>
                   </div>
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="save" data-toggle="tooltip" title="Save" onClick="saveBody()">

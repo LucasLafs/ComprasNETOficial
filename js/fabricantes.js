@@ -92,9 +92,27 @@ function getFabris() {
 function saveFabri(action) {
     var data = $("#form" + action).serializeArray();
 
-    console.log(data);
+    var erro = 0;
 
     var msg = action == 'CadastroFabri' ? 'Cadastrado' : 'Editado';
+
+    $.each(data, function (i, campo) {
+      if(campo.name == 'email') {
+        if (!validaEmail(campo.value)){
+          erro++;
+        }
+      }
+    });
+
+    if (erro > 0) {
+      Swal.fire({
+        type: 'Error',
+        title: 'E-mail invalído!',
+        text: "Digite um e-mail válido para salvar!"
+      });
+
+      return false;
+    }
 
 
     $.ajax({
@@ -216,3 +234,32 @@ $("#modalEditaFabri").on('show.bs.modal', function (e) {
     });
 
 });
+
+function validaEmail(field) {
+  console.log(field);
+  usuario = field.substring(0, field.indexOf("@"));
+  dominio = field.substring(field.indexOf("@")+ 1, field.length);
+
+  console.log(usuario);
+  console.log(dominio);
+
+
+
+  if ((usuario.length >=1) &&
+    (dominio.length >=3) &&
+    (usuario.search("@")==-1) &&
+    (dominio.search("@")==-1) &&
+    (usuario.search(" ")==-1) &&
+    (dominio.search(" ")==-1) &&
+    (dominio.search(".")!=-1) &&
+    (dominio.indexOf(".") >=1)&&
+    (dominio.lastIndexOf(".") < dominio.length - 1)) {
+    //document.getElementById("msgemail").innerHTML="E-mail válido";
+    return true;
+  }
+  else{
+    //  document.getElementById("msgemail").innerHTML="<font color='red'>E-mail inválido </font>";
+    return false;
+  }
+}
+

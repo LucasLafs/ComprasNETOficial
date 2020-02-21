@@ -152,27 +152,32 @@ function getCotacoes() {
                   var disabled;
                   var title;
                   var flag;
+                  var iconColor;
 
                   $.each(data.itens, function(i, d) {
                     // value='"+d.id+"'
                     flag = '';
                     input = '';
                     value = '';
+                    iconColor = '#495057';
                     disabled = 'disabled';
+
                     title = 'Esse item não possui fabricante';
                     if (itensComProduto.indexOf(d.id) > -1) {
                       disabled = '';
+                      iconColor = '#17a2b8';
                       // flag = 'E-mail Enviado.';
                       title = 'Enviar E-mail';
                       value = "value='"+d.id+"'";
                       input = '<label class="container" >\n' +
-                        '  <input type="checkbox"  value="'+d.id+'" class="checkOneItem'+identificador+'">\n' +
+                        '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" class="checkOneItem'+identificador+'">\n' +
                         '  <span class="checkmark"></span>\n' +
                         '</label>';
                     }
 
                     if (email_enviados.indexOf(d.id) > -1) {
                       var info = "E-mail enviado: " + datas[d.id];
+                      iconColor = '#17a2b8';
                       title = 'E-mail Enviado';
                       value = "value='"+d.id+"'";
                       flag = "<i class='fa fa-check-circle text-success' title='"+info+"' style='float: right; margin-top: -13px; font-size: 12px;'></i>";
@@ -189,7 +194,7 @@ function getCotacoes() {
                       d.quantidade,
                       d.unidade,
                       d.valor_estimado,
-                      " <button class='btn btn-sm btn-edit text-info pull-left sendMail'\n" +
+                      " <button style='color: "+iconColor+"' onMouseOver=\"this.style.color='#495057'\" class='btn btn-sm btn-edit pull-left sendMail'\n" +
                       "      title='"+title+"' id='"+d.id+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
                       "          </button>" + flag,
                       //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
@@ -275,11 +280,11 @@ function getCotacoes() {
 
             return '<div class="row"><div class="col-12"><button style="float: right; margin-right: -8px; margin-bottom: 10px;\n' +
               '    display: none;" class="btn btn-sm btn-edit text-info pull-left enviarVariosEmails" id="enviarVariosEmails'+id+'" value="'+id+'" title="Enviar E-mail" >' +
-              '<span id="loadingAllEmails"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;</span> <span class=\'fas fa-mail-bulk\'/>\n' +
+              '<span id="loadingAllEmails" style="display: none"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;</span> <span class=\'fas fa-mail-bulk\'/>\n' +
               '              </button></div><div class="table-responsive" style="background: #f5f5f5;">' +
               '<table style="width: 100% !important;" class="table table-responsive table-condesed tblItens text-center" cellpadding="5" cellspacing="0" border="0"> <thead>' +
               '        <tr> ' +
-              '         <th scope="col"><label class="container"><input type="checkbox" value="'+id+'" class="checkAllItens"> <span class="checkmark"></span></label></th>' +
+              '         <th scope="col"><label class="container"><input type="checkbox" style="background: white !important"  value="'+id+'" class="checkAllItens"> <span class="checkmark"></span></label></th>' +
               '         <th scope="col">ID Licitação</th>' +
               '         <th scope="col">Número Aviso</th>' +
               '         <th scope="col">Descrição do Item</th>' +
@@ -346,6 +351,7 @@ $(document).on('click', '.checkAllItens', function () {
 
         if (checked > 1) {
           $("#enviarVariosEmails").show();
+          $("#loadingAllEmails").hide();
         } else {
           $("#enviarVariosEmails").hide();
         }

@@ -18,18 +18,6 @@ $(document).ready(function() {
 
     $(function () {
 
-        $(".navbar-nav").click(function () {
-            if ($("#tblFabricantes").length > 0) {
-                getFabris();
-            }
-
-          /*  if ($("#table-data-licitacoes").length > 0) {
-
-                getCotacoes();
-            }*/
-
-        });
-
         $('#exclusao').on('show.bs.modal', function (e) {
             let id = $(e.relatedTarget).attr('data-id');
             let item = $(e.relatedTarget).attr('data-item');

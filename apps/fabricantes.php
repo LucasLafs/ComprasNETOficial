@@ -31,7 +31,7 @@ require_once("../header/cabecalho.php");
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12" >
-                                    <button style="margin-top: 0; float: right;" class="btn btnCadastrarFabricante" id="btnCadastrarFabricante" data-toggle="modal" data-target="#modalCadastroFabri" title="Adicionar Fabricante">
+                                    <button style="margin-top: 0; float: right;" class="btn text-info btnCadastrarFabricante" id="btnCadastrarFabricante" data-toggle="modal" data-target="#modalCadastroFabri" title="Adicionar Fabricante">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                     <h4 id='msgSemFabricante' style='display: none;' class='text-info text-center'>Nenhum fabricante cadastrado.</h4>
