@@ -82,7 +82,7 @@ else
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="fas fa-cog"></i>
+          <i class="fas fa-stopwatch"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">Timeout</span>
@@ -105,8 +105,8 @@ else
         </div>
       </li>
       <li class="nav-item">
-          <a href="../apps/logout.php" class="nav-link" title="Sair">
-          <i class="fas fa-sign-out-alt"></i>
+          <a class="nav-link" data-toggle="modal" data-target="#modalconfsUser" title="Sair">
+            <i class="fas fa-user-cog"></i>
         </a>
       </li>
     </ul>
@@ -128,7 +128,14 @@ else
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
+          <li class="nav-item">
+            <a href="./dashboard.php" class="nav-link">
+              <i class="fas fa-home nav-icon"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-header">Menu Principal</li>
+         <!-- <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-bars"></i>
               <p>
@@ -137,12 +144,7 @@ else
               </p>
             </a>
             <ul class="nav nav-treeview menu-geral">
-              <li class="nav-item">
-                <a href="./dashboard.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard</p>
-                </a>
-              </li>
+-->
               <li class="nav-item">
                 <a href="./cotacoes.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -161,8 +163,8 @@ else
                   <p>Configurações E-mail</p>
                 </a>
               </li>
-            </ul>
-          </li>
+            <!--</ul>
+          </li>-->
           <!-- <li class="nav-item">
             <a href="../layout/pages/widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
