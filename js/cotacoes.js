@@ -309,6 +309,18 @@ function getCotacoes() {
   });
 }
 
+$(document).on('click', '.pdfLicitacao', function () {
+  var id = $(this).attr('id');
+
+  window.open("../ajax/makePdf.php?act=createPdf&lic_id=" + id);
+});
+
+$(document).on('click', '.printLicitacao', function () {
+  var id = $(this).attr('id');
+
+  window.open("../ajax/makePdf.php?act=imprimir&lic_id=" + id);
+});
+
 
 $(document).on('click', '.checkAllItens', function () {
   var id = $(this).val();
@@ -359,3 +371,5 @@ $(document).on('click', '.checkAllItens', function () {
     });
   });
 });
+
+// onclick='window.open(" . $link. ")'

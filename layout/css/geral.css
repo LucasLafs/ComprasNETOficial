@@ -183,3 +183,14 @@ tr.shown td.details-control {
   transform: rotate(45deg);
 }
 
+@page{size: auto;}
+
+@media print {
+  .header {
+    display: none;
+  }
+
+  .footer {
+    display: none;
+  }
+}

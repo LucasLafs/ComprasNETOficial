@@ -31,7 +31,8 @@ function getLicitacoes(){
                     $licitacoes['informacoes_gerais'],
                     $licitacoes['objeto'],
                     $licitacoes['situacao_aviso'],
-                    "<button class='btn btn-sm btn-edit'><i class='fa fa-print'></i></button>"
+                    "<button target title='Gerar PDF' style='float:left; margin-left: -20px;  min-width: 33px;' class='btn btn-sm btn-edit pdfLicitacao' id='".$licitacoes['identificador']."'><i class='far fa-file-pdf'></i></button>
+                    <button title='Imprimir' style='float:right; margin-right: -4px;' class='btn btn-sm btn-edit printLicitacao' id='".$licitacoes['identificador']."'><i class='fa fa-print'></i></button>"
                 ];
             }
 
