@@ -125,7 +125,7 @@ function getCotacoes() {
               // Open this row
               var infos = row.data();
               var identificador = infos[0];
-
+              console.log(identificador)
               tr.addClass('shown');
 
               $.ajax({

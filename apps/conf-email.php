@@ -145,7 +145,7 @@ require_once("../header/cabecalho.php");
 
 <script type="text/javascript">
   //INIT
-  $(".menu-open").find('.menu-geral').find('a[href="./conf-email.php"]').addClass('active');
+  $(".sidebar-light-orange").find('.nav-pills').find('a[href="./conf-email.php"]').addClass('active');
 
   $(document).ready(function() {
     getSmtp();
