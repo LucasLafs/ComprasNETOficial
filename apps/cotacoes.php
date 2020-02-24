@@ -93,7 +93,7 @@ require_once("../header/cabecalho.php");
         });
 
         $(function() {
-            $(".menu-open").find('.menu-geral').find('a[href="./cotacoes.php"]').addClass('active');
+            $(".sidebar-light-orange").find('.nav-pills').find('a[href="./cotacoes.php"]').addClass('active');
         });
 
     });

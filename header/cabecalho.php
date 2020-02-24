@@ -256,6 +256,7 @@ if (!isset ($_SESSION['user']) == true) //verifica se há uma sessão, se não, 
         </form>
 
       </div>
+
     </div>
   </div>
 </div>
