@@ -180,7 +180,7 @@ function getCotacoes() {
                       iconColor = '#17a2b8';
                       title = 'E-mail Enviado';
                       value = "value='"+d.id+"'";
-                      flag = "<i class='fa fa-check-circle text-success' title='"+info+"' style='float: right; margin-top: -13px; font-size: 12px;'></i>";
+                      flag = "<i class='fa fa-check-circle text-success' title='"+info+"' style='float: right; margin-top: -45px; font-size: 12px;'></i>";
                     }
                     console.log(itensComProduto.indexOf(d.id));
                     itens.push([
@@ -194,7 +194,7 @@ function getCotacoes() {
                       d.quantidade,
                       d.unidade,
                       d.valor_estimado,
-                      " <button style='color: "+iconColor+"' onMouseOver=\"this.style.color='#495057'\" class='btn btn-sm btn-edit pull-left sendMail'\n" +
+                      " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
                       "      title='"+title+"' id='"+d.id+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
                       "          </button>" + flag,
                       //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
@@ -284,7 +284,7 @@ function getCotacoes() {
               '              </button></div><div class="table-responsive" style="background: #f5f5f5;">' +
               '<table style="width: 100% !important;" class="table table-responsive table-condesed tblItens text-center" cellpadding="5" cellspacing="0" border="0"> <thead>' +
               '        <tr> ' +
-              '         <th scope="col"><label class="container"><input type="checkbox" style="background: white !important"  value="'+id+'" class="checkAllItens"> <span class="checkmark"></span></label></th>' +
+              '         <th scope="col"><label class="container"><input type="checkbox"  value="'+id+'" class="checkAllItens"> <span style="background: white !important" class="checkmark"></span></label></th>' +
               '         <th scope="col">ID Licitação</th>' +
               '         <th scope="col">Número Aviso</th>' +
               '         <th scope="col">Descrição do Item</th>' +

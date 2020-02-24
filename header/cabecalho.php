@@ -1,17 +1,20 @@
 <?php
-ini_set('session.gc_maxlifetime', 60*60); // 60 minutos
+ini_set('session.gc_maxlifetime', 60 * 60); // 60 minutos
 session_start();
 date_default_timezone_set("America/Sao_Paulo");
-if(!isset ($_SESSION['user']) == true) //verifica se há uma sessão, se não, volta para área de login
+if (!isset ($_SESSION['user']) == true) //verifica se há uma sessão, se não, volta para área de login
 {
-    unset($_SESSION['user']);
-    header('location:../index.php');
-}
-else
-{
-    $logado = $_SESSION['user'];
-}
+  unset($_SESSION['user']);
+  header('location:../index.php');
+} else {
 
+
+  $logado = $_SESSION['user'];
+
+  $idUser = $logado['id'];
+  $nameUser = $logado['nome'];
+  $emailUser = $logado['email'];
+}
 
 ?>
 
@@ -51,8 +54,8 @@ else
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
-    <div class="tab1-loading overlay"></div>
-    <div class="tab1-loading loading-img"></div>
+  <div class="tab1-loading overlay"></div>
+  <div class="tab1-loading loading-img"></div>
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -65,17 +68,9 @@ else
       </li> -->
     </ul>
 
-    <!-- SEARCH FORM -->
-    <!-- <form class="form-inline ml-3">
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form> -->
+    <div class="alert alert-success" role="alert" style="margin-bottom: 15px;">
+      <i class="fa fa-check-circle text-green"></i>
+    </div>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -92,7 +87,7 @@ else
             <div class='row'>
               <form id="form-timout" name="form-timout">
                 <div class='col-md-12'>
-                  <label >Minutos:&nbsp;&nbsp;</label>
+                  <label>Minutos:&nbsp;&nbsp;</label>
                   <input id='time' type="number" class='input text-center'/>
                 </div>
               </form>
@@ -104,82 +99,168 @@ else
           </div>
         </div>
       </li>
-      <li class="nav-item">
-          <a class="nav-link" data-toggle="modal" data-target="#modalconfsUser" title="Sair">
-            <i class="fas fa-user-cog"></i>
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="fas fa-user-cog"></i>
         </a>
-      </li>
-    </ul>
-  </nav>
-  <!-- /.navbar -->
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <!--<span class="dropdown-item dropdown-header">Timeout</span>-->
+            <div class='row'>
 
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-light-orange elevation-4" style='min-height: 940px; background: #F4F6F9'>
-    <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link" style="height: 57px;">
-      <!-- 1c5581 <img src="../layout/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" -->
-        <img src="../layout/images/logo-futura.png" alt="AdminLTE Logo" class="brand-image" style='width: 175px; height: 50px; margin-left: 2px'>
-    </a>
+              <div class='col-md-12 text-center'>
 
-    <!-- Sidebar -->
-    <div class="sidebar sidebar-light-orange" style="background: #F4F6F9">
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="./dashboard.php" class="nav-link">
-              <i class="fas fa-home nav-icon"></i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-          <li class="nav-header">Menu Principal</li>
-         <!-- <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-bars"></i>
-              <p>
-                Menu
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview menu-geral">
--->
-              <li class="nav-item">
-                <a href="./cotacoes.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Cotações</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./fabricantes.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fabricantes</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./conf-email.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Configurações E-mail</p>
-                </a>
-              </li>
-            <!--</ul>
-          </li>-->
-          <!-- <li class="nav-item">
-            <a href="../layout/pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Licitações
-              </p>
-            </a>
-          </li> -->
+                <div class="card-body">
+                  <span class="fa fa-user"></span><br>
+                  <span id="spanNameUser"><?= $nameUser ?></span>
 
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
+                </div>
+
+              </div>
+
+          <div class="dropdown-divider"></div>
+              <div class="card-footer" style="width: 100%;">
+                <div style="float:left;">
+                  <button class="btn btn-tool" data-toggle="modal" data-target="#modalConfsUser"><span
+                      class="fa fa-edit"></span></button>
+                </div>
+                <div>
+                  <a style="font-size: 17px; float: right;  margin-top: -2px;" href="../apps/logout.php" class="btn btn-tool" title="Sair">
+                    <i style="float: right" class="fas fa-sign-out-alt"></i>
+                  </a>
+                </div>
+              </div>
+
+        </div>
+        <!--          -->
+        <div>
+          <!--<button class="dropdown-item dropdown-footer" onClick='saveTimeout();'>Salvar</button>-->
+        </div>
+</div>
+</li>
+</ul>
+</nav>
+<!-- /.navbar -->
+
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-light-orange elevation-4" style='min-height: 940px; background: #F4F6F9'>
+  <!-- Brand Logo -->
+  <a href="index3.html" class="brand-link" style="height: 57px;">
+    <!-- 1c5581 <img src="../layout/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" -->
+    <img src="../layout/images/logo-futura.png" alt="AdminLTE Logo" class="brand-image"
+         style='width: 175px; height: 50px; margin-left: 2px'>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar sidebar-light-orange" style="background: #F4F6F9">
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+        <li class="nav-item">
+          <a href="./dashboard.php" class="nav-link">
+            <i class="fas fa-home nav-icon"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="./cotacoes.php" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Cotações</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="./fabricantes.php" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Fabricantes</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="./conf-email.php" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Configurações E-mail</p>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalConfsUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addFabriLabel">Minha Conta</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-danger text-center" style="display: none;" id="msgSaveUser">
+          <strong></strong>
+        </p>
+        <div class="tab1-loading overlay loadModal" style="display: none"></div>
+        <div class="tab1-loading loading-img loadModal" style="display: none"></div>
+        <form action="" class="form-group text-center" id="formChangeUser">
+          <div class="row">
+            <div class="offset-2 col-md-8">
+              <label for="">Nome</label>
+              <input type="text" class="form-control input" name="nome" value="<?=$nameUser?>" required>
+              <br>
+            </div>
+          </div>
+          <div class="row">
+            <div class="offset-2 col-md-8">
+              <label>E-mail</label>
+              <input type="email" class="form-control input" name="email" value="<?=$emailUser?>" required>
+              <br>
+            </div>
+          </div>
+          <div class="row">
+            <div class="offset-2 col-md-8">
+              <button class="btn btn-outline-info" type="button" id="btnAlterarSenha">Alterar Senha</button>
+            </div>
+          </div>
+          <br>
+          <div class="row" style="display: none" id="divAlterarSenha">
+            <div class="offset-2 col-md-8">
+              <label>Senha Atual</label>
+              <input type="password" class="form-control input" name="passAtual">
+              <br>
+            </div>
+            <div class="offset-2 col-md-8">
+              <label>Nova Senha</label>
+              <input type="password" class="form-control input" name="newPass">
+              <br>
+            </div>
+            <div class="offset-2 col-md-8">
+              <label>Confirmar Senha</label>
+              <input type="password" class="form-control input" name="confirmPass">
+              <br>
+            </div>
+          </div>
+          <input type="hidden" name="act" value="editUser">
+          <input type="hidden" name="idUser" id="idUser" value="<?= $idUser ?>">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-primary"
+                    onclick="saveUser(<?= $idUser ?>)">Salvar
+            </button>
+          </div>
+        </form>
+
+      </div>
     </div>
-    <!-- /.sidebar -->
-  </aside>
+  </div>
+</div>
+
+
 </div>
 <!-- jQuery -->
 <script src="../layout/plugins/jquery/jquery.min.js"></script>

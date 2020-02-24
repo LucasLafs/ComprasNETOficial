@@ -4,6 +4,7 @@ require ("PHPMailer/src/SMTP.php");
 require ("PHPMailer/src/Exception.php");
 require ("PHPMailer/src/PHPMailer.php");
 date_default_timezone_set("America/Sao_Paulo");
+header('Content-type: text/html; charset=utf-8');
 
 //sendMail('teste', 'testando', 'tanaiiir@gmail.com');
 
@@ -261,6 +262,8 @@ function sendMail($subject, $body, $para, $cc = '')
     //Nome do Remetente
     $Mailer->FromName = 'ComprasNET';
 
+    //E-mail em cópia
+    $Mailer->AddCC($mailConfs['cop_email']);
     //Assunto da mensagem
     $Mailer->Subject = $subject;
 

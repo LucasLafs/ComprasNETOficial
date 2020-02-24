@@ -145,7 +145,7 @@ tr.shown td.details-control {
   left: 0;
   height: 21px;
   width: 22px;
-  background-color: #eee;
+  background-color: white;
 }
 
 /* On mouse-over, add a grey background color */

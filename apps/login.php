@@ -21,8 +21,13 @@ if (isset($_POST['login'])) {
         if ($user['senha'] == md5($senha)) {
             session_start();
 
-            $_SESSION['user'] = $user['nome'];
-            $_SESSION['idUser'] = $user['id'];
+            $arrUser = [];
+            $arrUser['id'] = $user['id'];
+            $arrUser['nome'] = $user['nome'];
+            $arrUser['email'] = $user['email'];
+
+            $_SESSION['user'] = $arrUser;
+         //   $_SESSION['idUser'] = $user['id'];
 
             header("Location: ./dashboard.php");
         } else {

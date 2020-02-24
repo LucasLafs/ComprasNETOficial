@@ -27,6 +27,13 @@ $(document).ready(function() {
             $(this).find('#idFabri').attr('value', `${id}`);
         });
 
+        $("#btnAlterarSenha").click(function () {
+          if ($("#divAlterarSenha").is(":visible")) {
+            $("#divAlterarSenha").slideUp();
+          } else {
+            $("#divAlterarSenha").slideDown();
+          }
+        });
     });
 
 });
@@ -46,4 +53,88 @@ function saveTimeout() {
         }
     })
 
-} 
+}
+
+function saveUser(idUser)
+{
+
+  let form = $("#formChangeUser").serializeArray();
+
+  let data = {};
+
+  let emptys = [];
+  console.log(form);
+  $.each(form, function (i, d) {
+
+    if (d.name == 'nome') {
+      if (d.value == '') {
+        $("#msgSaveUser").html("O Nome é obrigatório").show();
+        emptys.push('Nome');
+      }
+      $("#spanNameUser").html(d.value);
+    }
+
+    if (d.name == 'email' && d.value == '') {
+      $("#msgSaveUser").html("O E-mail é obrigatório").show();
+      emptys.push('E-mail');
+    }
+
+    data[d.name] = d.value;
+
+  });
+
+  console.log(emptys);
+  console.log(emptys.length);
+
+  if (emptys.length > 0) {
+    console.log('cai no if ');
+    $("#formChangeUser").show();
+    $(".loadModal").hide();
+    $.each(emptys, function (i, d) {
+      $("#msgSaveUser").html("O "+d+" é obrigatório").show();
+
+    });
+
+    return false;
+  }
+
+
+  $.ajax({
+    type: 'POST',
+    url: '../ajax/user.php',
+    data: data,
+    beforeSend: function () {
+      $("#formChangeUser").hide();
+      $(".loadModal").show();
+    },
+    success: function (data) {
+      data = JSON.parse(data);
+      console.log(data);
+      console.log(data.status);
+      if (data.status != 'ok') {
+        $("#formChangeUser").show();
+        $(".loadModal").hide();
+        $("#msgSaveUser").html(data.response).show();
+        return false;
+      }
+
+      $("#modalConfsUser").modal('hide');
+
+      $("#msgSaveUser").html("");
+      $(".alert-success i").html("");
+      $(".alert-success i").append(data.response);
+      $(".alert-success").fadeIn();
+      $("#formChangeUser").show();
+      $("#divAlterarSenha").hide();
+      $(".loadModal").hide();
+
+
+      window.setTimeout(function() {
+        $(".alert-success").fadeOut();
+      }, 4000);
+    },
+  });
+
+
+
+}
