@@ -174,8 +174,8 @@ CREATE TABLE `modalidades` (
 -- Table `comprasnet_db`.`timeout`
 -- -----------------------------------------------------
 CREATE TABLE `timeout` (
-  `minutos` INT NOT NULL)
-ENGINE = InnoDB DEFAULT CHARSET=utf8;
+  `minutos` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -297,6 +297,12 @@ ALTER TABLE `materiais`
 --
 ALTER TABLE `modalidades`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `timeout`
+--
+ALTER TABLE `timeout`
+  ADD PRIMARY KEY (`minutos`);
 
 --
 -- Índices para tabela `produtos_futura`
