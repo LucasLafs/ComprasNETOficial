@@ -183,6 +183,22 @@ tr.shown td.details-control {
   transform: rotate(45deg);
 }
 
+div.dataTables_wrapper div.dataTables_filter input {
+  display: block !important;
+  margin-left: 0 !important;
+  width: 215px !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter label {
+  font-weight: bold !important;
+  text-align: center !important;
+}
+
+.dataTables_filter {
+  float: left !important;
+  text-align: center!important;
+}
+
 @page{size: auto;}
 
 @media print {

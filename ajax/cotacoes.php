@@ -3,6 +3,9 @@ require_once ("../ajax/conexao.php");
 
 if($_REQUEST['act']){
     if ( $_REQUEST['act'] == 'getLicitacoes'){
+      if (isset($_REQUEST['filtro'])) {
+        return getLicitacoes(1);
+      }
         return getLicitacoes();
     } else if ( $_REQUEST['act'] == 'getItensLicitacao'){
         return getItensLicitacao();
@@ -11,10 +14,54 @@ if($_REQUEST['act']){
     }
 }
 
-function getLicitacoes(){
+function getLicitacoes($filtro = '')
+{
 
     $con = bancoMysqli();
-    $sql = "SELECT uasg, identificador, DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta, informacoes_gerais, objeto, situacao_aviso FROM licitacoes_cab order by data_entrega_proposta limit 5000";
+
+    $inner = '';
+    $filtros = 3;
+
+    if ($filtro != '') {
+      $filtro = 'WHERE ';
+
+      if ($_REQUEST['data'] != '') {
+        $data_abertura = $_REQUEST['data'];
+
+        $filtro .= "li.data_entrega_edital LIKE '%$data_abertura%' OR ";
+        $filtro .= "li.data_abertura_proposta LIKE '%$data_abertura%' OR ";
+        $filtro .= "li.data_entrega_proposta LIKE '%$data_abertura%' OR ";
+        $filtro .= "li.data_publicacao LIKE '%$data_abertura%' AND ";
+
+        $filtros--;
+
+      }
+
+      if ($_REQUEST['nome_produto'] != '') {
+        $nome_produto = $_REQUEST['nome_produto'];
+        $inner = "INNER JOIN licitacao_itens AS i ON i.lic_id = li.identificador ";
+        $filtro .= "i.descricao_item LIKE '%$nome_produto%' AND ";
+        $filtros--;
+      }
+
+      if ($_REQUEST['desc_obj'] != '') {
+        $desc_obj = $_REQUEST['desc_obj'];
+        $filtro .= "li.objeto LIKE '%$desc_obj%' AND ";
+        $filtros--;
+      }
+
+      $filtro = substr($filtro, 0, -4);
+
+      if ($filtros == 3) {
+        $filtro = '';
+      }
+
+    }
+
+
+
+    $sql = "SELECT uasg, identificador, DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta, informacoes_gerais, objeto, situacao_aviso FROM licitacoes_cab AS li $inner $filtro order by data_entrega_proposta limit 5000";
+
     $query = mysqli_query($con, $sql);
     if($query){
         $offset = mysqli_num_rows($query);
@@ -38,14 +85,10 @@ function getLicitacoes(){
 
             echo json_encode($obj);
         }
-        //  else {
-            // require_once ("../api/request_licitacoes.php");
-            // $_REQUEST['act'] = '&requestLicitacoes';
-            // requestLicGeraisComprasNet();
-        // }
 
     } else {
         echo 'Query Error';
+      echo $sql;
     }
 }
 

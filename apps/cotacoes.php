@@ -35,12 +35,33 @@ require_once("../header/cabecalho.php");
                            </div>
                           </div>
                         <div class="card-body">
+                          <div class="tab1-loading overlay loadTable" style="display: none"></div>
+                          <div class="tab1-loading loading-img loadTable" style="display: none"></div>
                             <div class='row'>
-                                <div class='col-md-12'>
-                                    <button style="display: none; margin-top: 0; float: right;" class="btn btn-tool" id="btnForceSincronismo" onClick='getLicGerais();' title="Forçar sincronismo">
+                                <div class='col-md-12 text-center'>
+                                    <button style="display: none; margin-top: 15px; float: right;" class="btn btn-tool" id="btnForceSincronismo" onClick='getLicGerais();' title="Forçar sincronismo">
                                         <i class="fas fa-sync"></i>
                                     </button>
-                                    <table id="table-data-licitacoes" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
+                                  <form id="formFiltros">
+                                    <div id="filtroData" style="display: none; margin-left: -2%;">
+                                      <label>Data de Abertura
+                                        <input type="date" name="data" id="inputfiltroData" style="width: 215px" class="input form-control text-center form-control-sm inputFiltro"></label>
+                                    </div>
+                                    <div id="filtroNomeProduto">
+                                      <label>Nome do Produto
+                                        <input type="text" name="nome_produto" id="nome_produto" class="input form-control form-control-sm inputFiltro" style="width: 330px"></label>
+                                    </div>
+                                    <div id="filtroObjDesc" style="display: none">
+                                      <label>Objeto Descrição
+                                        <input type="text" name="desc_obj" id="desc_obj" style="width: 330px" id="desc_obj" class="input form-control form-control-sm inputFiltro"></label>
+                                    </div>
+                                    <div id="lupaFiltro" style="display: none">
+                                      <input type="hidden" name="act" value="getLicitacoes">
+                                      <button style="margin-left: -42px;margin-top: 23px;" name="filtro" value="1" type="button" class="btn btn-link" id="filtrarCotacoes"><span class="fa fa-search"></span></button>
+                                    </div>
+                                  </form>
+
+                                    <table id="table-data-licitacoes" class="table table-responsive table-hover vertical-align text-center"  style="width: 100% !important;">
                                         <thead>
                                             <tr>
                                                 <th scope="col"></th>
@@ -54,8 +75,7 @@ require_once("../header/cabecalho.php");
                                             </tr>
                                         </thead>
                                         <tbody id='licitacao-itens'>
-                                            <div class="tab1-loading overlay loadTable" style="display: none"></div>
-                                            <div class="tab1-loading loading-img loadTable" style="display: none"></div>
+
                                             <!--  <div class="tab1-loading overlay"></div>
                                     <div class="tab1-loading loading-img"></div>-->
                                         </tbody>
