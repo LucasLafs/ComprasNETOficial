@@ -46,7 +46,7 @@ CREATE TABLE `conn_smtp` (
 --
 
 INSERT INTO `conn_smtp` (`id`, `remetente`, `server_smtp`, `port_smtp`, `usuario`, `senha`, `cop_email`) VALUES
-(1, 'tanaiiir@gmail.com', 'smtp.gmail.com', 465, 'tanaiiir', '2421263e60360dc33181c48fb3ed0296', 'l.francelino@outlook.com');
+(1, 'tanaiiir@gmail.com', 'smtp.gmail.com', 465, 'tanaiiir', 'arywivvkudppcwtl', 'l.francelino@outlook.com');
 
 -- --------------------------------------------------------
 
