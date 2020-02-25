@@ -239,7 +239,13 @@ function requestLicGeraisComprasNet(){
 
                                     $desc_fabricante = $arrays[10];
                                     $cod_fabricante = $arrays[9];
-                                    $sql = "INSERT INTO fabricantes (
+
+                                    $sql = "SELECT id FROM fabricantes WHERE cod_fabricante = $cod_fabricante";
+                                    $query = mysqli_query($con, $sql);
+
+                                    if (mysqli_num_rows($query) == 0) {
+                                      echo 'chega aqui'; exit;
+                                      $sql = "INSERT INTO fabricantes (
                                         nome,
                                         email,
                                         descricao,
@@ -252,18 +258,23 @@ function requestLicGeraisComprasNet(){
                                     )
                                     ";
 
-                                    if(!mysqli_query($con, $sql)){
+                                      if(!mysqli_query($con, $sql)){
                                         echo "<br>";
                                         echo "ERROR: " . mysqli_error($con);
                                         echo $sql;
                                         exit;
-                                    }
-                                    
-                                    $sql = 'SELECT MAX(id) as id FROM fabricantes';
+                                      }
 
-                                    if($query = mysqli_query($con, $sql)){
+                                      $sql = 'SELECT MAX(id) as id FROM fabricantes';
+
+                                      if($query = mysqli_query($con, $sql)){
                                         $last_fab_id = mysqli_fetch_assoc($query);
                                         $last_fab_id = $last_fab_id['id'];
+                                      }
+
+                                    } else {
+                                      $fabri = mysqli_fetch_assoc($query);
+                                      $last_fab_id = $fabri['id'];
                                     }
                                 }
 

@@ -18,6 +18,6 @@ $.extend( true, $.fn.dataTable.defaults, {
     "responsive": true,
     "dom": "<'row'<'sm-4 pull-left'f>>" +
         "<'row'<'col-sm-12'tr>>" +
-        "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
+        "<'row'<'col-sm-1'i><'offset-4 col-sm-7 text-right'p>>",
 });
 

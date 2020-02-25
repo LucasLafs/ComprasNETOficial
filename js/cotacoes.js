@@ -77,6 +77,7 @@ function makeTblLicitacoes(data) {
 
   var table = element.DataTable({
     retrieve: true,
+    "autoWidth": false,
     "responsive": true,
     data: data,
     "columns": [
@@ -117,7 +118,7 @@ function makeTblLicitacoes(data) {
     "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-2 filtroData'><'col-sm-3 filtroNomeProduto'><'col-sm-3 filtroObjDesc'><'col-sm-1 lupa'><'col-sm-1 pull-right forceSincronismo'>>" +
    // "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-9 formFiltro'><'col-sm-1 pull-right forceSincronismo'>>" +
       "<'row'<'col-sm-12'tr>>" +
-      "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
+      "<'row'<'col-sm-1'i><'offset-4 col-sm-7 text-right'p>>",
     fnInitComplete: function () {
       $('div.forceSincronismo').html($('#btnForceSincronismo').show());
       $('div.filtroData').html($('#filtroData').show());
@@ -162,6 +163,10 @@ function makeTblLicitacoes(data) {
               var itens = [];
               data = JSON.parse(data);
 
+
+              console.log('ITENSSSS ');
+              console.log(data);
+
               var itensComProduto = data.itensComProduto;
               var email_enviados = data.email_enviados;
               var datas = data.datas_envio;
@@ -201,7 +206,7 @@ function makeTblLicitacoes(data) {
                   iconColor = '#17a2b8';
                   title = 'E-mail Enviado';
                   value = "value='"+d.id+"'";
-                  flag = "<i class='fa fa-check-circle text-success' title='"+info+"' style='float: right; margin-top: -45px; font-size: 12px;'></i>";
+                  flag = "<i class='fa fa-check-square text-success' title='"+info+"' style='float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
                 }
                 console.log(itensComProduto.indexOf(d.id));
                 itens.push([
@@ -223,7 +228,7 @@ function makeTblLicitacoes(data) {
                 //itens.push(d);
               });
 
-              //  console.log(itens);
+                console.log(itens);
 
               $("table.tblItens").DataTable({
                 retrieve: true,
@@ -235,6 +240,7 @@ function makeTblLicitacoes(data) {
                 "language": {
                   "emptyTable": "Sem itens disponiveis",
                 },
+                "order": [4, 'desc'],
                 "columns": [
                   {
                     className: "vertical-align",
@@ -361,7 +367,7 @@ $(document).on('click', '#filtrarCotacoes', function () {
       value: $("#desc_obj").val(),
     }];
 
-  $("#formFiltros").append($('div.filtroData').html() + $('div.filtroNomeProduto').html() + $('div.filtroObjDesc').html()  +  $('div.lupa').html());
+  $("#formFiltros").append($('div.forceSincronismo').html() + $('div.filtroData').html() + $('div.filtroNomeProduto').html() + $('div.filtroObjDesc').html()  +  $('div.lupa').html());
 
 
   if ( $.fn.DataTable.isDataTable( '#table-data-licitacoes' )) {

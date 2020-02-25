@@ -60,7 +60,9 @@ function getLicitacoes($filtro = '')
 
 
 
-    $sql = "SELECT uasg, identificador, DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta, informacoes_gerais, objeto, situacao_aviso FROM licitacoes_cab AS li $inner $filtro order by data_entrega_proposta limit 5000";
+    $sql = "SELECT uasg, identificador, DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y')
+                AS data_entrega_proposta, informacoes_gerais, objeto, situacao_aviso 
+                FROM licitacoes_cab AS li $inner $filtro order by data_entrega_proposta limit 5000";
 
     $query = mysqli_query($con, $sql);
     if($query){
@@ -122,7 +124,7 @@ function getItensLicitacao(){
         LEFT JOIN produtos_futura AS pf ON pf.item_id = i.id
         LEFT JOIN fabricantes AS f ON f.id = pf.fabricante_id
         WHERE
-        lic_id = '$identificador'
+        lic_id = $identificador
     ";
   $query = mysqli_query($con, $sql);
   if($query){
@@ -132,6 +134,7 @@ function getItensLicitacao(){
       $arr = [];
       $emailEnviados = [];
       $datas_envio = [];
+
 
       while($itens = mysqli_fetch_assoc($query)){
 
