@@ -10,6 +10,7 @@ $(document).ready(function() {
     sendMail.src = '../js/sendMail.js';
     document.head.appendChild(sendMail);
 
+    getTimeout();
 
     $(window).on('load', function () {
         $(".sidebar-mini").addClass('sidebar-collapse');
@@ -38,10 +39,24 @@ $(document).ready(function() {
 
 });
 
+function getTimeout(){
+    $.ajax({
+        type: 'POST',
+        url: '../api/request_licitacoes.php',
+        data: 'act=getTimeout',
+        cache: false,
+        success: function(data){
+            data = JSON.parse(data);
+            if(Array.isArray(data)){
+              $('#time').val(data[0]);
+            }
+        }
+    })
+}
+
 function saveTimeout() {
 
     let $time = $('#time').val();
-
 
     $.ajax({
         type: 'POST',
@@ -49,7 +64,15 @@ function saveTimeout() {
         data: 'act=saveTimeout&time=' + $time,
         cache: false,
         success: function(data){
-            console.log(data);
+          if(data == '1'){
+            $(".alert-success i").html("");
+            $(".alert-success i").append(' Editado com sucesso!');
+            $(".alert-success").fadeIn();
+              
+            window.setTimeout(function() {
+              $(".alert-success").fadeOut();
+            }, 4000);
+          }
         }
     })
 

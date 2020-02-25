@@ -41,8 +41,8 @@ require_once("../header/cabecalho.php");
                     <!-- small box -->
                     <div class="small-box bg-orange">
                         <div class="inner">
-                            <h3 style="color: white">0</h3>
-                            <p style="color: white">Cotacoes não verificadas</p>
+                            <h3 id="nCotacoesNaoEnviadas" style="color: white">0</h3>
+                            <p style="color: white">Emails não enviados</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-align-justify"></i>
@@ -54,8 +54,8 @@ require_once("../header/cabecalho.php");
                     <!-- small box -->
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>0</h3>
-                            <p>Cotacoes recomendadas</p>
+                            <h3 id="nCotacoesRelacionadas">0</h3>
+                            <p>Itens relacionados</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-align-justify"></i>
@@ -67,8 +67,8 @@ require_once("../header/cabecalho.php");
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
-                            <h3>0</h3>
-                            <p>Cotações dos estados principais</p>
+                            <h3 id='nCotacoesEstados'>0</h3>
+                            <p>Cotações estados principais</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-align-justify"></i>
@@ -100,77 +100,77 @@ require_once("../header/cabecalho.php");
                                 </tbody>
                             </table>
                         </div>
-                        <div class='row' id='estados' style="display: none;">
-                            <div class='col-12'>
-                                <table id="table-data-licitacoes-estados" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col"></th>
-                                            <th scope="col" class="vertical-align"></th>
-                                            <th scope="col">UASG</th>
-                                            <th scope="col">Data Entrega</th>
-                                            <th scope="col">Descrição</th>
-                                            <th scope="col">Objeto</th>
-                                            <th scope="col">Situação</th>
-                                            <th scope="col">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <div class="tab1-loading overlay loadTable" style="display: none"></div>
-                                        <div class="tab1-loading loading-img loadTable" style="display: none"></div>
-                                        <!--  <div class="tab1-loading overlay"></div>
-                                        <div class="tab1-loading loading-img"></div>-->
-                                    </tbody>
-                                </table>
-                            </div>
+                    </div>
+                    <div class='row' id='estados' style="display: none;">
+                        <div class='col-12'>
+                            <table id="table-data-licitacoes-estados" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col" class="vertical-align"></th>
+                                        <th scope="col">UASG</th>
+                                        <th scope="col">Data Entrega</th>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col">Objeto</th>
+                                        <th scope="col">Situação</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <div class="tab1-loading overlay loadTable" style="display: none"></div>
+                                    <div class="tab1-loading loading-img loadTable" style="display: none"></div>
+                                    <!--  <div class="tab1-loading overlay"></div>
+                                    <div class="tab1-loading loading-img"></div>-->
+                                </tbody>
+                            </table>
                         </div>
-                        <div class='row' id='recomendadas' style="display: none;">
-                            <div class='col-12'>
-                                <table id="table-data-licitacoes-recomendadas" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col"></th>
-                                            <th scope="col" class="vertical-align"></th>
-                                            <th scope="col">UASG</th>
-                                            <th scope="col">Data Entrega</th>
-                                            <th scope="col">Descrição</th>
-                                            <th scope="col">Objeto</th>
-                                            <th scope="col">Situação</th>
-                                            <th scope="col">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <div class="tab1-loading overlay loadTable" style="display: none"></div>
-                                        <div class="tab1-loading loading-img loadTable" style="display: none"></div>
-                                        <!--  <div class="tab1-loading overlay"></div>
-                                        <div class="tab1-loading loading-img"></div>-->
-                                    </tbody>
-                                </table>
-                            </div>
+                    </div>
+                    <div class='row' id='recomendadas' style="display: none;">
+                        <div class='col-12'>
+                            <table id="table-data-licitacoes-recomendadas" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col" class="vertical-align"></th>
+                                        <th scope="col">UASG</th>
+                                        <th scope="col">Data Entrega</th>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col">Objeto</th>
+                                        <th scope="col">Situação</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <div class="tab1-loading overlay loadTable" style="display: none"></div>
+                                    <div class="tab1-loading loading-img loadTable" style="display: none"></div>
+                                    <!--  <div class="tab1-loading overlay"></div>
+                                    <div class="tab1-loading loading-img"></div>-->
+                                </tbody>
+                            </table>
                         </div>
-                        <div class='row' id='nao-enviados' style="display: none;">
-                            <div class='col-12'>
-                                <table id="table-data-licitacoes-nao-enviados" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col"></th>
-                                            <th scope="col" class="vertical-align"></th>
-                                            <th scope="col">UASG</th>
-                                            <th scope="col">Data Entrega</th>
-                                            <th scope="col">Descrição</th>
-                                            <th scope="col">Objeto</th>
-                                            <th scope="col">Situação</th>
-                                            <th scope="col">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <div class="tab1-loading overlay loadTable" style="display: none"></div>
-                                        <div class="tab1-loading loading-img loadTable" style="display: none"></div>
-                                        <!--  <div class="tab1-loading overlay"></div>
-                                        <div class="tab1-loading loading-img"></div>-->
-                                    </tbody>
-                                </table>
-                            </div>
+                    </div>
+                    <div class='row' id='nao-enviados' style="display: none;">
+                        <div class='col-12'>
+                            <table id="table-data-licitacoes-nao-enviados" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col" class="vertical-align"></th>
+                                        <th scope="col">UASG</th>
+                                        <th scope="col">Data Entrega</th>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col">Objeto</th>
+                                        <th scope="col">Situação</th>
+                                        <th scope="col">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <div class="tab1-loading overlay loadTable" style="display: none"></div>
+                                    <div class="tab1-loading loading-img loadTable" style="display: none"></div>
+                                    <!--  <div class="tab1-loading overlay"></div>
+                                    <div class="tab1-loading loading-img"></div>-->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -179,17 +179,22 @@ require_once("../header/cabecalho.php");
     </section>
 </div>
 
-</div>
-
 <script type="text/javascript">
 $(".sidebar-light-orange").find('.nav-pills').find('a[href="./dashboard.php"]').addClass('active');
 
 $.ajax({
     type: 'GET',
     url: '../ajax/dashboard.php',
-    data: 'act=getCountFiltros',
+    data: 'act=buscaContFiltros',
     cache: false,
     success: function (data) {
+        if(data){
+            data = JSON.parse(data);
+            $('#nCotacoesVigentes').html(data['vigentes']);
+            $('#nCotacoesNaoEnviadas').html(data['nao-enviados']);
+            $('#nCotacoesRelacionadas').html(data['recomendadas']);
+            $('#nCotacoesEstados').html(data['estados']);
+        }
     }
 })
 
@@ -201,93 +206,91 @@ function buscaCotacoes(filtroX){
         data: 'act=buscaCotacoes&filtro=' + filtroX,
         cache: false,
         success: function (data){
-            data = JSON.parse(data);
-            let total = data[1];
-            data = data[0];
+            if(data){
+                data = JSON.parse(data);
+                let total = data[1];
+                data = data[0];
 
-            // console.log(obj);
-            if($(`#${filtroX}`).is(':visible') ){
-                $(`#${filtroX}`).fadeOut(1000);
-            } else {
-                $(`#${filtroX}`).fadeIn(2000);
-            }
-
-            $('#nCotacoesVigentes').html(total);
-
-            var obj = [];
-
-            $.each(data, function (i, d) {
-                obj.push([
-                    d.identificador,
-                    '',
-                    d.uasg,
-                    d.data_entrega_proposta_ord,
-                    d.informacoes_gerais,
-                    d.objeto,
-                    d.situacao_aviso,
-                    `<button target title='Gerar PDF' style='float:left; margin-left: -20px;  min-width: 33px;' class='btn btn-sm btn-edit pdfLicitacao' id=${d.identificador}><i class='far fa-file-pdf'></i></button>
-                     <button title='Imprimir' style='float:right; margin-right: -4px;' class='btn btn-sm btn-edit printLicitacao' id=${d.identificador}><i class='fa fa-print'></i></button>`,
-                    
-                ]);
-            });
-
-
-
-            var element = $(`#table-data-licitacoes-${filtroX}`);
-            if ( $.fn.DataTable.isDataTable( `#table-data-licitacoes-${filtroX}`)) {
-                element.dataTable().fnClearTable();
-                element.dataTable().fnDestroy();
-            }
-
-            var table = element.DataTable({
-                "responsive": true,
-                data: obj,
-                "columns": [
-                    {
-                        "visible": false,
-                    },
-                    {
-                        className: "details-control",
-                        "orderable": false,
-                        width: "5%",
-                    },
-                    {
-                        witdh: "6%",
-                        className: "vertical-align",
-                    },
-                    {
-                        witdh: "6%",
-                        className: "vertical-align",
-                    },
-                    {
-                        width: '15%',
-                        className: "vertical-align",
-                    },
-                    {
-                        width: '65%',
-                        className: "vertical-align",
-                    },
-                    {
-                        width: '10%',
-                        className: "vertical-align",
-                    },
-                    {
-                        className: "vertical-align",
-                        "orderable": false,
-                        width: "5%",
-                    },
-                ],
-                "dom": "<'row'<'col-sm-2 pull-left'f>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
-                // fnInitComplete: function () {
-                // // $('div.forceSincronismo').html($('#btnForceSincronismo').show());
-                // },
-                "order": [3, 'desc'],
-                "fnDrawCallback": function () {
-                    getItensLicitacao(filtroX);
+                // console.log(obj);
+                if($(`#${filtroX}`).is(':visible')){
+                    $(`#${filtroX}`).fadeOut(1000);
+                } else {
+                    $(`#${filtroX}`).fadeIn(2000);
                 }
-            });
+
+                var obj = [];
+
+                $.each(data, function (i, d) {
+                    obj.push([
+                        d.identificador,
+                        '',
+                        d.uasg,
+                        d.data_entrega_proposta_ord,
+                        d.informacoes_gerais,
+                        d.objeto,
+                        d.situacao_aviso,
+                        `<button target title='Gerar PDF' style='float:left; margin-left: -20px;  min-width: 33px;' class='btn btn-sm btn-edit pdfLicitacao' id=${d.identificador}><i class='far fa-file-pdf'></i></button>
+                        <button title='Imprimir' style='float:right; margin-right: -4px;' class='btn btn-sm btn-edit printLicitacao' id=${d.identificador}><i class='fa fa-print'></i></button>`,
+                        
+                    ]);
+                });
+
+                var element = $(`#table-data-licitacoes-${filtroX}`);
+                if ( $.fn.DataTable.isDataTable( `#table-data-licitacoes-${filtroX}`)) {
+                    element.dataTable().fnClearTable();
+                    element.dataTable().fnDestroy();
+                }
+
+                var table = element.DataTable({
+                    "responsive": true,
+                    data: obj,
+                    "columns": [
+                        {
+                            "visible": false,
+                        },
+                        {
+                            className: "details-control",
+                            "orderable": false,
+                            width: "5%",
+                        },
+                        {
+                            witdh: "6%",
+                            className: "vertical-align",
+                        },
+                        {
+                            witdh: "6%",
+                            className: "vertical-align",
+                        },
+                        {
+                            width: '15%',
+                            className: "vertical-align",
+                        },
+                        {
+                            width: '65%',
+                            className: "vertical-align",
+                        },
+                        {
+                            width: '10%',
+                            className: "vertical-align",
+                        },
+                        {
+                            className: "vertical-align",
+                            "orderable": false,
+                            width: "5%",
+                        },
+                    ],
+                    "dom": "<'row'<'col-sm-2 pull-left'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
+                    // fnInitComplete: function () {
+                    // // $('div.forceSincronismo').html($('#btnForceSincronismo').show());
+                    // },
+                    "order": [3, 'desc'],
+                    "fnDrawCallback": function () {
+                        getItensLicitacao(filtroX);
+                    }
+                });
+            }
         }
     });
 }
@@ -322,120 +325,122 @@ function getItensLicitacao(filtroX){
                 },
                 success: function (data){
                     var itens = [];
-                    data = JSON.parse(data);
+                    if(data){
+                        data = JSON.parse(data);
 
-                    var itensComProduto = data.itensComProduto;
-                    var email_enviados = data.email_enviados;
-                    var datas = data.datas_envio;
+                        var itensComProduto = data.itensComProduto;
+                        var email_enviados = data.email_enviados;
+                        var datas = data.datas_envio;
 
-                    var input;
-                    var value;
-                    var disabled;
-                    var title;
-                    var flag;
-                    var iconColor;
+                        var input;
+                        var value;
+                        var disabled;
+                        var title;
+                        var flag;
+                        var iconColor;
 
-                    $.each(data.itens, function(i, d) {
-                        // value='"+d.id+"'
-                        flag = '';
-                        input = '';
-                        value = '';
-                        iconColor = '#495057';
-                        disabled = 'disabled';
+                        $.each(data.itens, function(i, d) {
+                            // value='"+d.id+"'
+                            flag = '';
+                            input = '';
+                            value = '';
+                            iconColor = '#495057';
+                            disabled = 'disabled';
 
-                        title = 'Esse item não possui fabricante';
-                        if (itensComProduto.indexOf(d.id) > -1) {
-                        disabled = '';
-                        iconColor = '#17a2b8';
-                        // flag = 'E-mail Enviado.';
-                        title = 'Enviar E-mail';
-                        value = "value='"+d.id+"'";
-                        input = '<label class="container" >\n' +
-                            '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" class="checkOneItem'+identificador+'">\n' +
-                            '  <span class="checkmark"></span>\n' +
-                            '</label>';
-                        }
-
-                        if (email_enviados.indexOf(d.id) > -1) {
-                        var info = "E-mail enviado: " + datas[d.id];
-                        iconColor = '#17a2b8';
-                        title = 'E-mail Enviado';
-                        value = "value='"+d.id+"'";
-                        flag = "<i class='fa fa-check-circle text-success' title='"+info+"' style='float: right; margin-top: -13px; font-size: 12px;'></i>";
-                        }
-                        // console.log(itensComProduto.indexOf(d.id));
-                        itens.push([
-                        input,
-                        d.lic_id,
-                        // d.lic_uasg,
-                        d.num_aviso,
-                        d.cod_produto != null ? d.desc_produto : d.descricao_item,
-                        d.fabricante != null ? d.fabricante : '-',
-                        d.cod_item_material,
-                        d.quantidade,
-                        d.unidade,
-                        d.valor_estimado,
-                        " <button style='color: "+iconColor+"' onMouseOver=\"this.style.color='#495057'\" class='btn btn-sm btn-edit pull-left sendMail'\n" +
-                        "      title='"+title+"' id='"+d.id+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
-                        "          </button>" + flag,
-                        //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
-                        ]);
-                    });
-
-                    $("table.tblItens").DataTable({
-                        retrieve: true,
-                        "responsive": true,
-                        "searching": false,
-                        "paginate": false,
-                        "bInfo" : false,
-                        data: itens,
-                        "language": {
-                        "emptyTable": "Sem itens disponiveis",
-                        },
-                        "columns": [
-                            {
-                                className: "vertical-align",
-                                "orderable": false,
-                                width: "5%",
-                            },
-                            {
-                                visible: false,
-                            },
-                            {
-                                className: "vertical-align",
-                                width: "13%"
-                            },
-                            {
-                                className: "vertical-align",
-                                width: "30%",
-                            },
-                            {
-                                className: "vertical-align",
-                                width: "20%",
-                            },
-                            {
-                                className: "vertical-align",
-                                width: "9%",
-                            },
-                            {
-                                className: "vertical-align",
-                                width: "8%",
-                            },
-                            {
-                                className: "vertical-align",
-                                width: "7%",
-                            },
-                            {
-                                className: "vertical-align",
-                                width: "7%",
-                            },
-                            {
-                                className: "vertical-align",
-                                "orderable": false,
-                                width: "9%",
+                            title = 'Esse item não possui fabricante';
+                            if (itensComProduto.indexOf(d.id) > -1) {
+                            disabled = '';
+                            iconColor = '#17a2b8';
+                            // flag = 'E-mail Enviado.';
+                            title = 'Enviar E-mail';
+                            value = "value='"+d.id+"'";
+                            input = '<label class="container" >\n' +
+                                '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" class="checkOneItem'+identificador+'">\n' +
+                                '  <span class="checkmark"></span>\n' +
+                                '</label>';
                             }
-                        ],
-                    });
+
+                            if (email_enviados.indexOf(d.id) > -1) {
+                            var info = "E-mail enviado: " + datas[d.id];
+                            iconColor = '#17a2b8';
+                            title = 'E-mail Enviado';
+                            value = "value='"+d.id+"'";
+                            flag = "<i class='fa fa-check-circle text-success' title='"+info+"' style='float: right; margin-top: -13px; font-size: 12px;'></i>";
+                            }
+                            // console.log(itensComProduto.indexOf(d.id));
+                            itens.push([
+                            input,
+                            d.lic_id,
+                            // d.lic_uasg,
+                            d.num_aviso,
+                            d.cod_produto != null ? d.desc_produto : d.descricao_item,
+                            d.fabricante != null ? d.fabricante : '-',
+                            d.cod_item_material,
+                            d.quantidade,
+                            d.unidade,
+                            d.valor_estimado,
+                            " <button style='color: "+iconColor+"' onMouseOver=\"this.style.color='#495057'\" class='btn btn-sm btn-edit pull-left sendMail'\n" +
+                            "      title='"+title+"' id='"+d.id+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
+                            "          </button>" + flag,
+                            //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
+                            ]);
+                        });
+
+                        $("table.tblItens").DataTable({
+                            retrieve: true,
+                            "responsive": true,
+                            "searching": false,
+                            "paginate": false,
+                            "bInfo" : false,
+                            data: itens,
+                            "language": {
+                            "emptyTable": "Sem itens disponiveis",
+                            },
+                            "columns": [
+                                {
+                                    className: "vertical-align",
+                                    "orderable": false,
+                                    width: "5%",
+                                },
+                                {
+                                    visible: false,
+                                },
+                                {
+                                    className: "vertical-align",
+                                    width: "13%"
+                                },
+                                {
+                                    className: "vertical-align",
+                                    width: "30%",
+                                },
+                                {
+                                    className: "vertical-align",
+                                    width: "20%",
+                                },
+                                {
+                                    className: "vertical-align",
+                                    width: "9%",
+                                },
+                                {
+                                    className: "vertical-align",
+                                    width: "8%",
+                                },
+                                {
+                                    className: "vertical-align",
+                                    width: "7%",
+                                },
+                                {
+                                    className: "vertical-align",
+                                    width: "7%",
+                                },
+                                {
+                                    className: "vertical-align",
+                                    "orderable": false,
+                                    width: "9%",
+                                }
+                            ],
+                        });
+                    }
                 }
             });
             // ...tudo
