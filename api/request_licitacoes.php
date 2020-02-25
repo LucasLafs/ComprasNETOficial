@@ -53,6 +53,8 @@ function getTimeout(){
         }
 
         echo json_encode($obj);
+    } else {
+      echo json_encode($sql);
     }
 }
 
@@ -87,6 +89,8 @@ function requestLicGeraisComprasNet(){
     $i = $offset;
     // $i = 474;
 
+
+  $y = 1;
 
     while ($i < $offset_total) {
         $curl = curl_init();
@@ -358,22 +362,28 @@ function requestLicGeraisComprasNet(){
                 foreach ($orgao_licitacao AS $campo => $value) {
 
                     if (!is_object($value)) {
+                      $value = $value != null ?  html_entity_decode($value) : null;
                         $orgao_licitacao->$campo = $value != null ? "\"$value\"" : 'null';
                     }
 
                 }
-                
-                $sql = "INSERT INTO licitacao_orgao (uasg, lic_orgao, lic_estado) VALUES ($uasg, $orgao_licitacao->orgao, $orgao_licitacao->estado)";
-                if(!mysqli_query($con, $sql)){
+
+
+                $sqlConsult = "SELECT * FROM licitacao_orgao WHERE uasg = $uasg AND lic_orgao = $orgao_licitacao->orgao";
+
+                if (mysqli_num_rows(mysqli_query($con, $sqlConsult)) == 0 ) {
+                  $sql = "INSERT INTO licitacao_orgao (uasg, lic_orgao, lic_estado) VALUES ($uasg, $orgao_licitacao->orgao, $orgao_licitacao->estado)";
+                  if(!mysqli_query($con, $sql)){
                     print_r(mysqli_error($con));
                     echo $sql;
                     exit;
+                  }
                 }
             }
-
         }
         echo '<pre>'; echo $i . ' UASG: ' . $uasg ; echo '</pre>';
         $i += 500;
+        $y++;
     }
 
     echo '1';

@@ -98,6 +98,14 @@ function makeTblLicitacoes(data) {
         className: "vertical-align",
       },
       {
+        witdh: "6%",
+        className: "vertical-align",
+      },
+      {
+        witdh: "6%",
+        className: "vertical-align",
+      },
+      {
         width: '15%',
         className: "vertical-align",
       },
@@ -126,7 +134,7 @@ function makeTblLicitacoes(data) {
       $('div.filtroObjDesc').html($('#filtroObjDesc').show());
       $('div.lupa').html($('#lupaFiltro').show());
     },
-    "order": [3, 'desc'],
+    "order": [4, 'desc'],
     "fnDrawCallback": function () {
 
       //<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="table-data-licitacoes">
@@ -334,12 +342,6 @@ function makeTblLicitacoes(data) {
 
 $(document).on('click', '#filtrarCotacoes', function () {
 
-  /*
-  *   $('div.filtroData').html($('#filtroData').show());
-      $('div.filtroNomeProduto').html($('#filtroNomeProduto').show());
-      $('div.filtroObjDesc').html($('#filtroObjDesc').show());
-      $('div.lupa').html($('#lupaFiltro').show());
-  * */
 
   var element = $("#table-data-licitacoes");
   $(".loadTable").show();
@@ -395,9 +397,22 @@ $(document).on('click', '#filtrarCotacoes', function () {
     },
     success: function (data) {
       console.log(data);
-      data = JSON.parse(data);
 
-      makeTblLicitacoes(data);
+
+      if (data != '') {
+        data = JSON.parse(data);
+        makeTblLicitacoes(data);
+        element.show();
+        return true;
+      }
+
+      Swal.fire({
+        icon: 'info',
+        title: 'Nenhum registro encontrado.',
+        text: "Não foram encontrados nenhum registro com os filtros desejado."
+      }).then(function () {
+        getCotacoes();
+      });
 
       element.show();
 

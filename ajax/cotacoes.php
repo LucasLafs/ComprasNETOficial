@@ -60,9 +60,11 @@ function getLicitacoes($filtro = '')
 
 
 
-    $sql = "SELECT uasg, identificador, DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y')
-                AS data_entrega_proposta, informacoes_gerais, objeto, situacao_aviso 
-                FROM licitacoes_cab AS li $inner $filtro order by data_entrega_proposta limit 5000";
+    $sql = "SELECT li.uasg, identificador, DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y')
+                AS data_entrega_proposta, informacoes_gerais, objeto, situacao_aviso, DATE_FORMAT(data_abertura_proposta, '%d/%m/%Y') AS data_abertura_proposta, o.lic_estado AS uf 
+                FROM licitacoes_cab AS li 
+                INNER JOIN licitacao_orgao AS o ON o.uasg = li.uasg
+                $inner $filtro order by data_entrega_proposta limit 5000";
 
     $query = mysqli_query($con, $sql);
     if($query){
@@ -76,7 +78,9 @@ function getLicitacoes($filtro = '')
                     $licitacoes['identificador'],
                     '',
                     $licitacoes['uasg'],
+                    $licitacoes['uf'],
                     $licitacoes['data_entrega_proposta'],
+                    $licitacoes['data_abertura_proposta'],
                     $licitacoes['informacoes_gerais'],
                     $licitacoes['objeto'],
                     $licitacoes['situacao_aviso'],

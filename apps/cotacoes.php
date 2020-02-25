@@ -57,7 +57,7 @@ require_once("../header/cabecalho.php");
                                     </div>
                                     <div id="lupaFiltro" style="display: none">
                                       <input type="hidden" name="act" value="getLicitacoes">
-                                      <button style="margin-left: -42px;margin-top: 23px;" name="filtro" value="1" type="button" class="btn btn-link" id="filtrarCotacoes"><span class="fa fa-search"></span></button>
+                                      <button style="margin-left: -105px;margin-top: 15px;" name="filtro" value="1" type="button" class="btn btn-link" id="filtrarCotacoes"><span class="fa fa-search"></span></button>
                                     </div>
                                   </form>
 
@@ -67,7 +67,9 @@ require_once("../header/cabecalho.php");
                                                 <th scope="col"></th>
                                                 <th scope="col" class="vertical-align"></th>
                                                 <th scope="col">UASG</th>
+                                                <th scope="col">UF</th>
                                                 <th scope="col">Data Entrega</th>
+                                                <th scope="col">Data Abertura</th>
                                                 <th scope="col">Descrição</th>
                                                 <th scope="col">Objeto</th>
                                                 <th scope="col">Situação</th>

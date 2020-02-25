@@ -108,7 +108,7 @@ function saveFabri(action) {
 
     if (erro > 0) {
       Swal.fire({
-        type: 'Error',
+        icon: 'error',
         title: 'E-mail invalído!',
         text: "Digite um e-mail válido para salvar!"
       });
