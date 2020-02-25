@@ -9,6 +9,8 @@ if($_REQUEST['act']){
         requestLicGeraisComprasNet();
     } else if ($_REQUEST['act'] == 'requestItensLicitacao') {
         return requestItensLicitacao();
+    } else if ($_REQUEST['act'] == 'getTimeout'){
+        return getTimeout();
     } else if ($_REQUEST['act'] == 'saveTimeout'){
         return saveTimeout();
     } else {
@@ -20,8 +22,38 @@ function saveTimeout(){
 
     $time = $_REQUEST['time'];
 
-    echo $time;
-    exit;
+    $con = bancoMysqli();
+    $sql = "DELETE FROM timeout";
+    mysqli_query($con, $sql);
+
+    $sql = "INSERT INTO timeout VALUES ($time)";
+    mysqli_query($con, $sql);
+
+    if (!mysqli_query($con, $sql)) {
+        echo "ERROR: " . mysqli_error($con);
+        echo "<br>";
+        echo $sql;
+        exit;
+    } else {
+        echo '1';
+        exit;
+    }
+}
+
+function getTimeout(){
+
+    $con = bancoMysqli();
+    $sql = "SELECT minutos FROM timeout";
+
+    $query = mysqli_query($con, $sql);
+    if($query){
+
+        while($row = mysqli_fetch_assoc($query)){
+            $obj[] = $row['minutos'];
+        }
+
+        echo json_encode($obj);
+    }
 }
 
 function requestLicGeraisComprasNet(){
