@@ -56,12 +56,12 @@ function getTimeout(){
 
 function saveTimeout() {
 
-    let $time = $('#time').val();
-
+    let time = $('#time').val();
+  console.log(time)
     $.ajax({
         type: 'POST',
         url: '../api/request_licitacoes.php',
-        data: 'act=saveTimeout&time=' + $time,
+        data: 'act=saveTimeout&time=' + time,
         cache: false,
         success: function(data){
           if(data == '1'){

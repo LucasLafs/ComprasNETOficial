@@ -24,17 +24,23 @@ function saveTimeout(){
 
     $con = bancoMysqli();
     $sql = "DELETE FROM timeout";
-    mysqli_query($con, $sql);
-
-    $sql = "INSERT INTO timeout VALUES ($time)";
-    mysqli_query($con, $sql);
-
     if (!mysqli_query($con, $sql)) {
         echo "ERROR: " . mysqli_error($con);
         echo "<br>";
         echo $sql;
-        exit;
+    }
+
+    $sql = "INSERT INTO timeout (minutos) VALUES ($time)";
+    if (!mysqli_query($con, $sql)) {
+        echo "ERROR: " . mysqli_error($con);
+        echo "<br>";
+        echo $sql;
     } else {
+
+        
+        $cmd = "";
+        shell_exec($cmd);
+
         echo '1';
         exit;
     }
@@ -46,6 +52,7 @@ function getTimeout(){
     $sql = "SELECT minutos FROM timeout";
 
     $query = mysqli_query($con, $sql);
+    $obj = array();
     if($query){
 
         while($row = mysqli_fetch_assoc($query)){
@@ -53,6 +60,9 @@ function getTimeout(){
         }
 
         echo json_encode($obj);
+    } else {
+        echo '0';
+        exit;
     }
 }
 
@@ -276,7 +286,6 @@ function requestLicGeraisComprasNet(){
                                     $query = mysqli_query($con, $sql);
 
                                     if (mysqli_num_rows($query) == 0) {
-                                      echo 'chega aqui'; exit;
                                       $sql = "INSERT INTO fabricantes (
                                         nome,
                                         email,
