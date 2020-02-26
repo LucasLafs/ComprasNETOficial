@@ -57,7 +57,6 @@ function getTimeout(){
 function saveTimeout() {
 
     let time = $('#time').val();
-  console.log(time)
     $.ajax({
         type: 'POST',
         url: '../api/request_licitacoes.php',
@@ -86,7 +85,6 @@ function saveUser(idUser)
   let data = {};
 
   let emptys = [];
-  console.log(form);
   $.each(form, function (i, d) {
 
     if (d.name == 'nome') {
@@ -106,11 +104,8 @@ function saveUser(idUser)
 
   });
 
-  console.log(emptys);
-  console.log(emptys.length);
 
   if (emptys.length > 0) {
-    console.log('cai no if ');
     $("#formChangeUser").show();
     $(".loadModal").hide();
     $.each(emptys, function (i, d) {
@@ -132,8 +127,7 @@ function saveUser(idUser)
     },
     success: function (data) {
       data = JSON.parse(data);
-      console.log(data);
-      console.log(data.status);
+
       if (data.status != 'ok') {
         $("#formChangeUser").show();
         $(".loadModal").hide();

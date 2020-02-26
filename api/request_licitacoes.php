@@ -1,8 +1,9 @@
 <?php 
 
 set_time_limit(0);
-require_once ("../ajax/conexao.php");
-require_once ("./request_produtos.php");
+ignore_user_abort(false);
+require_once ("../ajax/conexao.php");//alterar
+require_once ("./request_produtos.php");//usr/bin/php7.0 test.php
 
 if($_REQUEST['act']){
     if ($_REQUEST['act'] == 'requestLicitacoes'){
@@ -36,9 +37,21 @@ function saveTimeout(){
         echo "<br>";
         echo $sql;
     } else {
+        $op = round($time / 60);
+        $hour = '*';
+        $min = '*';
+        if ($op > 0) {
+            $hour = round($time / 60);
+        } else {
+            $min = $time; 
+        }
 
-        
-        $cmd = "";
+        $cmd = "sudo chown www-data /etc/crontab";
+        shell_exec($cmd);
+        file_put_contents('/etc/crontab', "# /etc/crontab: system-wide crontab\n# Unlike any other crontab you don't have to run the `crontab'\n# command to install the new version when you edit this file\n# and files in /etc/cron.d. These files also have username fields,\n# that none of the other crontabs do.\nSHELL=/bin/sh\nPATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin\n# m h dom mon dow user  command\n17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly\n25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )\n47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )\n52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )\n*/$min $hour   * * *   root    /usr/bin/php7.0 /var/www/html/ComprasNET/api/timeout.php > /etc/cron.d/temp.txt\n#");
+        $cmd = "sudo chown root.root /etc/crontab";
+        shell_exec($cmd);
+        $cmd = "sudo systemctl restart cron";
         shell_exec($cmd);
 
         echo '1';
@@ -96,9 +109,6 @@ function requestLicGeraisComprasNet(){
     // $offset_total = 5000;
     $i = $offset;
     // $i = 474;
-
-
-  $y = 1;
 
     while ($i < $offset_total) {
         $curl = curl_init();
@@ -390,7 +400,6 @@ function requestLicGeraisComprasNet(){
         }
         echo '<pre>'; echo $i . ' UASG: ' . $uasg ; echo '</pre>';
         $i += 500;
-        $y++;
     }
 
     echo '1';
@@ -437,7 +446,6 @@ function requestParseOrgaosGov($uasg){
 
             $doc = explode('<table border="0" width="100%" cellspacing="1" cellpadding="2" class="td"><tr bgcolor="#FFFFFF">', $doc);
 
-            echo $parse;
             if (isset($doc[$parse])){
             $doc = explode('bgcolor="#FFFFFF" class="tex3a" align="center"', $doc[$parse]);
             }
