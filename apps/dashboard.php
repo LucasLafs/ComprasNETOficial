@@ -432,7 +432,7 @@ function getItensLicitacao(filtroX){
                             d.quantidade,
                             d.unidade,
                             d.valor_estimado,
-                            " <button style='color: "+iconColor+"' onMouseOver=\"this.style.color='#495057'\" class='btn btn-sm btn-edit pull-left sendMail'\n" +
+                            " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
                             "      title='"+title+"' id='"+d.id+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
                             "          </button>" + flag,
                             //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
@@ -449,6 +449,7 @@ function getItensLicitacao(filtroX){
                             "language": {
                             "emptyTable": "Sem itens disponiveis",
                             },
+                          "order": [4, 'desc'],
                             "columns": [
                                 {
                                     className: "vertical-align",

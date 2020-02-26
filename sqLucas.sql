@@ -198,7 +198,7 @@ CREATE TABLE `produtos_futura` (
   `desc_produto_jd` varchar(9999) DEFAULT NULL,
   `cod_fabricante_jd` int(11) DEFAULT NULL,
   `nome_fabricante` varchar(120) DEFAULT NULL,
-  `estoque_disp_jd` int(11) DEFAULT NULL
+  `estoque_disp_jd` varchar(120) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
