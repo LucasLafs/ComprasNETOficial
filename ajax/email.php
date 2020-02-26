@@ -134,7 +134,6 @@ function prepareMail($idRef, $item_id = 0)
         $depois = $crash_text[1];
 
 
-
         $body = "<p>".$infos['nome'].", bom dia.</p>
                     $antes
 
@@ -180,7 +179,10 @@ function prepareMail($idRef, $item_id = 0)
                     
                     $depois
                     ";
-        if (sendMail($conf_body['smtp_assunto'], $body, $infos['email'])) {
+
+        $assunto = $conf_body['smtp_assunto'] != "" ? $conf_body['smtp_assunto'] : $infos['orgao'];
+
+        if (sendMail($assunto, $body, $infos['email'])) {
 
           $sql = "SELECT * FROM email_enviados WHERE produto_id = $produto_id AND item_id = " . $infos['item_id'] . " AND fabricante_id =  " . $infos['fabricante_id'];
 
