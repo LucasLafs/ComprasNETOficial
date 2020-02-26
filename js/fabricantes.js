@@ -78,15 +78,13 @@ function getFabris() {
                         width: '150px',
                     },
                 ],
-                "dom": "<'row'<'col-sm-2 pesquisaFabricante pull-left'f><'col-sm-10 pull-right cadastrarFabricante'>>" +
+                "dom": "<'row'<'offset-4 col-sm-4 pull-left'f><'col-sm-4 pull-right cadastrarFabricante'>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-1'i><'offset-4 col-sm-7 text-right'p>>",
                 /*fnInitComplete: function () {
                     $('div.cadastrarFabricante').html($('.btnCadastrarFabricante').removeClass('none'));
                 }*/
             });
-
-            $(".pesquisaFabricante").css('margin-top', '-30px');
         }
     });
 }

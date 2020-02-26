@@ -74,17 +74,21 @@ function buscaCotacoes(){
     $con = bancoMysqli();
 
     if($_REQUEST['filtro'] == 'vigentes'){
-        $date = date('Y-m-d', strtotime('01/01/1999'));
+        $date = date('Y-m-d', strtotime('01/01/1998'));
         // $date = '01/01/2005';
         // mysqli_query('SET CHARACTER SET utf8');
 
-        $sql = "SELECT uasg, 
+        $sql = "SELECT lic.uasg, 
         identificador, 
         DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta_ord, 
         informacoes_gerais, 
         objeto, 
-        situacao_aviso 
-        FROM licitacoes_cab WHERE data_entrega_proposta > '$date' 
+        situacao_aviso,
+        DATE_FORMAT(data_abertura_proposta, '%d/%m/%Y') AS data_abertura_proposta,
+        o.lic_estado AS uf 
+        FROM licitacoes_cab AS lic
+        LEFT JOIN licitacao_orgao AS o ON o.uasg = lic.uasg
+        WHERE data_entrega_proposta > '$date' 
         order by data_entrega_proposta_ord limit 5000";
 
         $query = mysqli_query($con, $sql);
@@ -150,8 +154,11 @@ function buscaCotacoes(){
         DATE_FORMAT(lic.data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta_ord, 
         lic.informacoes_gerais as informacoes_gerais, 
         lic.objeto as objeto, 
-        lic.situacao_aviso as situacao_aviso 
-        FROM licitacoes_cab as lic 
+        lic.situacao_aviso as situacao_aviso,
+        DATE_FORMAT(data_abertura_proposta, '%d/%m/%Y') AS data_abertura_proposta,
+        o.lic_estado AS uf 
+        FROM licitacoes_cab AS lic
+        LEFT JOIN licitacao_orgao AS o ON o.uasg = lic.uasg 
         LEFT JOIN licitacao_itens ON lic.identificador = licitacao_itens.lic_id WHERE licitacao_itens.id IN (" . implode(',', $ids_nao_enviados) . ") ";  // order by data_entrega_proposta_ord limit 5000";
 
         $query = mysqli_query($con, $sql);
@@ -189,8 +196,7 @@ function buscaCotacoes(){
     } else if ($_REQUEST['filtro'] == 'recomendadas'){
         $date = date('Y-m-d', strtotime('01/01/1999'));
 
-        $sql = "SELECT DISTINCT pf.item_id as ids_relacionados FROM email_enviados AS ee RIGHT JOIN produtos_futura AS pf 
-                ON pf.item_id = ee.item_id 
+        $sql = "SELECT DISTINCT pf.item_id as ids_relacionados FROM produtos_futura AS pf             
                 ORDER BY pf.item_id ASC";
         
         $query = mysqli_query($con, $sql);
@@ -208,8 +214,11 @@ function buscaCotacoes(){
         DATE_FORMAT(lic.data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta_ord, 
         lic.informacoes_gerais as informacoes_gerais, 
         lic.objeto as objeto, 
-        lic.situacao_aviso as situacao_aviso 
-        FROM licitacoes_cab as lic 
+        lic.situacao_aviso as situacao_aviso,
+        DATE_FORMAT(data_abertura_proposta, '%d/%m/%Y') AS data_abertura_proposta,
+        o.lic_estado AS uf 
+        FROM licitacoes_cab AS lic
+        LEFT JOIN licitacao_orgao AS o ON o.uasg = lic.uasg
         LEFT JOIN licitacao_itens ON lic.identificador = licitacao_itens.lic_id WHERE licitacao_itens.id IN (" . implode(',', $ids_relacionados) . ") ";  // order by data_entrega_proposta_ord limit 5000";
 
         $query = mysqli_query($con, $sql);
@@ -241,7 +250,9 @@ function buscaCotacoes(){
         DATE_FORMAT(lc.data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta_ord, 
         lc.informacoes_gerais as informacoes_gerais, 
         lc.objeto as objeto, 
-        lc.situacao_aviso as situacao_aviso
+        lc.situacao_aviso as situacao_aviso,
+        DATE_FORMAT(data_abertura_proposta, '%d/%m/%Y') AS data_abertura_proposta,
+        lo.lic_estado AS uf
         FROM licitacoes_cab AS lc LEFT JOIN licitacao_orgao AS lo ON lc.uasg = lo.uasg WHERE lo.lic_estado='SP' or lo.lic_estado='DF' or lo.lic_estado='RJ' ";
 
         $query = mysqli_query($con, $sql);

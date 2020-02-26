@@ -2,6 +2,19 @@
 require_once("../header/cabecalho.php");
 ?>
 
+
+<style>
+  div.dataTables_wrapper div.dataTables_filter input {
+    display: block !important;
+    margin-left: 0 !important;
+    width: 510px !important;
+  }
+  div.table-responsive > div.dataTables_wrapper > div.row {
+    margin: 0;
+    max-width: 98% !important;
+  }
+</style>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -31,7 +44,7 @@ require_once("../header/cabecalho.php");
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12" >
-                                    <button style="margin-top: 0; float: right;" class="btn text-info btnCadastrarFabricante" id="btnCadastrarFabricante" data-toggle="modal" data-target="#modalCadastroFabri" title="Adicionar Fabricante">
+                                    <button style="margin-top: 0; float: right; margin-bottom: -45px;" class="btn text-info btnCadastrarFabricante" id="btnCadastrarFabricante" data-toggle="modal" data-target="#modalCadastroFabri" title="Adicionar Fabricante">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                     <h4 id='msgSemFabricante' style='display: none;' class='text-info text-center'>Nenhum fabricante cadastrado.</h4>

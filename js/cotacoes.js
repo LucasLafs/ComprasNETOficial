@@ -377,15 +377,6 @@ $(document).on('click', '#filtrarCotacoes', function () {
     element.dataTable().fnDestroy();
   }
 
-
-  // var form = $("#formFiltros").serializeArray();
- // var form = table.$(".inputFiltro").serializeArray();
-
-
-  console.log(obj);
-
-
-
   $.ajax({
     type: "POST",
     url: "../ajax/cotacoes.php",
@@ -396,8 +387,6 @@ $(document).on('click', '#filtrarCotacoes', function () {
       $(".loadTable").show();
     },
     success: function (data) {
-      console.log(data);
-
 
       if (data != '') {
         data = JSON.parse(data);

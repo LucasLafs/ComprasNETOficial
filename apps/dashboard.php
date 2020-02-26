@@ -4,6 +4,15 @@ require_once("../header/cabecalho.php");
 
 ?>
 
+<style>
+  div.dataTables_wrapper div.dataTables_filter input {
+    display: block !important;
+    margin-left: 0 !important;
+    width: 510px !important;
+  }
+</style>
+
+
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
@@ -11,12 +20,12 @@ require_once("../header/cabecalho.php");
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">Dashboard</h1>
                 </div><!-- /.col -->
-                <div class="col-sm-6">
+               <!-- <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active">Cotações Gerais</li>
                     </ol>
-                </div><!-- /.col -->
+                </div>--><!-- /.col -->
             </div>
         </div>
     </div>
@@ -28,8 +37,8 @@ require_once("../header/cabecalho.php");
                     <!-- small box -->
                     <div class="small-box bg-primary">
                         <div class="inner">
-                            <h3 id='nCotacoesVigentes'>0</h3>
-                            <p>Cotacoes Vigentes</p>
+                            <h3 id='nCotacoesvigentes'>0</h3>
+                            <p>Cotações Vigentes</p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-align-justify"></i>
@@ -41,7 +50,7 @@ require_once("../header/cabecalho.php");
                     <!-- small box -->
                     <div class="small-box bg-orange">
                         <div class="inner">
-                            <h3 id="nCotacoesNaoEnviadas" style="color: white">0</h3>
+                            <h3 id="nCotacoesnao-enviados" style="color: white">0</h3>
                             <p style="color: white">Emails não enviados</p>
                         </div>
                         <div class="icon">
@@ -54,7 +63,7 @@ require_once("../header/cabecalho.php");
                     <!-- small box -->
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3 id="nCotacoesRelacionadas">0</h3>
+                            <h3 id="nCotacoesrecomendadas">0</h3>
                             <p>Itens relacionados</p>
                         </div>
                         <div class="icon">
@@ -67,7 +76,7 @@ require_once("../header/cabecalho.php");
                     <!-- small box -->
                     <div class="small-box bg-red">
                         <div class="inner">
-                            <h3 id='nCotacoesEstados'>0</h3>
+                            <h3 id='nCotacoesestados'>0</h3>
                             <p>Cotações estados principais</p>
                         </div>
                         <div class="icon">
@@ -77,7 +86,12 @@ require_once("../header/cabecalho.php");
                     </div>
                 </div>
                 <div class='card-body' id='principal'>
-                    <div class='row' id='vigentes' style="display: none;">
+                  <div class="row" id="msgVazio" style="display: none">
+                    <div class="col-12 text-center">
+                      <h4 class="text-info">Sem cotações até o momento.</h4>
+                    </div>
+                  </div>
+                    <div class='row divFiltro' id='vigentes' style="display: none;">
                         <div class='col-12'>
                             <table id="table-data-licitacoes-vigentes" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
                                 <thead>
@@ -85,7 +99,9 @@ require_once("../header/cabecalho.php");
                                         <th scope="col"></th>
                                         <th scope="col" class="vertical-align"></th>
                                         <th scope="col">UASG</th>
+                                        <th scope="col">UF</th>
                                         <th scope="col">Data Entrega</th>
+                                        <th scope="col">Data Abertura</th>
                                         <th scope="col">Descrição</th>
                                         <th scope="col">Objeto</th>
                                         <th scope="col">Situação</th>
@@ -101,7 +117,7 @@ require_once("../header/cabecalho.php");
                             </table>
                         </div>
                     </div>
-                    <div class='row' id='estados' style="display: none;">
+                    <div class='row divFiltro' id='estados' style="display: none;">
                         <div class='col-12'>
                             <table id="table-data-licitacoes-estados" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
                                 <thead>
@@ -109,7 +125,9 @@ require_once("../header/cabecalho.php");
                                         <th scope="col"></th>
                                         <th scope="col" class="vertical-align"></th>
                                         <th scope="col">UASG</th>
+                                        <th scope="col">UF</th>
                                         <th scope="col">Data Entrega</th>
+                                        <th scope="col">Data Abertura</th>
                                         <th scope="col">Descrição</th>
                                         <th scope="col">Objeto</th>
                                         <th scope="col">Situação</th>
@@ -125,7 +143,7 @@ require_once("../header/cabecalho.php");
                             </table>
                         </div>
                     </div>
-                    <div class='row' id='recomendadas' style="display: none;">
+                    <div class='row divFiltro' id='recomendadas' style="display: none;">
                         <div class='col-12'>
                             <table id="table-data-licitacoes-recomendadas" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
                                 <thead>
@@ -133,7 +151,9 @@ require_once("../header/cabecalho.php");
                                         <th scope="col"></th>
                                         <th scope="col" class="vertical-align"></th>
                                         <th scope="col">UASG</th>
+                                        <th scope="col">UF</th>
                                         <th scope="col">Data Entrega</th>
+                                        <th scope="col">Data Abertura</th>
                                         <th scope="col">Descrição</th>
                                         <th scope="col">Objeto</th>
                                         <th scope="col">Situação</th>
@@ -149,7 +169,7 @@ require_once("../header/cabecalho.php");
                             </table>
                         </div>
                     </div>
-                    <div class='row' id='nao-enviados' style="display: none;">
+                    <div class='row divFiltro' id='nao-enviados' style="display: none;">
                         <div class='col-12'>
                             <table id="table-data-licitacoes-nao-enviados" class="table table-responsive table-hover vertical-align text-center" style="width: 100% !important;">
                                 <thead>
@@ -157,7 +177,9 @@ require_once("../header/cabecalho.php");
                                         <th scope="col"></th>
                                         <th scope="col" class="vertical-align"></th>
                                         <th scope="col">UASG</th>
+                                        <th scope="col">UF</th>
                                         <th scope="col">Data Entrega</th>
+                                        <th scope="col">Data Abertura</th>
                                         <th scope="col">Descrição</th>
                                         <th scope="col">Objeto</th>
                                         <th scope="col">Situação</th>
@@ -190,17 +212,42 @@ $.ajax({
     success: function (data) {
         if(data){
             data = JSON.parse(data);
-            $('#nCotacoesVigentes').html(data['vigentes']);
-            $('#nCotacoesNaoEnviadas').html(data['nao-enviados']);
-            $('#nCotacoesRelacionadas').html(data['recomendadas']);
-            $('#nCotacoesEstados').html(data['estados']);
+            $('#nCotacoesvigentes').html(data['vigentes']);
+            $('#nCotacoesnao-enviados').html(data['nao-enviados']);
+            $('#nCotacoesrecomendadas').html(data['recomendadas']);
+            $('#nCotacoesestados').html(data['estados']);
         }
     }
 })
 
 function buscaCotacoes(filtroX){
 
-    $.ajax({
+  $("#msgVazio").fadeOut(1000);
+
+  if($(`#${filtroX}`).is(':visible')){
+    $(`#${filtroX}`).fadeOut(1000);
+    return false;
+  }
+
+  $.each($(".divFiltro"), function () {
+    if ($(this).is(':visible')) {
+      $(this).fadeOut(1000);
+    }
+  });
+
+  console.log($("#nCotacoes" + filtroX).html());
+
+  if ($("#nCotacoes" + filtroX).html() == 0) {
+    console.log('cai no if ');
+    $("#msgVazio").fadeIn(2000);
+    return false;
+  }
+
+  $(`#${filtroX}`).fadeIn(2000);
+
+
+
+  $.ajax({
         type: 'GET',
         url:'../ajax/dashboard.php',
         data: 'act=buscaCotacoes&filtro=' + filtroX,
@@ -212,11 +259,6 @@ function buscaCotacoes(filtroX){
                 data = data[0];
 
                 // console.log(obj);
-                if($(`#${filtroX}`).is(':visible')){
-                    $(`#${filtroX}`).fadeOut(1000);
-                } else {
-                    $(`#${filtroX}`).fadeIn(2000);
-                }
 
                 var obj = [];
 
@@ -225,7 +267,9 @@ function buscaCotacoes(filtroX){
                         d.identificador,
                         '',
                         d.uasg,
+                        d.uf,
                         d.data_entrega_proposta_ord,
+                        d.data_abertura_proposta,
                         d.informacoes_gerais,
                         d.objeto,
                         d.situacao_aviso,
@@ -242,6 +286,7 @@ function buscaCotacoes(filtroX){
                 }
 
                 var table = element.DataTable({
+                    "autoWidth": false,
                     "responsive": true,
                     data: obj,
                     "columns": [
@@ -252,6 +297,14 @@ function buscaCotacoes(filtroX){
                             className: "details-control",
                             "orderable": false,
                             width: "5%",
+                        },
+                        {
+                            witdh: "6%",
+                            className: "vertical-align",
+                        },
+                        {
+                            witdh: "6%",
+                            className: "vertical-align",
                         },
                         {
                             witdh: "6%",
@@ -279,13 +332,13 @@ function buscaCotacoes(filtroX){
                             width: "5%",
                         },
                     ],
-                    "dom": "<'row'<'col-sm-2 pull-left'f>>" +
+                    "dom": "<'row'<'offset-4 col-sm-4 text-center'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
                     // fnInitComplete: function () {
                     // // $('div.forceSincronismo').html($('#btnForceSincronismo').show());
                     // },
-                    "order": [3, 'desc'],
+                    "order": [4, 'desc'],
                     "fnDrawCallback": function () {
                         getItensLicitacao(filtroX);
                     }
