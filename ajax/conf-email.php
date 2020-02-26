@@ -104,21 +104,20 @@ function saveBody(){
     $assunto = $_REQUEST['assunto_email'];
     $corpo = $_REQUEST['corpo_email'];
 
-    if ($assunto && $corpo){
 
-        $sql = "DELETE FROM smtp_body";
-        $query = mysqli_query($con, $sql);
+      $sql = "DELETE FROM smtp_body";
+      $query = mysqli_query($con, $sql);
 
-        $sql = "INSERT INTO smtp_body (smtp_assunto, smtp_corpo) VALUES ('$assunto', '$corpo')";
-        $query = mysqli_query($con, $sql);
+      $sql = "INSERT INTO smtp_body (smtp_assunto, smtp_corpo) VALUES ('$assunto', '$corpo')";
+      $query = mysqli_query($con, $sql);
 
-        if ($query){
-            echo 1;
-        } else {
-            echo 0;
-        }
+      if ($query){
+          echo 1;
+      } else {
+          echo json_encode($sql);
+      }
 
-    }
+
 }
 
 function getBody(){
