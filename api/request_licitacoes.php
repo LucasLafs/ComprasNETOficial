@@ -141,55 +141,58 @@ function requestLicGeraisComprasNet(){
 
             }
 
-           // echo "tipo __ pregaaao " . $licitacao->tipo_pregao;
+          $sqlVerifica = "SELECT * FROM licitacoes_cab WHERE identificador = $identificador";
 
-            $sql = "INSERT INTO licitacoes_cab (
-                uasg, 
-                identificador, 
-                cod_modalidade,
-                numero_aviso,
-                tipo_pregao,
-                numero_processo,
-                numero_itens,
-                situacao_aviso,
-                objeto,
-                informacoes_gerais,
-                tipo_recurso,
-                nome_responsavel,
-                funcao_responsavel,
-                data_entrega_edital,
-                endereco_entrega_edital,
-                data_abertura_proposta,
-                data_entrega_proposta,
-                data_publicacao
-                ) VALUES (
-                $licitacao->uasg, 
-                $licitacao->identificador, 
-                $licitacao->modalidade,
-                $licitacao->numero_aviso,
-                $licitacao->tipo_pregao,
-                $licitacao->numero_processo,
-                $licitacao->numero_itens,
-                $licitacao->situacao_aviso,
-                $licitacao->objeto,
-                $licitacao->informacoes_gerais,
-                $licitacao->tipo_recurso,
-                $licitacao->nome_responsavel,
-                $licitacao->funcao_responsavel,
-                $licitacao->data_entrega_edital,
-                $licitacao->endereco_entrega_edital,
-                $licitacao->data_abertura_proposta,
-                $licitacao->data_entrega_proposta,
-                $licitacao->data_publicacao
-                )
-            ";
+          if (mysqli_num_rows(mysqli_query($con, $sqlVerifica)) == 0) {
 
-            if (!mysqli_query($con, $sql)) {
+              $sql = "INSERT INTO licitacoes_cab (
+                  uasg, 
+                  identificador, 
+                  cod_modalidade,
+                  numero_aviso,
+                  tipo_pregao,
+                  numero_processo,
+                  numero_itens,
+                  situacao_aviso,
+                  objeto,
+                  informacoes_gerais,
+                  tipo_recurso,
+                  nome_responsavel,
+                  funcao_responsavel,
+                  data_entrega_edital,
+                  endereco_entrega_edital,
+                  data_abertura_proposta,
+                  data_entrega_proposta,
+                  data_publicacao
+                  ) VALUES (
+                  $licitacao->uasg, 
+                  $licitacao->identificador, 
+                  $licitacao->modalidade,
+                  $licitacao->numero_aviso,
+                  $licitacao->tipo_pregao,
+                  $licitacao->numero_processo,
+                  $licitacao->numero_itens,
+                  $licitacao->situacao_aviso,
+                  $licitacao->objeto,
+                  $licitacao->informacoes_gerais,
+                  $licitacao->tipo_recurso,
+                  $licitacao->nome_responsavel,
+                  $licitacao->funcao_responsavel,
+                  $licitacao->data_entrega_edital,
+                  $licitacao->endereco_entrega_edital,
+                  $licitacao->data_abertura_proposta,
+                  $licitacao->data_entrega_proposta,
+                  $licitacao->data_publicacao
+                  )
+              ";
+
+              if (!mysqli_query($con, $sql)) {
                 echo "ERROR: " . mysqli_error($con);
                 echo "<br>";
                 echo $sql;
                 exit;
-            }
+              }
+          }
 
             $itens_licitacao = requestItensLicitacao($identificador);
             
@@ -216,7 +219,12 @@ function requestLicGeraisComprasNet(){
                         
                         }
                     }
-                
+
+                  $sqlVerificaItens = "SELECT id FROM licitacao_itens WHERE lic_id = $identificador AND num_item_licitacao = $num_item_comprasnet";
+                  $queryCheckItens = mysqli_query($con, $sqlVerificaItens);
+
+                  if (mysqli_num_rows($queryCheckItens) == 0) {
+
                     $sql = "INSERT INTO licitacao_itens (
                         lic_uasg,
                         lic_id,
@@ -255,24 +263,28 @@ function requestLicGeraisComprasNet(){
                     ";
 
                     // echo $sql;
-                    if(!mysqli_query($con, $sql)){
-                        echo "<br>";
-                        echo "ERROR: " . mysqli_error($con);
-                        echo "<br>";
-                        echo $sql;
-                        exit;
-                    } 
+                    if (!mysqli_query($con, $sql)) {
+                      echo "<br>";
+                      echo "ERROR: " . mysqli_error($con);
+                      echo "<br>";
+                      echo $sql;
+                      exit;
+                    }
+
+                    $sql = 'SELECT MAX(id) as id FROM licitacao_itens';
+                    $query = mysqli_query($con, $sql);
+                    if($query){
+                      $last_id = mysqli_fetch_assoc($query);
+                      $last_id = $last_id['id'];
+                    }
+
+                  } else {
+                    $item = mysqli_fetch_assoc($queryCheckItens);
+                    $last_id = $item['id'];
+                  }
 
                     if ($descricao_item != '' && $descricao_item != null && $descricao_item != 'null' ){
 
-                        $sql = 'SELECT MAX(id) as id FROM licitacao_itens';
-                        $query = mysqli_query($con, $sql);
-                        if($query){
-                            $last_id = mysqli_fetch_assoc($query);
-                            $last_id = $last_id['id'];
-                        }
-//{ "body": {"lista" : [ ["COMPRASNET",2,"algodao preto torcido nr. 3-0 agulha 1/2 12000000ui",3000, ""] ] } }
-//15305402000011999
                         $ret = reqApiFutura($num_item_comprasnet, $descricao_item, $qtd_item_comprasnet );
 
                         if(count($ret) > 0){
