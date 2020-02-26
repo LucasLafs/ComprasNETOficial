@@ -1,5 +1,4 @@
 function getFabris() {
-  console.log('chamando funcao');
 
     $.ajax({
         type: 'GET',
@@ -10,7 +9,6 @@ function getFabris() {
             $(".loadTable").show();
         },
         success: function(data) {
-            console.log(data);                      
 
             if (data == 0) {
                 $('.btnCadastrarFabricante').removeClass('none');
@@ -20,7 +18,6 @@ function getFabris() {
               
                 return false;
             } else {
-              console.log('cai no else');
                 $("#divTblFabricantes").show();
                 $("#msgSemFabricante").hide();
             }
@@ -124,7 +121,6 @@ function saveFabri(action) {
             $(".loadModal").show();
         },
         success: function (data) {
-            console.log(data);
             if (!data) {
                 $("#msgStoreFabri").html('Não foi possivel cadastrar').show();
                 return false;
@@ -236,14 +232,8 @@ $("#modalEditaFabri").on('show.bs.modal', function (e) {
 });
 
 function validaEmail(field) {
-  console.log(field);
   usuario = field.substring(0, field.indexOf("@"));
   dominio = field.substring(field.indexOf("@")+ 1, field.length);
-
-  console.log(usuario);
-  console.log(dominio);
-
-
 
   if ((usuario.length >=1) &&
     (dominio.length >=3) &&
