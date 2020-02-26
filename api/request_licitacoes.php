@@ -131,55 +131,55 @@ function requestLicGeraisComprasNet()
     $result = json_decode(curl_exec($curl));
 
     while ($i < $offset_total) {
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => "http://compras.dados.gov.br/licitacoes/v1/licitacoes.json?offset=" . $i
-        ]);
-    
-        $result = json_decode(curl_exec($curl));
-        
-        $licitacoes = $result->_embedded->licitacoes;
+      $curl = curl_init();
+      curl_setopt_array($curl, [
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "http://compras.dados.gov.br/licitacoes/v1/licitacoes.json?offset=" . $i
+      ]);
 
-        foreach($licitacoes as $licitacao){
-            
-            $identificador = $licitacao->identificador;
-            $uasg = $licitacao->uasg;
+      $result = json_decode(curl_exec($curl));
 
-            foreach ($licitacao AS $campo => $value) {
+      $licitacoes = $result->_embedded->licitacoes;
 
-                if (!is_object($value)) {
-                    // $licitacao->$campo = $value != null ? "'$value'" : 'null';
-                    if($value != null){
-                        $value = str_replace("\"", "'", $value);
-                        $value = str_replace("\\", "/", $value);
-                        $licitacao->$campo = '"' . "$value" . '"';
-                    } else {
-                        $licitacao->$campo = 'null';
-                    }
-                }
+      foreach ($licitacoes as $licitacao) {
 
+        $identificador = $licitacao->identificador;
+        $uasg = $licitacao->uasg;
 
-      foreach ($licitacao AS $campo => $value) {
+        foreach ($licitacao AS $campo => $value) {
 
-        if (!is_object($value)) {
-          // $licitacao->$campo = $value != null ? "'$value'" : 'null';
-          if ($value != null) {
-            $value = str_replace("\"", "'", $value);
-            $value = str_replace("\\", "/", $value);
-            $licitacao->$campo = '"' . "$value" . '"';
-          } else {
-            $licitacao->$campo = 'null';
+          if (!is_object($value)) {
+            // $licitacao->$campo = $value != null ? "'$value'" : 'null';
+            if ($value != null) {
+              $value = str_replace("\"", "'", $value);
+              $value = str_replace("\\", "/", $value);
+              $licitacao->$campo = '"' . "$value" . '"';
+            } else {
+              $licitacao->$campo = 'null';
+            }
           }
-        }
 
-      }
 
-      $sqlVerifica = "SELECT * FROM licitacoes_cab WHERE identificador = $identificador";
+          foreach ($licitacao AS $campo => $value) {
 
-      if (mysqli_num_rows(mysqli_query($con, $sqlVerifica)) == 0) {
+            if (!is_object($value)) {
+              // $licitacao->$campo = $value != null ? "'$value'" : 'null';
+              if ($value != null) {
+                $value = str_replace("\"", "'", $value);
+                $value = str_replace("\\", "/", $value);
+                $licitacao->$campo = '"' . "$value" . '"';
+              } else {
+                $licitacao->$campo = 'null';
+              }
+            }
 
-        $sql = "INSERT INTO licitacoes_cab (
+          }
+
+          $sqlVerifica = "SELECT * FROM licitacoes_cab WHERE identificador = $identificador";
+
+          if (mysqli_num_rows(mysqli_query($con, $sqlVerifica)) == 0) {
+
+            $sql = "INSERT INTO licitacoes_cab (
                 uasg, 
                 identificador, 
                 cod_modalidade,
@@ -220,47 +220,47 @@ function requestLicGeraisComprasNet()
                 )
             ";
 
-        if (!mysqli_query($con, $sql)) {
-          echo "ERROR: " . mysqli_error($con);
-          echo "<br>";
-          echo $sql;
-          exit;
-        }
-
-      }
-
-      $itens_licitacao = requestItensLicitacao($identificador);
-
-      if (count($itens_licitacao) > 0) { //EX Count = 3
-        $itens_licitacao = json_decode($itens_licitacao);
-
-        foreach ($itens_licitacao as $item_licitacao) {
-
-          $num_item_comprasnet = $item_licitacao->numero_item_licitacao;
-          $descricao_item = $item_licitacao->descricao_item;
-          $qtd_item_comprasnet = $item_licitacao->quantidade;
-
-          foreach ($item_licitacao AS $campo => $value) {
-            // relacionamentos serão feitos pela Lic_id;
-            if (!is_object($value)) {
-              // $item_licitacao->$campo = $value != null ? "\"$value\"" : 'null';
-              if ($value != null) {
-                $value = str_replace("\"", "'", $value);
-                $value = str_replace("\\", "/", $value);
-                $item_licitacao->$campo = '"' . "$value" . '"';
-              } else {
-                $item_licitacao->$campo = 'null';
-              }
-
+            if (!mysqli_query($con, $sql)) {
+              echo "ERROR: " . mysqli_error($con);
+              echo "<br>";
+              echo $sql;
+              exit;
             }
+
           }
 
-          $sqlVerificaItens = "SELECT id FROM licitacao_itens WHERE lic_id = $identificador AND num_item_licitacao = $num_item_comprasnet";
-          $queryCheckItens = mysqli_query($con, $sqlVerificaItens);
+          $itens_licitacao = requestItensLicitacao($identificador);
 
-          if (mysqli_num_rows($queryCheckItens) == 0) {
+          if (count($itens_licitacao) > 0) { //EX Count = 3
+            $itens_licitacao = json_decode($itens_licitacao);
 
-            $sql = "INSERT INTO licitacao_itens (
+            foreach ($itens_licitacao as $item_licitacao) {
+
+              $num_item_comprasnet = $item_licitacao->numero_item_licitacao;
+              $descricao_item = $item_licitacao->descricao_item;
+              $qtd_item_comprasnet = $item_licitacao->quantidade;
+
+              foreach ($item_licitacao AS $campo => $value) {
+                // relacionamentos serão feitos pela Lic_id;
+                if (!is_object($value)) {
+                  // $item_licitacao->$campo = $value != null ? "\"$value\"" : 'null';
+                  if ($value != null) {
+                    $value = str_replace("\"", "'", $value);
+                    $value = str_replace("\\", "/", $value);
+                    $item_licitacao->$campo = '"' . "$value" . '"';
+                  } else {
+                    $item_licitacao->$campo = 'null';
+                  }
+
+                }
+              }
+
+              $sqlVerificaItens = "SELECT id FROM licitacao_itens WHERE lic_id = $identificador AND num_item_licitacao = $num_item_comprasnet";
+              $queryCheckItens = mysqli_query($con, $sqlVerificaItens);
+
+              if (mysqli_num_rows($queryCheckItens) == 0) {
+
+                $sql = "INSERT INTO licitacao_itens (
                         lic_uasg,
                         lic_id,
                         num_aviso,
@@ -297,55 +297,55 @@ function requestLicGeraisComprasNet()
                         )
                     ";
 
-            // echo $sql;
-            if (!mysqli_query($con, $sql)) {
-              echo "<br>";
-              echo "ERROR: " . mysqli_error($con);
-              echo "<br>";
-              echo $sql;
-              exit;
-            }
-
-            $sql = 'SELECT MAX(id) as id FROM licitacao_itens';
-            $query = mysqli_query($con, $sql);
-            if ($query) {
-              $last_id = mysqli_fetch_assoc($query);
-              $last_id = $last_id['id'];
-            }
-
-          } else {
-            $item = mysqli_fetch_assoc($queryCheckItens);
-            $last_id = $item['id'];
-          }
-
-          if ($descricao_item != '' && $descricao_item != null && $descricao_item != 'null') {
-
-            $ret = reqApiFutura($num_item_comprasnet, $descricao_item, $qtd_item_comprasnet);
-
-            if (count($ret) > 0) {
-              // print_r($ret);
-              foreach ($ret as $arrays) {
-                foreach ($arrays as $array => $value) {
-                  if ($value != null) {
-                    $value = str_replace("\"", "'", $value);
-                    $value = str_replace("\\", "/", $value);
-                    $arrays[$array] = '"' . "$value" . '"';
-                  } else {
-                    $arrays[$array] = 'null';
-                  }
+                // echo $sql;
+                if (!mysqli_query($con, $sql)) {
+                  echo "<br>";
+                  echo "ERROR: " . mysqli_error($con);
+                  echo "<br>";
+                  echo $sql;
+                  exit;
                 }
 
+                $sql = 'SELECT MAX(id) as id FROM licitacao_itens';
+                $query = mysqli_query($con, $sql);
+                if ($query) {
+                  $last_id = mysqli_fetch_assoc($query);
+                  $last_id = $last_id['id'];
+                }
 
-                if ($arrays[9] && $arrays[10]) {
+              } else {
+                $item = mysqli_fetch_assoc($queryCheckItens);
+                $last_id = $item['id'];
+              }
 
-                  $desc_fabricante = $arrays[10];
-                  $cod_fabricante = $arrays[9];
+              if ($descricao_item != '' && $descricao_item != null && $descricao_item != 'null') {
 
-                  $sql = "SELECT id FROM fabricantes WHERE cod_fabricante = $cod_fabricante";
-                  $query = mysqli_query($con, $sql);
+                $ret = reqApiFutura($num_item_comprasnet, $descricao_item, $qtd_item_comprasnet);
 
-                  if (mysqli_num_rows($query) == 0) {
-                    $sql = "INSERT INTO fabricantes (
+                if (count($ret) > 0) {
+                  // print_r($ret);
+                  foreach ($ret as $arrays) {
+                    foreach ($arrays as $array => $value) {
+                      if ($value != null) {
+                        $value = str_replace("\"", "'", $value);
+                        $value = str_replace("\\", "/", $value);
+                        $arrays[$array] = '"' . "$value" . '"';
+                      } else {
+                        $arrays[$array] = 'null';
+                      }
+                    }
+
+
+                    if ($arrays[9] && $arrays[10]) {
+
+                      $desc_fabricante = $arrays[10];
+                      $cod_fabricante = $arrays[9];
+
+                      $sql = "SELECT id FROM fabricantes WHERE cod_fabricante = $cod_fabricante";
+                      $query = mysqli_query($con, $sql);
+
+                      if (mysqli_num_rows($query) == 0) {
+                        $sql = "INSERT INTO fabricantes (
                                         nome,
                                         email,
                                         descricao,
@@ -358,28 +358,28 @@ function requestLicGeraisComprasNet()
                                     )
                                     ";
 
-                    if (!mysqli_query($con, $sql)) {
-                      echo "<br>";
-                      echo "ERROR: " . mysqli_error($con);
-                      echo $sql;
-                      exit;
+                        if (!mysqli_query($con, $sql)) {
+                          echo "<br>";
+                          echo "ERROR: " . mysqli_error($con);
+                          echo $sql;
+                          exit;
+                        }
+
+                        $sql = 'SELECT MAX(id) as id FROM fabricantes';
+
+                        if ($query = mysqli_query($con, $sql)) {
+                          $last_fab_id = mysqli_fetch_assoc($query);
+                          $last_fab_id = $last_fab_id['id'];
+                        }
+
+                      } else {
+                        $fabri = mysqli_fetch_assoc($query);
+                        $last_fab_id = $fabri['id'];
+                      }
                     }
 
-                    $sql = 'SELECT MAX(id) as id FROM fabricantes';
-
-                    if ($query = mysqli_query($con, $sql)) {
-                      $last_fab_id = mysqli_fetch_assoc($query);
-                      $last_fab_id = $last_fab_id['id'];
-                    }
-
-                  } else {
-                    $fabri = mysqli_fetch_assoc($query);
-                    $last_fab_id = $fabri['id'];
-                  }
-                }
-
-                $str = implode(',', $arrays);
-                $sql = "INSERT INTO produtos_futura (
+                    $str = implode(',', $arrays);
+                    $sql = "INSERT INTO produtos_futura (
                                     item_id,
                                     fabricante_id,
                                     nome_portal,
@@ -399,138 +399,143 @@ function requestLicGeraisComprasNet()
                                 )
                                 ";
 
-                if (!mysqli_query($con, $sql)) {
-                  echo "<br>";
-                  echo "ERROR: " . mysqli_error($con);
-                  echo $sql;
-                  exit;
+                    if (!mysqli_query($con, $sql)) {
+                      echo "<br>";
+                      echo "ERROR: " . mysqli_error($con);
+                      echo $sql;
+                      exit;
+                    }
+
+                  }
                 }
 
               }
+
             }
-
           }
-
-        }
-      }
 //               echo "Possui data";
 //          } else {
 //                echo "Não possui item";
 //          }
 
-      $orgao_licitacao = requestParseOrgaosGov($uasg);
-      print_r($orgao_licitacao);
-      if (count($orgao_licitacao) > 0) {
-        $orgao_licitacao = json_decode($orgao_licitacao);
+          $orgao_licitacao = requestParseOrgaosGov($uasg);
+          print_r($orgao_licitacao);
+          if (count($orgao_licitacao) > 0) {
+            $orgao_licitacao = json_decode($orgao_licitacao);
 
-        foreach ($orgao_licitacao AS $campo => $value) {
+            foreach ($orgao_licitacao AS $campo => $value) {
 
-          if (!is_object($value)) {
-            $value = $value != null ? html_entity_decode($value) : null;
-            $orgao_licitacao->$campo = $value != null ? "\"$value\"" : 'null';
+              if (!is_object($value)) {
+                $value = $value != null ? html_entity_decode($value) : null;
+                $orgao_licitacao->$campo = $value != null ? "\"$value\"" : 'null';
+              }
+
+            }
+
+
+            $sqlConsult = "SELECT * FROM licitacao_orgao WHERE uasg = $uasg AND lic_orgao = $orgao_licitacao->orgao";
+
+            if (mysqli_num_rows(mysqli_query($con, $sqlConsult)) == 0) {
+              $sql = "INSERT INTO licitacao_orgao (uasg, lic_orgao, lic_estado) VALUES ($uasg, $orgao_licitacao->orgao, $orgao_licitacao->estado)";
+              if (!mysqli_query($con, $sql)) {
+                print_r(mysqli_error($con));
+                echo $sql;
+                exit;
+              }
+            }
+            echo '<pre>';
+            echo $i . ' UASG: ' . $uasg;
+            echo '</pre>';
+            $i += 500;
+
           }
-
+          echo '<pre>';
+          echo $i . ' UASG: ' . $uasg;
+          echo '</pre>';
+          $i += 500;
+          $y++;
         }
 
+        echo '1';
+        exit;
+        // print_r($licitacoes);
+      }
 
-        $sqlConsult = "SELECT * FROM licitacao_orgao WHERE uasg = $uasg AND lic_orgao = $orgao_licitacao->orgao";
+      function requestItensLicitacao($identificador = '')
+      {
 
-        if (mysqli_num_rows(mysqli_query($con, $sqlConsult)) == 0) {
-          $sql = "INSERT INTO licitacao_orgao (uasg, lic_orgao, lic_estado) VALUES ($uasg, $orgao_licitacao->orgao, $orgao_licitacao->estado)";
-          if (!mysqli_query($con, $sql)) {
-            print_r(mysqli_error($con));
-            echo $sql;
-            exit;
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+          CURLOPT_RETURNTRANSFER => 1,
+          CURLOPT_URL => "http://compras.dados.gov.br/licitacoes/doc/licitacao/$identificador/itens.json"
+        ]);
+
+
+        $result = json_decode(curl_exec($curl));
+
+        $itens = $result->_embedded->itensLicitacao;
+
+
+        return json_encode($itens);
+
+      }
+
+      function requestParseOrgaosGov($uasg)
+      {
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+          CURLOPT_RETURNTRANSFER => 1,
+          CURLOPT_URL => "http://comprasnet.gov.br/ConsultaLicitacoes/Pesquisar_UASG.asp?codUasg=" . $uasg
+        ]);
+
+        $result = curl_exec($curl);
+        if ($result) {
+          libxml_use_internal_errors(true);
+
+          $document = new DOMDocument();
+          $document->loadHTML($result);
+          $document = $document->saveHTML();
+
+          $parse = 0;
+          while ($parse < 3) {
+            $doc = $document;
+
+            $doc = explode('<table border="0" width="100%" cellspacing="1" cellpadding="2" class="td"><tr bgcolor="#FFFFFF">', $doc);
+
+            echo $parse;
+            if (isset($doc[$parse])) {
+              $doc = explode('bgcolor="#FFFFFF" class="tex3a" align="center"', $doc[$parse]);
+            }
+
+            if (isset($doc[1])) {
+              $doc = explode('<td>', $doc[1]);
+            }
+
+            $data = array();
+
+            if (isset($doc['2'])) {
+              $uasg = explode('</td>', $doc[2]);
+              $data['uasg'] = trim($uasg[0]);
+            }
+
+            if (isset($doc[3])) {
+              $orgao = explode('</td>', $doc[3]);
+              $data['orgao'] = trim($orgao[0]);
+            }
+
+            if (isset($doc[4])) {
+              $doc = explode('</td>', $doc[4]);
+              $data['estado'] = trim($doc[0]);
+            }
+
+            $parse++;
+            if (count($data) > 0) {
+              if ($data['orgao'] != '' && $data['orgao'] != 'undefined' && $data['estado'] != 'null') {
+                return json_encode($data);
+              }
+            }
           }
-        }
-        echo '<pre>'; echo $i . ' UASG: ' . $uasg ; echo '</pre>';
-        $i += 500;
-
-    }
-    echo '<pre>';
-    echo $i . ' UASG: ' . $uasg;
-    echo '</pre>';
-    $i += 500;
-    $y++;
-  }
-
-  echo '1';
-  exit;
-  // print_r($licitacoes);
-}
-
-function requestItensLicitacao($identificador = '')
-{
-
-  $curl = curl_init();
-
-  curl_setopt_array($curl, [
-    CURLOPT_RETURNTRANSFER => 1,
-    CURLOPT_URL => "http://compras.dados.gov.br/licitacoes/doc/licitacao/$identificador/itens.json"
-  ]);
-
-
-  $result = json_decode(curl_exec($curl));
-
-  $itens = $result->_embedded->itensLicitacao;
-
-
-  return json_encode($itens);
-
-}
-
-function requestParseOrgaosGov($uasg)
-{
-  $curl = curl_init();
-  curl_setopt_array($curl, [
-    CURLOPT_RETURNTRANSFER => 1,
-    CURLOPT_URL => "http://comprasnet.gov.br/ConsultaLicitacoes/Pesquisar_UASG.asp?codUasg=" . $uasg
-  ]);
-
-  $result = curl_exec($curl);
-  if ($result) {
-    libxml_use_internal_errors(true);
-
-    $document = new DOMDocument();
-    $document->loadHTML($result);
-    $document = $document->saveHTML();
-
-    $parse = 0;
-    while ($parse < 3) {
-      $doc = $document;
-
-      $doc = explode('<table border="0" width="100%" cellspacing="1" cellpadding="2" class="td"><tr bgcolor="#FFFFFF">', $doc);
-
-      echo $parse;
-      if (isset($doc[$parse])) {
-        $doc = explode('bgcolor="#FFFFFF" class="tex3a" align="center"', $doc[$parse]);
-      }
-
-      if (isset($doc[1])) {
-        $doc = explode('<td>', $doc[1]);
-      }
-
-      $data = array();
-
-      if (isset($doc['2'])) {
-        $uasg = explode('</td>', $doc[2]);
-        $data['uasg'] = trim($uasg[0]);
-      }
-
-      if (isset($doc[3])) {
-        $orgao = explode('</td>', $doc[3]);
-        $data['orgao'] = trim($orgao[0]);
-      }
-
-      if (isset($doc[4])) {
-        $doc = explode('</td>', $doc[4]);
-        $data['estado'] = trim($doc[0]);
-      }
-
-      $parse++;
-      if (count($data) > 0) {
-        if ($data['orgao'] != '' && $data['orgao'] != 'undefined' && $data['estado'] != 'null') {
-          return json_encode($data);
         }
       }
     }

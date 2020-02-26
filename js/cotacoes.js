@@ -29,10 +29,9 @@ function getProdGerais() {
     success: function (data){
       if(Array.isArray){
         console.log('Success');
-        console.log(data);
 
       } else {
-        console.log(data);
+        console.log('fail');
       }
     }
   });
@@ -50,7 +49,6 @@ function getCotacoes() {
       $(".loadTable").show();
     },
     success: function(data) {
-      console.log(data);
       data = JSON.parse(data);
       let offsetInt = data.length;
       var obj = [];
@@ -64,8 +62,6 @@ function getCotacoes() {
 }
 
 function makeTblLicitacoes(data) {
-
-  console.log(data);
 
   var element = $("#table-data-licitacoes");
 
@@ -216,7 +212,7 @@ function makeTblLicitacoes(data) {
                   value = "value='"+d.id+"'";
                   flag = "<i class='fa fa-check-square text-success' title='"+info+"' style='float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
                 }
-                console.log(itensComProduto.indexOf(d.id));
+                
                 itens.push([
                   input,
                   d.lic_id,
@@ -233,10 +229,7 @@ function makeTblLicitacoes(data) {
                   "          </button>" + flag,
                   //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
                 ]);
-                //itens.push(d);
               });
-
-                console.log(itens);
 
               $("table.tblItens").DataTable({
                 retrieve: true,
@@ -337,7 +330,6 @@ function makeTblLicitacoes(data) {
   });
 
   $(".loadTable").hide();
-  console.log(data);
 }
 
 $(document).on('click', '#filtrarCotacoes', function () {
