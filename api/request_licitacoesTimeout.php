@@ -446,7 +446,6 @@ function requestParseOrgaosGov($uasg){
 
             $doc = explode('<table border="0" width="100%" cellspacing="1" cellpadding="2" class="td"><tr bgcolor="#FFFFFF">', $doc);
 
-            echo $parse;
             if (isset($doc[$parse])){
             $doc = explode('bgcolor="#FFFFFF" class="tex3a" align="center"', $doc[$parse]);
             }
