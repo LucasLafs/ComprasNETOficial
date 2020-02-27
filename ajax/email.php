@@ -208,7 +208,7 @@ function prepareMail($idRef, $item_id = 0)
               echo 'não cadastrou';
             }
           } else {
-            $sql = "UPDATE email_enviados SET data_envio = '" . date("Y-m-d H:i:s") . "' WHERE item_id = " . $infos['item_id'];
+            $sql = "UPDATE email_enviados SET data_envio = '" . date("Y-m-d H:i:s") . "' WHERE produto_id = $produto_id AND item_id = " . $infos['item_id'] . " AND fabricante_id =  " . $infos['fabricante_id'];
             echo $sql;
             mysqli_query($con, $sql);
           }

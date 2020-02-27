@@ -411,11 +411,9 @@ require_once("../header/cabecalho.php");
             if (data) {
               data = JSON.parse(data);
 
-              console.log(data);
-
-              var itensComProduto = data.itensComProduto;
-              var email_enviados = data.email_enviados;
               var datas = data.datas_envio;
+              var fabricantes = data.fabricantes;
+              var itensComProduto = data.itensComProduto;
 
               var flag;
               var input;
@@ -424,13 +422,15 @@ require_once("../header/cabecalho.php");
               var disabled;
               var iconColor;
               var idFabricante;
+              var produto_id;
 
               $.each(data.itens, function (i, d) {
                 // value='"+d.id+"'
                 flag = '';
                 input = '';
                 value = '';
-                idFabricante = '';
+                idFabricante = d.idFabricante;
+                produto_id = d.produto_id;
                 iconColor = '#495057';
                 disabled = 'disabled';
 
@@ -440,20 +440,23 @@ require_once("../header/cabecalho.php");
                   iconColor = '#17a2b8';
                   title = 'Enviar E-mail';
                   value = "value='" + d.id + "'";
-                  idFabricante = d.idFabricante;
 
                   input = '<label class="container" >\n' +
-                    '  <input type="checkbox" style="background: white !important"  value="' + d.id + '" class="checkOneItem' + identificador + '">\n' +
+                    '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-ident="'+identificador+'" class="checkOne checkOneItem'+identificador+'">\n' +
                     '  <span class="checkmark"></span>\n' +
                     '</label>';
                 }
 
-                if (email_enviados.indexOf(d.id) > -1) {
-                  var info = "E-mail enviado: " + datas[d.id];
-                  iconColor = '#17a2b8';
-                  title = 'E-mail Enviado';
-                  value = "value='" + d.id + "'";
-                  flag = "<i class='fa fa-check-square text-success' title='" + info + "' style='float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
+                if (idFabricante != undefined) {
+                  if (fabricantes[produto_id] == idFabricante) {
+
+                    var info = "E-mail enviado: " + datas[d.id];
+                    iconColor = '#17a2b8';
+                    title = 'E-mail Enviado';
+                    value = "value='" + d.id + "'";
+                    flag = "<i class='fa fa-check-square text-success' title='" + info + "' style='float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
+
+                  }
                 }
 
                 itens.push([
@@ -573,6 +576,27 @@ require_once("../header/cabecalho.php");
     var id = $(this).attr('id');
 
     window.open("../ajax/makePdf.php?act=imprimir&lic_id=" + id);
+  });
+
+  $(document).on('click', '.checkOne', function () {
+
+    var id = $(this).attr('data-ident');
+    var clicked = 0;
+
+    $.each($(".checkOne"), function () {
+      console.log($(this).prop("checked"));
+      if ($(this).prop('checked') == true) {
+        clicked++;
+      }
+    });
+
+
+    if (clicked > 1) {
+      $("#enviarVariosEmails" + id).show();
+      $("#loadingAllEmails").hide();
+    } else {
+      $("#enviarVariosEmails" + id).hide();
+    }
   });
 
 

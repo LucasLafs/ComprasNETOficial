@@ -55,6 +55,7 @@ $(function () {
                                 confirmButtonColor: '#3085d6',
                                 confirmButtonText: '<i class="fa fa-thumbs-up"></i>'
                               });
+
                             } else if (!result){
                               Swal.fire({
                                 title: 'E-mail não enviado.',

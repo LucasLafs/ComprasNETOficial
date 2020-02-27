@@ -156,15 +156,9 @@ function makeTblLicitacoes(data) {
               var itens = [];
               data = JSON.parse(data);
 
-
-              console.log('ITENSSSS ');
-              console.log(data);
-
-              var itensComProduto = data.itensComProduto;
-              var email_enviados = data.email_enviados;
               var datas = data.datas_envio;
-
-              console.log(datas);
+              var fabricantes = data.fabricantes;
+              var itensComProduto = data.itensComProduto;
 
               var flag;
               var input;
@@ -173,14 +167,15 @@ function makeTblLicitacoes(data) {
               var disabled;
               var iconColor;
               var idFabricante;
-
+              var produto_id;
 
               $.each(data.itens, function(i, d) {
                 // value='"+d.id+"'
                 flag = '';
                 input = '';
                 value = '';
-                idFabricante = '';
+                idFabricante = d.idFabricante;
+                produto_id = d.produto_id;
                 iconColor = '#495057';
                 disabled = 'disabled';
 
@@ -190,7 +185,6 @@ function makeTblLicitacoes(data) {
                   iconColor = '#17a2b8';
                   title = 'Enviar E-mail';
                   value = "value='"+d.id+"'";
-                  idFabricante = d.idFabricante;
 
                   input = '<label class="container" >\n' +
                     '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-ident="'+identificador+'" class="checkOne checkOneItem'+identificador+'">\n' +
@@ -198,12 +192,16 @@ function makeTblLicitacoes(data) {
                     '</label>';
                 }
 
-                if (email_enviados.indexOf(d.id) > -1) {
-                  var info = "E-mail enviado: " + datas[d.id];
-                  iconColor = '#17a2b8';
-                  title = 'E-mail Enviado';
-                  value = "value='"+d.id+"'";
-                  flag = "<i class='fa fa-check-square text-success' title='"+info+"' style='float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
+                if (idFabricante != undefined) {
+                  if (fabricantes[produto_id] == idFabricante) {
+
+                    var info = "E-mail enviado: " + datas[d.id];
+                    iconColor = '#17a2b8';
+                    title = 'E-mail Enviado';
+                    value = "value='" + d.id + "'";
+                    flag = "<i class='fa fa-check-square text-success' title='" + info + "' style='float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
+
+                  }
                 }
                 
                 itens.push([

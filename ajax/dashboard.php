@@ -305,6 +305,7 @@ function buscaItensLicitacao(){
             criterio_julgamento,
             pf.cod_jd_produto AS cod_produto,
             pf.desc_produto_jd as desc_produto,
+            pf.id AS produto_id,        
             f.id AS idFabricante,
             f.Nome AS fabricante
             FROM
@@ -343,21 +344,27 @@ function buscaItensLicitacao(){
 
 
             //Buscando quais itens já foram enviado e-mail
-            $sql = "SELECT item_id, DATE_FORMAT(data_envio, '%d/%m/%Y %H:%i:%s') AS data_envio FROM email_enviados WHERE email_enviado = 'Y'";
+            $sql = "SELECT item_id, fabricante_id, produto_id, DATE_FORMAT(data_envio, '%d/%m/%Y %H:%i:%s') AS data_envio FROM email_enviados WHERE email_enviado = 'Y'";
             $query = mysqli_query($con, $sql);
 
             $emailEnviados = [];
+            $fabricantes = [];
 
             if (mysqli_num_rows($query) > 0) {
-                while ($itens = mysqli_fetch_assoc($query)) {
+              while ($itens = mysqli_fetch_assoc($query)) {
                 $item_id = $itens['item_id'];
+                $produto_id = $itens['produto_id'];
+                $fabricante_id = $itens['fabricante_id'];
+
                 $emailEnviados[] =  $item_id;
+                $fabricantes[$produto_id] =  $fabricante_id;
                 $datas_envio[$item_id] = $itens['data_envio'];
-                }
+              }
             }
 
             $obj['email_enviados'] = $emailEnviados;
             $obj['datas_envio'] = $datas_envio;
+            $obj['fabricantes'] = $fabricantes;
 
             echo json_encode($obj);
         } else {
