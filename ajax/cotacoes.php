@@ -120,6 +120,7 @@ function getItensLicitacao(){
         criterio_julgamento,
         pf.cod_jd_produto AS cod_produto,
         pf.desc_produto_jd as desc_produto,
+        f.id AS idFabricante,        
         f.Nome AS fabricante
         FROM
         licitacao_itens AS i

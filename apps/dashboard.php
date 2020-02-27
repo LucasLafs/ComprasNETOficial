@@ -387,11 +387,11 @@ function getItensLicitacao(filtroX){
                         var email_enviados = data.email_enviados;
                         var datas = data.datas_envio;
 
+                        var flag;
                         var input;
                         var value;
-                        var disabled;
                         var title;
-                        var flag;
+                        var disabled;
                         var iconColor;
                         var idFabricante;
 
@@ -400,18 +400,18 @@ function getItensLicitacao(filtroX){
                             flag = '';
                             input = '';
                             value = '';
+                            idFabricante = '';
                             iconColor = '#495057';
                             disabled = 'disabled';
-                            idFabricante = '';
 
                             title = 'Esse item não possui fabricante';
                             if (itensComProduto.indexOf(d.id) > -1) {
                               disabled = '';
                               iconColor = '#17a2b8';
-                              // flag = 'E-mail Enviado.';
                               title = 'Enviar E-mail';
-                              idFabricante = d.idFabricante;
                               value = "value='"+d.id+"'";
+                              idFabricante = d.idFabricante;
+
                               input = '<label class="container" >\n' +
                                   '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" class="checkOneItem'+identificador+'">\n' +
                                   '  <span class="checkmark"></span>\n' +

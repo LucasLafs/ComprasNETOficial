@@ -177,18 +177,21 @@ function makeTblLicitacoes(data) {
 
               console.log(datas);
 
+              var flag;
               var input;
               var value;
-              var disabled;
               var title;
-              var flag;
+              var disabled;
               var iconColor;
+              var idFabricante;
+
 
               $.each(data.itens, function(i, d) {
                 // value='"+d.id+"'
                 flag = '';
                 input = '';
                 value = '';
+                idFabricante = '';
                 iconColor = '#495057';
                 disabled = 'disabled';
 
@@ -196,9 +199,10 @@ function makeTblLicitacoes(data) {
                 if (itensComProduto.indexOf(d.id) > -1) {
                   disabled = '';
                   iconColor = '#17a2b8';
-                  // flag = 'E-mail Enviado.';
                   title = 'Enviar E-mail';
                   value = "value='"+d.id+"'";
+                  idFabricante = d.idFabricante;
+
                   input = '<label class="container" >\n' +
                     '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" class="checkOneItem'+identificador+'">\n' +
                     '  <span class="checkmark"></span>\n' +
@@ -225,7 +229,7 @@ function makeTblLicitacoes(data) {
                   d.unidade,
                   d.valor_estimado,
                   " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
-                  "      title='"+title+"' id='"+d.id+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
+                  "      title='"+title+"' id='"+d.id+"' data-fabricante='"+idFabricante+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
                   "          </button>" + flag,
                   //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
                 ]);

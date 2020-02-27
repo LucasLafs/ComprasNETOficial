@@ -12,7 +12,7 @@
                 <p class="text-danger" style="display: none;" id=msgEditaFabri"">
                     <strong></strong>
                 </p>
-                <form action="" class="form-group text-center" id="formEditaFabri">
+                <form class="form-group text-center" id="formEditaFabri">
                     <div class="row">
                         <div class="offset-2 col-md-8">
                             <label for="">Nome</label>
