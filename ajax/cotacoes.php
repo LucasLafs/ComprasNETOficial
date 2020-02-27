@@ -58,12 +58,10 @@ function getLicitacoes($filtro = '')
 
     }
 
-
-
     $sql = "SELECT li.uasg, identificador, DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y')
                 AS data_entrega_proposta, informacoes_gerais, objeto, situacao_aviso, DATE_FORMAT(data_abertura_proposta, '%d/%m/%Y') AS data_abertura_proposta, o.lic_estado AS uf 
                 FROM licitacoes_cab AS li 
-                INNER JOIN licitacao_orgao AS o ON o.uasg = li.uasg
+                LEFT JOIN licitacao_orgao AS o ON o.uasg = li.uasg
                 $inner $filtro order by data_entrega_proposta limit 5000";
 
     $query = mysqli_query($con, $sql);
@@ -130,6 +128,7 @@ function getItensLicitacao(){
         WHERE
         lic_id = $identificador
     ";
+
   $query = mysqli_query($con, $sql);
   if($query){
     if(mysqli_num_rows($query) > 0){
@@ -141,7 +140,6 @@ function getItensLicitacao(){
 
 
       while($itens = mysqli_fetch_assoc($query)){
-
         $arr[] = $itens;
       }
 

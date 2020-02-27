@@ -55,7 +55,8 @@ function buscaContFiltros(){
             lc.informacoes_gerais as informacoes_gerais, 
             lc.objeto as objeto, 
             lc.situacao_aviso as situacao_aviso
-            FROM licitacoes_cab AS lc LEFT JOIN licitacao_orgao AS lo ON lc.uasg = lo.uasg
+            FROM licitacoes_cab AS lc 
+            LEFT JOIN licitacao_orgao AS lo ON lc.uasg = lo.uasg
             WHERE lo.lic_estado='SP' or lo.lic_estado='DF' or lo.lic_estado='RJ' ";
 
     $query = mysqli_query($con, $sql);
@@ -304,6 +305,7 @@ function buscaItensLicitacao(){
             criterio_julgamento,
             pf.cod_jd_produto AS cod_produto,
             pf.desc_produto_jd as desc_produto,
+            f.id AS idFabricante,
             f.Nome AS fabricante
             FROM
             licitacao_itens AS i

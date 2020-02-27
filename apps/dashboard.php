@@ -381,6 +381,8 @@ function getItensLicitacao(filtroX){
                     if(data){
                         data = JSON.parse(data);
 
+                        console.log(data);
+
                         var itensComProduto = data.itensComProduto;
                         var email_enviados = data.email_enviados;
                         var datas = data.datas_envio;
@@ -391,6 +393,7 @@ function getItensLicitacao(filtroX){
                         var title;
                         var flag;
                         var iconColor;
+                        var idFabricante;
 
                         $.each(data.itens, function(i, d) {
                             // value='"+d.id+"'
@@ -399,42 +402,44 @@ function getItensLicitacao(filtroX){
                             value = '';
                             iconColor = '#495057';
                             disabled = 'disabled';
+                            idFabricante = '';
 
                             title = 'Esse item não possui fabricante';
                             if (itensComProduto.indexOf(d.id) > -1) {
-                            disabled = '';
-                            iconColor = '#17a2b8';
-                            // flag = 'E-mail Enviado.';
-                            title = 'Enviar E-mail';
-                            value = "value='"+d.id+"'";
-                            input = '<label class="container" >\n' +
-                                '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" class="checkOneItem'+identificador+'">\n' +
-                                '  <span class="checkmark"></span>\n' +
-                                '</label>';
+                              disabled = '';
+                              iconColor = '#17a2b8';
+                              // flag = 'E-mail Enviado.';
+                              title = 'Enviar E-mail';
+                              idFabricante = d.idFabricante;
+                              value = "value='"+d.id+"'";
+                              input = '<label class="container" >\n' +
+                                  '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" class="checkOneItem'+identificador+'">\n' +
+                                  '  <span class="checkmark"></span>\n' +
+                                  '</label>';
                             }
 
                             if (email_enviados.indexOf(d.id) > -1) {
-                            var info = "E-mail enviado: " + datas[d.id];
-                            iconColor = '#17a2b8';
-                            title = 'E-mail Enviado';
-                            value = "value='"+d.id+"'";
-                            flag = "<i class='fa fa-check-circle text-success' title='"+info+"' style='float: right; margin-top: -13px; font-size: 12px;'></i>";
+                              var info = "E-mail enviado: " + datas[d.id];
+                              iconColor = '#17a2b8';
+                              title = 'E-mail Enviado';
+                              value = "value='"+d.id+"'";
+                              flag = "<i class='fa fa-check-square text-success' title='"+info+"' style='float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
                             }
                             // console.log(itensComProduto.indexOf(d.id));
                             itens.push([
-                            input,
-                            d.lic_id,
-                            // d.lic_uasg,
-                            d.num_aviso,
-                            d.cod_produto != null ? d.desc_produto : d.descricao_item,
-                            d.fabricante != null ? d.fabricante : '-',
-                            d.cod_item_material,
-                            d.quantidade,
-                            d.unidade,
-                            d.valor_estimado,
-                            " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
-                            "      title='"+title+"' id='"+d.id+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
-                            "          </button>" + flag,
+                              input,
+                              d.lic_id,
+                              // d.lic_uasg,
+                              d.num_aviso,
+                              d.cod_produto != null ? d.desc_produto : d.descricao_item,
+                              d.fabricante != null ? d.fabricante : '-',
+                              d.cod_item_material,
+                              d.quantidade,
+                              d.unidade,
+                              d.valor_estimado,
+                              " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
+                              "      title='"+title+"' id='"+d.id+"' data-fabricante='"+idFabricante+"' "+disabled+" "+value+" > " +
+                              "<span class='fas fa-mail-bulk'/> </button>" + flag,
                             //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
                             ]);
                         });

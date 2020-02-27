@@ -12,7 +12,8 @@ if ($_REQUEST['act']) {
     $request = $_REQUEST['act'];
     if ($request == 'get_infos') {
         $id_item = $_REQUEST['id'];
-        return getItensFabri($id_item);
+        $id_fabri = $_REQUEST['idFabricante'];
+        return getItensFabri($id_item, $id_fabri);
     } else if ($request == 'sendEmail') {
         if (isset($_REQUEST['item_id'])) {
           $item_id = $_REQUEST['item_id'];
@@ -25,7 +26,7 @@ if ($_REQUEST['act']) {
     }
 }
 
-function getItensFabri($id_item)
+function getItensFabri($id_item, $id_fabricante)
 {
     $con = bancoMysqli();
 
@@ -35,7 +36,7 @@ function getItensFabri($id_item)
                 pf.id
                 FROM produtos_futura as pf
                 INNER JOIN fabricantes AS f ON f.id = pf.fabricante_id
-                WHERE item_id = $id_item";
+                WHERE item_id = $id_item AND fabricante_id = $id_fabricante";
 
     $query = mysqli_query($con, $sql);
     $rows = mysqli_num_rows($query);
@@ -240,7 +241,7 @@ function sendMail($subject, $body, $para, $cc = '')
     $Mailer->isHTML(true);
 
     //Aceitar carasteres especiais
-    $Mailer->Charset = 'UTF-8';
+    $Mailer->Charset = 'utf8';
 
     //Configurações
     $Mailer->SMTPAuth = true;
@@ -252,13 +253,10 @@ function sendMail($subject, $body, $para, $cc = '')
     $Mailer->Port = $mailConfs['port_smtp'];
 
     //Dados do e-mail de saida - autenticação
-    /*$Mailer->Username = 'l.francelino@outlook.com';
-    $Mailer->Password = '@clamaLUVI1873';*/
     $Mailer->Username = $mailConfs['usuario'];
     $Mailer->Password = $mailConfs['senha'];
 
     //E-mail remetente (deve ser o mesmo de quem fez a autenticação)
-    //$Mailer->From = 'l.francelino@outlook.com';
     $Mailer->From = $mailConfs['remetente'];
 
     //Nome do Remetente

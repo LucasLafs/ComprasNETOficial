@@ -14,10 +14,11 @@ $(function () {
 
     $(document).on('click', '.sendMail', function () {
         var idItem = $(this).val();
+        var idFabricante = $(this).attr('data-fabricante');
         console.log(idItem);
         console.log($(this).attr('id'));
         console.log($(this).next());
-        $.get('../ajax/email.php?act=get_infos&id=' + idItem)
+        $.get('../ajax/email.php?act=get_infos&id=' + idItem + '&idFabricante=' + idFabricante)
             .done(function (data) {
                 console.log(data);
                 data = JSON.parse(data);
