@@ -266,13 +266,13 @@ function buscaCotacoes(filtroX){
                     obj.push([
                         d.identificador,
                         '',
-                        d.uasg,
-                        d.uf,
-                        d.data_entrega_proposta_ord,
-                        d.data_abertura_proposta,
-                        d.informacoes_gerais,
-                        d.objeto,
-                        d.situacao_aviso,
+                        d.uasg || '-',
+                        d.uf || '-',
+                        d.data_entrega_proposta_ord || '-',
+                        d.data_abertura_proposta || '-',
+                        d.informacoes_gerais || '-',
+                        d.objeto || '-',
+                        d.situacao_aviso || '-',
                         `<button target title='Gerar PDF' style='float:left; margin-left: -20px;  min-width: 33px;' class='btn btn-sm btn-edit pdfLicitacao' id=${d.identificador}><i class='far fa-file-pdf'></i></button>
                         <button title='Imprimir' style='float:right; margin-right: -4px;' class='btn btn-sm btn-edit printLicitacao' id=${d.identificador}><i class='fa fa-print'></i></button>`,
                         
@@ -425,22 +425,20 @@ function getItensLicitacao(filtroX){
                               value = "value='"+d.id+"'";
                               flag = "<i class='fa fa-check-square text-success' title='"+info+"' style='float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
                             }
-                            // console.log(itensComProduto.indexOf(d.id));
+
                             itens.push([
-                              input,
-                              d.lic_id,
-                              // d.lic_uasg,
-                              d.num_aviso,
-                              d.cod_produto != null ? d.desc_produto : d.descricao_item,
-                              d.fabricante != null ? d.fabricante : '-',
-                              d.cod_item_material,
-                              d.quantidade,
-                              d.unidade,
-                              d.valor_estimado,
+                              input || '-',
+                              d.lic_id || '-',
+                              d.num_aviso || '-',
+                              d.cod_produto != null ? d.desc_produto : d.descricao_item || '-',
+                              d.fabricante || '-',
+                              d.cod_produto || '-',
+                              d.quantidade || '-',
+                              d.unidade || '-',
+                              d.valor_estimado || '-',
                               " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
                               "      title='"+title+"' id='"+d.id+"' data-fabricante='"+idFabricante+"' "+disabled+" "+value+" > " +
                               "<span class='fas fa-mail-bulk'/> </button>" + flag,
-                            //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
                             ]);
                         });
 
@@ -452,7 +450,7 @@ function getItensLicitacao(filtroX){
                             "bInfo" : false,
                             data: itens,
                             "language": {
-                            "emptyTable": "Sem itens disponiveis",
+                            "emptyTable": "Sem itens disponíveis",
                             },
                           "order": [4, 'desc'],
                             "columns": [

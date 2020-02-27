@@ -30,9 +30,9 @@ function getFabris() {
                 var descricao = d.descricao != '' ? d.descricao : '-';
 
                 fabricantes.push([
-                    d.nome,
-                    d.email,
-                    descricao,
+                    d.nome || '-',
+                    d.email || '-',
+                    descricao || '-',
                     " <button  data-toggle='modal' data-target='#modalEditaFabri' class='btn btn-sm btn-edit text-info pull-left'\n" +
                     "      title='Editar Fabricante' data-id='" + d.id + "'>\n" +
                     "                                <span class='fa fa-edit'/>\n" +
@@ -95,7 +95,7 @@ function saveFabri(action) {
 
     $.each(data, function (i, campo) {
       if(campo.name == 'email') {
-        if (!validaEmail(campo.value)){
+        if (!validaEmail(campo.value) && campo.value != ''){
           erro++;
         }
       }
@@ -125,8 +125,6 @@ function saveFabri(action) {
                 $("#msgStoreFabri").html('Não foi possivel cadastrar').show();
                 return false;
             }
-
-
 
             $(".alert-success i").html("");
             $(".alert-success i").append("   " + msg + " com Sucesso");

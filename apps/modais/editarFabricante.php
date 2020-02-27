@@ -29,7 +29,7 @@
                     </div>
                     <div class="row">
                         <div class="offset-2 col-md-8">
-                            <label for="">Descricao</label>
+                            <label for="">Descrição</label>
                             <input type="text" class="form-control input" name="descricao">
                             <br>
                         </div>
