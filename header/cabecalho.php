@@ -80,7 +80,7 @@ if (!isset ($_SESSION['user']) == true) //verifica se há uma sessão, se não, 
           <i class="fas fa-stopwatch"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">Timeout</span>
+          <span class="dropdown-item dropdown-header">Recorrência API</span>
           <div class="dropdown-divider"></div>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
