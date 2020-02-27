@@ -74,27 +74,32 @@ function makePdfBody($data)
 
   $html .= "<br><h1>Itens da Licitação </h1>";
 
-  foreach ($data['itens'] AS $campos) {
+  if ($data['itens'] != '') {
 
-    foreach ($campos AS $field => $value) {
+    foreach ($data['itens'] AS $campos) {
 
-      $newString = $field;
+      foreach ($campos AS $field => $value) {
 
-      if (strpos($field, '_')) {
-        $parts = explode('_', $field);
-        $newString = ucfirst($parts[0]) . " ";
-        $newString .= ucfirst($parts[1]);
+        $newString = $field;
 
-        if (isset($parts[2])) {
-          $newString .= " " . ucfirst($parts[2]);
+        if (strpos($field, '_')) {
+          $parts = explode('_', $field);
+          $newString = ucfirst($parts[0]) . " ";
+          $newString .= ucfirst($parts[1]);
+
+          if (isset($parts[2])) {
+            $newString .= " " . ucfirst($parts[2]);
+          }
         }
+
+        $field = ucfirst($newString);
+
+
+        $html .= "<p><b>$field: </b>$value</p>";
       }
-
-      $field = ucfirst($newString);
-
-
-      $html .= "<p><b>$field: </b>$value</p>";
     }
+  } else {
+    $html .= "<p>Sem itens disponíveis</p>";
   }
 
   $html .= "</fieldset>";

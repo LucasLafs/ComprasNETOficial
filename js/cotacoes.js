@@ -50,8 +50,6 @@ function getCotacoes() {
     },
     success: function(data) {
       data = JSON.parse(data);
-      let offsetInt = data.length;
-      var obj = [];
 
       makeTblLicitacoes(data);
 
@@ -65,11 +63,6 @@ function makeTblLicitacoes(data) {
 
   var element = $("#table-data-licitacoes");
 
-
-/*  if ( $.fn.DataTable.isDataTable( '#table-data-licitacoes' )) {
-    element.dataTable().fnClearTable();
-    element.dataTable().fnDestroy();
-  }*/
 
   var table = element.DataTable({
     retrieve: true,
@@ -120,7 +113,6 @@ function makeTblLicitacoes(data) {
       },
     ],
     "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-2 filtroData'><'col-sm-3 filtroNomeProduto'><'col-sm-3 filtroObjDesc'><'col-sm-1 lupa'><'col-sm-1 pull-right forceSincronismo'>>" +
-   // "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-9 formFiltro'><'col-sm-1 pull-right forceSincronismo'>>" +
       "<'row'<'col-sm-12'tr>>" +
       "<'row'<'col-sm-1'i><'offset-4 col-sm-7 text-right'p>>",
     fnInitComplete: function () {
@@ -132,9 +124,6 @@ function makeTblLicitacoes(data) {
     },
     "order": [4, 'desc'],
     "fnDrawCallback": function () {
-
-      //<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="table-data-licitacoes">
-      //  $(".dataTables_filter").html("<label>Pequisa Geral</label><br> <input type='search' class='form-control form-control-sm' placeholder='' aria-controls='table-data-licitacoes'>");
 
       $('#table-data-licitacoes tbody').off('click').on('click', 'td.details-control', function() {
 
@@ -218,16 +207,15 @@ function makeTblLicitacoes(data) {
                 }
                 
                 itens.push([
-                  input,
-                  d.lic_id,
-                  // d.lic_uasg,
-                  d.num_aviso,
+                  input || '-',
+                  d.lic_id  || '-',
+                  d.num_aviso  || '-',
                   d.cod_produto != null ? d.desc_produto : d.descricao_item,
-                  d.fabricante != null ? d.fabricante : '-',
-                  d.cod_item_material,
-                  d.quantidade,
-                  d.unidade,
-                  d.valor_estimado,
+                  d.fabricante || '-',
+                  d.cod_produto || '-',
+                  d.quantidade || '-',
+                  d.unidade || '-',
+                  d.valor_estimado || '-',
                   " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
                   "      title='"+title+"' id='"+d.id+"' data-fabricante='"+idFabricante+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
                   "          </button>" + flag,
@@ -243,7 +231,7 @@ function makeTblLicitacoes(data) {
                 "bInfo" : false,
                 data: itens,
                 "language": {
-                  "emptyTable": "Sem itens disponiveis",
+                  "emptyTable": "Sem itens disponíveis",
                 },
                 "order": [4, 'desc'],
                 "columns": [
@@ -292,14 +280,6 @@ function makeTblLicitacoes(data) {
               });
             }
           });
-
-          /*   console.log(checkbox);
-
-           console.log('lengttth checkbox dentro de suucess'  + $(".checkOneItem"+ identificador).length);
-             if ($(document, $(".checkOneItem"+ identificador).length > 0)) {
-               console.log('cai no if ');
-               checkbox = '<label class="container"><input type="checkbox" value="'+identificador+'" class="checkAllItens"> <span class="checkmark"></span></label>';
-             }*/
 
           row.child(format(row.data(), identificador)).show();
 
