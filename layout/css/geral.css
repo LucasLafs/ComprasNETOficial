@@ -48,7 +48,7 @@ tr.shown td.details-control {
     border-color: #d9d9d9;
 }
 
-.btn.btn-edit:hover, .btn.btn-edit:active, .btn.btn-edit.active { /* .btn.btn-xs:focus,*/
+.btn.btn-edit:hover:enabled, .btn.btn-edit:active, .btn.btn-edit.active { /* .btn.btn-xs:focus,*/
     color: #40a9ff !important;
     background: #EEEEEE !important;
     border-color: #40a9ff !important;

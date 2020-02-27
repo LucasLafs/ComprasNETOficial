@@ -85,6 +85,8 @@ require_once("../header/cabecalho.php");
                         <a href="#" onclick='buscaCotacoes("estados");' class="small-box-footer">Mais Informações &nbsp;&nbsp;<i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+
+              <div class="card">
                 <div class='card-body' id='principal'>
                   <div class="row" id="msgVazio" style="display: none">
                     <div class="col-12 text-center">
@@ -196,6 +198,7 @@ require_once("../header/cabecalho.php");
                         </div>
                     </div>
                 </div>
+                  </div>
             </div>
         </div>
     </section>
