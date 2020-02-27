@@ -193,7 +193,7 @@ function makeTblLicitacoes(data) {
                   idFabricante = d.idFabricante;
 
                   input = '<label class="container" >\n' +
-                    '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" class="checkOneItem'+identificador+'">\n' +
+                    '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-ident="'+identificador+'" class="checkOne checkOneItem'+identificador+'">\n' +
                     '  <span class="checkmark"></span>\n' +
                     '</label>';
                 }
@@ -291,12 +291,12 @@ function makeTblLicitacoes(data) {
         // `d` is the original data object for the row
 
         return '<div class="row"><div class="col-12"><button style="float: right; margin-right: -8px; margin-bottom: 10px;\n' +
-          '    display: none;" class="btn btn-sm btn-edit text-info pull-left enviarVariosEmails" id="enviarVariosEmails'+id+'" value="'+id+'" title="Enviar E-mail" >' +
+          '    display: none;" class="btn btn-sm btn-edit text-info pull-left enviarVariosEmails" id="enviarVariosEmails'+id+'" value="'+id+'" title="Enviar E-mails" >' +
           '<span id="loadingAllEmails" style="display: none"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;</span> <span class=\'fas fa-mail-bulk\'/>\n' +
           '              </button></div><div class="table-responsive" style="background: #f5f5f5;">' +
           '<table style="width: 100% !important;" class="table table-responsive table-condesed tblItens text-center" cellpadding="5" cellspacing="0" border="0"> <thead>' +
           '        <tr> ' +
-          '         <th scope="col"><label class="container"><input type="checkbox"  value="'+id+'" class="checkAllItens"> <span class="checkmark"></span></label></th>' +
+          '         <th scope="col"><label class="container"><input type="checkbox"  value="'+id+'" class="checkAllItens"> <span class="checkmark"  ></span></label></th>' +
           '         <th scope="col">ID Licitação</th>' +
           '         <th scope="col">Número Aviso</th>' +
           '         <th scope="col">Descrição do Item</th>' +
@@ -399,6 +399,38 @@ $(document).on('click', '.printLicitacao', function () {
 });
 
 
+$(document).on('click', '.checkOne', function () {
+
+  console.log('chamando funca o click ');
+
+  var id = $(this).attr('data-ident');
+  var clicked = 0;
+
+  $.each($(".checkOne"), function () {
+    console.log($(this).prop("checked"));
+    if ($(this).prop('checked') == true) {
+      clicked++;
+    }
+    console.log(clicked);
+  });
+
+  console.log(clicked);
+
+  if (clicked > 1) {
+    console.log(clicked);
+    console.log('cai noif');
+    $("#enviarVariosEmails" + id).show();
+    $("#loadingAllEmails").hide();
+  } else {
+    $("#enviarVariosEmails" + id).hide();
+  }
+
+
+
+});
+
+
+
 $(document).on('click', '.checkAllItens', function () {
   var id = $(this).val();
   var atual = $(this).prop('checked');
@@ -439,10 +471,10 @@ $(document).on('click', '.checkAllItens', function () {
         }
 
         if (checked > 1) {
-          $("#enviarVariosEmails").show();
+          $("#enviarVariosEmails" + id).show();
           $("#loadingAllEmails").hide();
         } else {
-          $("#enviarVariosEmails").hide();
+          $("#enviarVariosEmails" + id).hide();
         }
       }
     });
