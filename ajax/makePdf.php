@@ -145,27 +145,31 @@ body { margin: 1.6cm; }
 
   $html .= "<br><h1>Itens da Licitação </h1>";
 
-  foreach ($data['itens'] AS $campos) {
+  if (isset($data['itens'])) {
+    foreach ($data['itens'] AS $campos) {
 
-    foreach ($campos AS $field => $value) {
+      foreach ($campos AS $field => $value) {
 
-      $newString = $field;
+        $newString = $field;
 
-      if (strpos($field, '_')) {
-        $parts = explode('_', $field);
-        $newString = ucfirst($parts[0]) . " ";
-        $newString .= ucfirst($parts[1]);
+        if (strpos($field, '_')) {
+          $parts = explode('_', $field);
+          $newString = ucfirst($parts[0]) . " ";
+          $newString .= ucfirst($parts[1]);
 
-        if (isset($parts[2])) {
-          $newString .= " " . ucfirst($parts[2]);
+          if (isset($parts[2])) {
+            $newString .= " " . ucfirst($parts[2]);
+          }
         }
+
+        $field = ucfirst($newString);
+
+
+        $html .= "<p><b>$field: </b>$value</p>";
       }
-
-      $field = ucfirst($newString);
-
-
-      $html .= "<p><b>$field: </b>$value</p>";
     }
+  } else {
+    $html .= "<p>Sem itens disponíveis</p>";
   }
 
   $html .= "</fieldset>";

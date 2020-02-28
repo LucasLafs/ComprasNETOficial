@@ -212,9 +212,7 @@ function prepareMail($idRef, $item_id = 0)
             echo $sql;
             mysqli_query($con, $sql);
           }
-          
-          
-          
+
           
             echo json_encode(['status' => true]);
         } else {

@@ -319,7 +319,9 @@ function makeTblLicitacoes(data) {
 
                   }
                 }
-                
+
+                console.log(d.valor_estimado.toLocaleString('pt-BR'));
+
                 itens.push([
                   input || '-',
                   d.lic_id  || '-',
@@ -329,7 +331,7 @@ function makeTblLicitacoes(data) {
                   d.cod_produto || '-',
                   d.quantidade || '-',
                   d.unidade || '-',
-                  d.valor_estimado || '-',
+                  d.valor_estimado.toLocaleString('pt-BR') || '-',
                   " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
                   "      title='"+title+"' id='"+d.id+"' data-fabricante='"+idFabricante+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
                   "          </button>" + flag,

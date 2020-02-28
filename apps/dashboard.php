@@ -266,10 +266,8 @@ require_once("../header/cabecalho.php");
       }
     });
 
-    console.log($("#nCotacoes" + filtroX).html());
 
     if ($("#nCotacoes" + filtroX).html() == 0) {
-      console.log('cai no if ');
       $("#msgVazio").fadeIn(2000);
       return false;
     }
@@ -288,8 +286,6 @@ require_once("../header/cabecalho.php");
           let total = data[1];
           data = data[0];
 
-          // console.log(obj);
-
           var obj = [];
 
           $.each(data, function (i, d) {
@@ -304,8 +300,7 @@ require_once("../header/cabecalho.php");
               d.objeto || '-',
               d.situacao_aviso || '-',
               `<button target title='Gerar PDF' style='float:left; margin-left: -20px;  min-width: 33px;' class='btn btn-sm btn-edit pdfLicitacao' id=${d.identificador}><i class='far fa-file-pdf'></i></button>
-                        <button title='Imprimir' style='float:right; margin-right: -4px;' class='btn btn-sm btn-edit printLicitacao' id=${d.identificador}><i class='fa fa-print'></i></button>`,
-
+                        <button title='Imprimir' style='float:right; margin-right: -10px;' class='btn btn-sm btn-edit printLicitacao' id=${d.identificador}><i class='fa fa-print'></i></button>`,
             ]);
           });
 
@@ -359,10 +354,17 @@ require_once("../header/cabecalho.php");
               {
                 className: "vertical-align",
                 "orderable": false,
-                width: "5%",
+                width: "8%",
               },
             ],
-            "dom": "<'row'<'offset-4 col-sm-4 text-center'f>>" +
+            "language": {
+              "lengthMenu": "Exibir _MENU_ registros"
+            },
+            lengthMenu: [
+              [ 15, 30, 50, 70, 100 ],
+              [ 15, 30, 50, 70, 100 ]
+            ],
+            "dom": "<'row'<'col-2'l><'offset-2 col-sm-4 text-center'f>>" +
               "<'row'<'col-sm-12'tr>>" +
               "<'row'<'col-sm-5'i><'col-sm-7 text-right'p>>",
             // fnInitComplete: function () {

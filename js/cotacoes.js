@@ -140,7 +140,6 @@ function makeTblLicitacoes(data) {
           // Open this row
           var infos = row.data();
           var identificador = infos[0];
-          console.log(identificador);
           tr.addClass('shown');
 
           $.ajax({
@@ -213,7 +212,7 @@ function makeTblLicitacoes(data) {
                   d.cod_produto || '-',
                   d.quantidade || '-',
                   d.unidade || '-',
-                  d.valor_estimado || '-',
+                  d.valor_estimado.toLocaleString('pt-BR') || '-',
                   " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
                   "      title='"+title+"' id='"+d.id+"' data-fabricante='"+idFabricante+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
                   "          </button>" + flag,
