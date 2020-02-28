@@ -18,7 +18,7 @@ function buscaContFiltros(){
 
     $con = bancoMysqli();
 
-    $date = date('Y-m-d', strtotime('01/01/1998'));
+    $date = date('Y-m-d');
     $sql = "SELECT * FROM licitacoes_cab WHERE data_entrega_proposta > '$date'";
     $query = mysqli_query($con, $sql);
     if($query){
@@ -75,7 +75,7 @@ function buscaCotacoes(){
     $con = bancoMysqli();
 
     if($_REQUEST['filtro'] == 'vigentes'){
-        $date = date('Y-m-d', strtotime('01/01/1998'));
+        $date = date('Y-m-d');
         // $date = '01/01/2005';
         // mysqli_query('SET CHARACTER SET utf8');
 
