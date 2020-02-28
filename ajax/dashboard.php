@@ -128,9 +128,6 @@ function buscaCotacoes(){
             }
         }
     } else if ($_REQUEST['filtro'] == 'nao-enviados') {
-        $date = date('Y-m-d', strtotime('01/01/1999'));
-        // $date = '01/01/2005';
-        // mysqli_query('SET CHARACTER SET utf8');
 
         $sql = "SELECT DISTINCT ee.item_id as ids_enviados, pf.item_id as nao_enviados FROM email_enviados AS ee RIGHT JOIN produtos_futura AS pf 
                 ON pf.item_id = ee.item_id 

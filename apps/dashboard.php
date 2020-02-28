@@ -235,21 +235,25 @@ require_once("../header/cabecalho.php");
 <script type="text/javascript">
   $(".sidebar-light-orange").find('.nav-pills').find('a[href="./dashboard.php"]').addClass('active');
 
-  $.ajax({
-    type: 'GET',
-    url: '../ajax/dashboard.php',
-    data: 'act=buscaContFiltros',
-    cache: false,
-    success: function (data) {
-      if (data) {
-        data = JSON.parse(data);
-        $('#nCotacoesvigentes').html(data['vigentes']);
-        $('#nCotacoesnao-enviados').html(data['nao-enviados']);
-        $('#nCotacoesrecomendadas').html(data['recomendadas']);
-        $('#nCotacoesestados').html(data['estados']);
+  buscaContFiltros();
+
+  function buscaContFiltros(){
+    $.ajax({
+      type: 'GET',
+      url: '../ajax/dashboard.php',
+      data: 'act=buscaContFiltros',
+      cache: false,
+      success: function (data) {
+        if (data) {
+          data = JSON.parse(data);
+          $('#nCotacoesvigentes').html(data['vigentes']);
+          $('#nCotacoesnao-enviados').html(data['nao-enviados']);
+          $('#nCotacoesrecomendadas').html(data['recomendadas']);
+          $('#nCotacoesestados').html(data['estados']);
+        }
       }
-    }
-  })
+    })
+  }
 
   function buscaCotacoes(filtroX) {
 
@@ -282,6 +286,7 @@ require_once("../header/cabecalho.php");
       cache: false,
       success: function (data) {
         if (data) {
+          buscaContFiltros();
           data = JSON.parse(data);
           let total = data[1];
           data = data[0];
