@@ -356,9 +356,9 @@ function buscaItensLicitacao(){
                 $produto_id = $itens['produto_id'];
                 $fabricante_id = $itens['fabricante_id'];
 
-                $emailEnviados[] =  $item_id;
+                $emailEnviados[$produto_id] =  $fabricante_id;
                 $fabricantes[$produto_id] =  $fabricante_id;
-                $datas_envio[$item_id] = $itens['data_envio'];
+                $datas_envio[$produto_id] = $itens['data_envio'];
               }
             }
 

@@ -13,7 +13,8 @@ if ($_REQUEST['act']) {
     if ($request == 'get_infos') {
         $id_item = $_REQUEST['id'];
         $id_fabri = $_REQUEST['idFabricante'];
-        return getItensFabri($id_item, $id_fabri);
+        $pf_id = $_REQUEST['pf_id'];
+        return getItensFabri($id_item, $id_fabri, $pf_id);
     } else if ($request == 'sendEmail') {
         if (isset($_REQUEST['item_id'])) {
           $item_id = $_REQUEST['item_id'];
@@ -21,12 +22,10 @@ if ($_REQUEST['act']) {
         }
         $idRef = $_REQUEST['id'];
         return prepareMail($idRef);
-    } else if ($request == 'test') {
-      getBody();
     }
 }
 
-function getItensFabri($id_item, $id_fabricante)
+function getItensFabri($id_item, $id_fabricante, $pf_id)
 {
     $con = bancoMysqli();
 
@@ -36,7 +35,7 @@ function getItensFabri($id_item, $id_fabricante)
                 pf.id
                 FROM produtos_futura as pf
                 INNER JOIN fabricantes AS f ON f.id = pf.fabricante_id
-                WHERE item_id = $id_item AND fabricante_id = $id_fabricante";
+                WHERE item_id = $id_item AND fabricante_id = $id_fabricante AND pf.id = $pf_id";
 
     $query = mysqli_query($con, $sql);
     $rows = mysqli_num_rows($query);

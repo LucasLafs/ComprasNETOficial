@@ -270,74 +270,81 @@ function makeTblLicitacoes(data) {
             },
             success: function(data) {
               var itens = [];
-              data = JSON.parse(data);
 
-              var datas = data.datas_envio;
-              var fabricantes = data.fabricantes;
-              var itensComProduto = data.itensComProduto;
+              if (data) {
+                data = JSON.parse(data);
 
-              var flag;
-              var input;
-              var value;
-              var title;
-              var disabled;
-              var iconColor;
-              var idFabricante;
-              var produto_id;
+                var datas = data.datas_envio;
+                var fabricantes = data.fabricantes;
+                var itensComProduto = data.itensComProduto;
+                var email_enviados = data.email_enviados;
 
-              $.each(data.itens, function(i, d) {
-                // value='"+d.id+"'
-                flag = '';
-                input = '';
-                value = '';
-                idFabricante = d.idFabricante;
-                produto_id = d.produto_id;
-                iconColor = '#495057';
-                disabled = 'disabled';
+                var flag;
+                var info;
+                var input;
+                var value;
+                var title;
+                var disabled;
+                var iconColor;
+                var idFabricante;
+                var produto_id;
+                var display;
 
-                title = 'Esse item não possui fabricante';
-                if (itensComProduto.indexOf(d.id) > -1) {
-                  disabled = '';
-                  iconColor = '#17a2b8';
-                  title = 'Enviar E-mail';
-                  value = "value='"+d.id+"'";
+                $.each(data.itens, function(i, d) {
+                  // value='"+d.id+"'
+                  info = '';
+                  flag = '';
+                  input = '';
+                  value = '';
+                  display = 'none';
+                  idFabricante = d.idFabricante;
+                  produto_id = d.produto_id;
+                  iconColor = '#495057';
+                  disabled = 'disabled';
 
-                  input = '<label class="container" >\n' +
-                    '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-ident="'+identificador+'" class="checkOne checkOneItem'+identificador+'">\n' +
-                    '  <span class="checkmark"></span>\n' +
-                    '</label>';
-                }
-
-                if (idFabricante != undefined) {
-                  if (fabricantes[produto_id] == idFabricante) {
-
-                    var info = "E-mail enviado: " + datas[d.id];
+                  title = 'Esse item não possui fabricante';
+                  if (itensComProduto.indexOf(d.id) > -1) {
+                    disabled = '';
                     iconColor = '#17a2b8';
-                    title = 'E-mail Enviado';
-                    value = "value='" + d.id + "'";
-                    flag = "<i class='fa fa-check-square text-success' title='" + info + "' style='float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
+                    title = 'Enviar E-mail';
+                    value = "value='"+d.id+"'";
 
+                    input = '<label class="container" >\n' +
+                      '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-ident="'+identificador+'" class="checkOne checkOneItem'+identificador+'">\n' +
+                      '  <span class="checkmark"></span>\n' +
+                      '</label>';
                   }
-                }
 
-                console.log(d.valor_estimado.toLocaleString('pt-BR'));
+                  if (email_enviados[produto_id] != undefined) {
+                    if (email_enviados[produto_id] == idFabricante) {
+                      info = "E-mail enviado: " + datas[produto_id];
+                      iconColor = '#17a2b8';
+                      title = 'E-mail Enviado';
+                      value = "value='" + d.id + "'";
+                      display = 'block';
 
-                itens.push([
-                  input || '-',
-                  d.lic_id  || '-',
-                  d.num_aviso  || '-',
-                  d.cod_produto != null ? d.desc_produto : d.descricao_item,
-                  d.fabricante || '-',
-                  d.cod_produto || '-',
-                  d.quantidade || '-',
-                  d.unidade || '-',
-                  d.valor_estimado.toLocaleString('pt-BR') || '-',
-                  " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
-                  "      title='"+title+"' id='"+d.id+"' data-fabricante='"+idFabricante+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
-                  "          </button>" + flag,
-                  //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
-                ]);
-              });
+                    }
+                  }
+
+                  flag = "<i class='fa fa-check-square text-success' title='" + info + "'" + disabled + " id=flag" + produto_id + " style='display: "+display+"; float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
+
+                  itens.push([
+                    input || '-',
+                    d.lic_id  || '-',
+                    d.num_aviso  || '-',
+                    d.cod_produto != null ? d.desc_produto : d.descricao_item,
+                    d.fabricante || '-',
+                    d.cod_produto || '-',
+                    d.quantidade || '-',
+                    d.unidade || '-',
+                    d.valor_estimado || '-',
+                    " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
+                    "      title='"+title+"' id='"+d.id+"'  data-pf_id='"+produto_id+"' data-fabricante='"+idFabricante+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
+                    "          </button>" + flag,
+                    //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
+                  ]);
+                });
+              }
 
               $("table.tblItens").DataTable({
                 retrieve: true,

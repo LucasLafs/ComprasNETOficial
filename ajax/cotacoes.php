@@ -160,7 +160,9 @@ function getItensLicitacao(){
 
 
       //Buscando quais itens já foram enviado e-mail
-      $sql = "SELECT item_id, fabricante_id, produto_id, DATE_FORMAT(data_envio, '%d/%m/%Y %H:%i:%s') AS data_envio FROM email_enviados WHERE email_enviado = 'Y'";
+      $sql = "SELECT item_id, fabricante_id, produto_id, DATE_FORMAT(data_envio, '%d/%m/%Y %H:%i:%s') AS data_envio 
+                    FROM email_enviados WHERE email_enviado = 'Y'";
+
       $query = mysqli_query($con, $sql);
 
       $emailEnviados = [];
@@ -172,7 +174,7 @@ function getItensLicitacao(){
           $produto_id = $itens['produto_id'];
           $fabricante_id = $itens['fabricante_id'];
 
-          $emailEnviados[] =  $item_id;
+          $emailEnviados[$produto_id] =  $fabricante_id;
           $fabricantes[$produto_id] =  $fabricante_id;
           $datas_envio[$item_id] = $itens['data_envio'];
         }
@@ -183,9 +185,14 @@ function getItensLicitacao(){
       $obj['fabricantes'] = $fabricantes;
 
       echo json_encode($obj);
+      exit;
     } else {
+      echo 0;
+      exit;
       echo $sql;
     }
+  } else {
+    echo $sql;
   }
 }
 

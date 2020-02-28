@@ -15,10 +15,9 @@ $(function () {
     $(document).on('click', '.sendMail', function () {
         var idItem = $(this).val();
         var idFabricante = $(this).attr('data-fabricante');
-        console.log(idItem);
-        console.log($(this).attr('id'));
-        console.log($(this).next());
-        $.get('../ajax/email.php?act=get_infos&id=' + idItem + '&idFabricante=' + idFabricante)
+        var produto_id = $(this).attr('data-pf_id');
+
+        $.get('../ajax/email.php?act=get_infos&id=' + idItem + '&idFabricante=' + idFabricante + '&pf_id=' + produto_id)
             .done(function (data) {
                 console.log(data);
                 data = JSON.parse(data);
@@ -48,6 +47,7 @@ $(function () {
                         }).then((result) => {
 
                             if (!result.dismiss) {
+                              $("#flag" + produto_id).show();
                               Swal.fire({
                                 title: 'E-mail enviado com sucesso.',
                                 icon: 'success',
@@ -92,8 +92,11 @@ $(function () {
     let i = 0;
 
     $.each($(".checkOneItem" + id), function () {
-      i++;
-      produtos.push($(this).val());
+      if ($(this).prop('checked') == true) {
+        i++;
+        produtos.push($(this).val());
+      }
+
     });
 
     $.each(produtos, function (index, item_id) {

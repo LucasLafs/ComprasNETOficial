@@ -415,9 +415,11 @@ require_once("../header/cabecalho.php");
 
               var datas = data.datas_envio;
               var fabricantes = data.fabricantes;
+              var email_enviados = data.email_enviados;
               var itensComProduto = data.itensComProduto;
 
               var flag;
+              var info;
               var input;
               var value;
               var title;
@@ -425,12 +427,15 @@ require_once("../header/cabecalho.php");
               var iconColor;
               var idFabricante;
               var produto_id;
+              var display;
 
               $.each(data.itens, function (i, d) {
                 // value='"+d.id+"'
+                info = '';
                 flag = '';
                 input = '';
                 value = '';
+                display = 'none';
                 idFabricante = d.idFabricante;
                 produto_id = d.produto_id;
                 iconColor = '#495057';
@@ -449,17 +454,19 @@ require_once("../header/cabecalho.php");
                     '</label>';
                 }
 
-                if (idFabricante != undefined) {
-                  if (fabricantes[produto_id] == idFabricante) {
 
-                    var info = "E-mail enviado: " + datas[d.id];
+                if (email_enviados[produto_id] != undefined) {
+                  if (email_enviados[produto_id] == idFabricante) {
+                    info = "E-mail enviado: " + datas[produto_id];
                     iconColor = '#17a2b8';
                     title = 'E-mail Enviado';
                     value = "value='" + d.id + "'";
-                    flag = "<i class='fa fa-check-square text-success' title='" + info + "' style='float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
+                    display = 'block';
 
                   }
                 }
+
+                flag = "<i class='fa fa-check-square text-success' title='" + info + "'" + disabled + " id=flag" + produto_id + " style='display: "+display+"; float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
 
                 itens.push([
                   input || '-',
@@ -472,7 +479,7 @@ require_once("../header/cabecalho.php");
                   d.unidade || '-',
                   d.valor_estimado || '-',
                   " <button style='color: " + iconColor + "' class='btn btn-sm btn-edit pull-left sendMail'\n" +
-                  "      title='" + title + "' id='" + d.id + "' data-fabricante='" + idFabricante + "' " + disabled + " " + value + " > " +
+                  "      title='" + title + "' id='" + d.id + "' data-pf_id='"+produto_id+"' data-fabricante='" + idFabricante + "' " + disabled + " " + value + " > " +
                   "<span class='fas fa-mail-bulk'/> </button>" + flag,
                 ]);
               });
