@@ -88,23 +88,24 @@ $(function () {
     $("#loadingAllEmails").show();
 
     let id = $(this).val();
+
     let produtos = [];
     let i = 0;
-
+    var produto_id = $(this).attr('data-pf_id');
     $.each($(".checkOneItem" + id), function () {
       if ($(this).prop('checked') == true) {
         i++;
-        produtos.push($(this).val());
+        produtos.push($(this).attr('data-pf_id'));
       }
 
     });
 
-    $.each(produtos, function (index, item_id) {
+    $.each(produtos, function (index, pf_id) {
       $.when(
-        $.ajax('../ajax/email.php?act=sendEmail&item_id=' + item_id),
+        $.ajax('../ajax/email.php?act=sendEmail&id=' + pf_id),
       ).then(function(){
         i--;
-
+        $("#flag" + pf_id).show();
         if (i == 0) {
           Swal.fire({
             title: 'Os e-mails foram enviados com sucesso.',
@@ -113,6 +114,7 @@ $(function () {
             confirmButtonColor: '#3085d6',
             confirmButtonText: '<i class="fa fa-thumbs-up"></i>'
           }).then(()=> {
+
             $("#loadingAllEmails").hide();
           });
         }

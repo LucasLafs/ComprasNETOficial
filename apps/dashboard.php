@@ -385,6 +385,10 @@ require_once("../header/cabecalho.php");
     });
   }
 
+  function locationBrVal(valor) {
+    return parseFloat(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2});
+  }
+
   function getItensLicitacao(filtroX) {
     $(`#table-data-licitacoes-${filtroX} tbody`).off('click').on('click', 'td.details-control', function () {
 
@@ -454,7 +458,7 @@ require_once("../header/cabecalho.php");
                   value = "value='" + d.id + "'";
 
                   input = '<label class="container" >\n' +
-                    '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-ident="'+identificador+'" class="checkOne checkOneItem'+identificador+'">\n' +
+                    '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-ident="'+identificador+'"  data-pf_id="'+produto_id+'"  class="checkOne checkOneItem'+identificador+'">\n' +
                     '  <span class="checkmark"></span>\n' +
                     '</label>';
                 }
@@ -482,7 +486,7 @@ require_once("../header/cabecalho.php");
                   d.cod_produto || '-',
                   d.quantidade || '-',
                   d.unidade || '-',
-                  d.valor_estimado || '-',
+                  d.valor_estimado ? locationBrVal(d.valor_estimado) : '-',
                   " <button style='color: " + iconColor + "' class='btn btn-sm btn-edit pull-left sendMail'\n" +
                   "      title='" + title + "' id='" + d.id + "' data-pf_id='"+produto_id+"' data-fabricante='" + idFabricante + "' " + disabled + " " + value + " > " +
                   "<span class='fas fa-mail-bulk'/> </button>" + flag,

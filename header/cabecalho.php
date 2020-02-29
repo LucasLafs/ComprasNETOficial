@@ -51,7 +51,7 @@ if (!isset ($_SESSION['user']) == true) //verifica se há uma sessão, se não, 
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
 <div class="wrapper">
 
   <div class="tab1-loading overlay"></div>
@@ -144,7 +144,7 @@ if (!isset ($_SESSION['user']) == true) //verifica se há uma sessão, se não, 
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-light-orange elevation-4" style='min-height: 940px; background: #F4F6F9'>
   <!-- Brand Logo -->
-  <a href="index3.html" class="brand-link" style="height: 57px;">
+  <a href="./dashboard.php" class="brand-link" style="height: 57px;">
     <!-- 1c5581 <img src="../layout/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" -->
     <img src="../layout/images/logo-futura.png" alt="AdminLTE Logo" class="brand-image"
          style='width: 175px; height: 50px; margin-left: 2px'>
@@ -165,19 +165,19 @@ if (!isset ($_SESSION['user']) == true) //verifica se há uma sessão, se não, 
         </li>
         <li class="nav-item">
           <a href="./cotacoes.php" class="nav-link">
-            <i class="far fa-circle nav-icon"></i>
+            <i class="fas fa-file-invoice" style="font-size: 17px; margin-right: 8px; margin-left: 6px;"></i>
             <p>Cotações</p>
           </a>
         </li>
         <li class="nav-item">
           <a href="./fabricantes.php" class="nav-link">
-            <i class="far fa-circle nav-icon"></i>
+            <i class="fas fa-users nav-icon" style="font-size: 15px; margin-left: -1px; margin-right: 2px;"></i>
             <p>Fabricantes</p>
           </a>
         </li>
         <li class="nav-item">
           <a href="./conf-email.php" class="nav-link">
-            <i class="far fa-circle nav-icon"></i>
+            <i class="fas fa-cog" style="margin-right: 7px; margin-left: 3px;"></i>
             <p>Configurações E-mail</p>
           </a>
         </li>

@@ -186,12 +186,12 @@ tr.shown td.details-control {
 div.dataTables_wrapper div.dataTables_filter input {
   display: block !important;
   margin-left: 0 !important;
-  width: 215px !important;
+  width: 105% !important;
 }
 
 div.dataTables_wrapper div.dataTables_filter label {
   font-weight: bold !important;
-  text-align: center !important;
+  /*text-align: center !important;*/
 }
 
 .dataTables_filter {

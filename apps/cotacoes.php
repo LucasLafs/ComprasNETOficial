@@ -32,26 +32,26 @@ require_once("../header/cabecalho.php");
                           <div class="tab1-loading overlay loadTable" style="display: none"></div>
                           <div class="tab1-loading loading-img loadTable" style="display: none"></div>
                             <div class='row'>
-                                <div class='col-md-12 text-center'>
+                                <div class='col-md-12'>
                                     <button style="display: none; margin-top: 15px; float: right;" class="btn btn-tool" id="btnForceSincronismo" onClick='getLicGerais();' title="Forçar sincronismo">
                                         <i class="fas fa-sync"></i>
                                     </button>
                                   <form id="formFiltros">
                                     <div id="filtroData" style="display: none; margin-left: -2%;">
                                       <label>Data de Abertura
-                                        <input type="date" name="data" id="inputfiltroData" style="width: 215px" class="input form-control text-center form-control-sm inputFiltro"></label>
+                                        <input type="date" name="data" id="inputfiltroData" style="width: 120%" class="input form-control form-control-sm inputFiltro"></label>
                                     </div>
                                     <div id="filtroNomeProduto">
                                       <label>Nome do Produto
-                                        <input type="text" name="nome_produto" id="nome_produto" class="input form-control form-control-sm inputFiltro" style="width: 330px"></label>
+                                        <input type="text" name="nome_produto" id="nome_produto" class="input form-control form-control-sm inputFiltro" style="width: 150%"></label>
                                     </div>
                                     <div id="filtroObjDesc" style="display: none">
                                       <label>Objeto Descrição
-                                        <input type="text" name="desc_obj" id="desc_obj" style="width: 330px" id="desc_obj" class="input form-control form-control-sm inputFiltro"></label>
+                                        <input type="text" name="desc_obj" id="desc_obj" style="width: 150%" id="desc_obj" class="input form-control form-control-sm inputFiltro"></label>
                                     </div>
                                     <div id="lupaFiltro" style="display: none">
                                       <input type="hidden" name="act" value="getLicitacoes">
-                                      <button style="margin-left: -105px;margin-top: 15px;" name="filtro" value="1" type="button" class="btn btn-link" id="filtrarCotacoes"><span class="fa fa-search"></span></button>
+                                      <button style="margin-left: -40px;margin-top: 15px;" name="filtro" value="1" type="button" class="btn btn-link" id="filtrarCotacoes"><span class="fa fa-search"></span></button>
                                     </div>
                                   </form>
 
@@ -174,6 +174,11 @@ function getCotacoes() {
 
   });
 }
+
+function locationBrVal(valor) {
+  return parseFloat(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2});
+}
+
 
 function makeTblLicitacoes(data) {
 
@@ -310,7 +315,7 @@ function makeTblLicitacoes(data) {
                     value = "value='"+d.id+"'";
 
                     input = '<label class="container" >\n' +
-                      '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-ident="'+identificador+'" class="checkOne checkOneItem'+identificador+'">\n' +
+                      '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-ident="'+identificador+'" data-pf_id="'+produto_id+'" class="checkOne checkOneItem'+identificador+'">\n' +
                       '  <span class="checkmark"></span>\n' +
                       '</label>';
                   }
@@ -337,7 +342,7 @@ function makeTblLicitacoes(data) {
                     d.cod_produto || '-',
                     d.quantidade || '-',
                     d.unidade || '-',
-                    d.valor_estimado || '-',
+                    d.valor_estimado ? locationBrVal(d.valor_estimado) : '-',
                     " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
                     "      title='"+title+"' id='"+d.id+"'  data-pf_id='"+produto_id+"' data-fabricante='"+idFabricante+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
                     "          </button>" + flag,

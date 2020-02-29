@@ -12,11 +12,6 @@ $(document).ready(function() {
 
     getTimeout();
 
-    $(window).on('load', function () {
-        $(".sidebar-mini").addClass('sidebar-collapse');
-
-    });
-
     $(function () {
 
         $('#exclusao').on('show.bs.modal', function (e) {

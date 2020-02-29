@@ -13,6 +13,12 @@ require_once("../header/cabecalho.php");
     margin: 0;
     max-width: 98% !important;
   }
+
+  div.dataTables_wrapper div.dataTables_filter label {
+    font-weight: bold !important;
+    text-align: center !important;
+  }
+
 </style>
 
 <div class="content-wrapper">
@@ -180,6 +186,20 @@ function getFabris() {
                         width: '150px',
                     },
                 ],
+                "language": {
+                  "paginate": {
+                    "previous": 'Anterior',
+                    "next": 'Próximo',
+                  },
+                  "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                  "zeroRecords": "Nenhum registro encontrado.",
+                  "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                  "sSearch": "Pesquisa Geral",
+                  "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                  }
+                },
                 "dom": "<'row'<'offset-4 col-sm-4 pull-left'f><'col-sm-4 pull-right cadastrarFabricante'>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-1'i><'offset-4 col-sm-7 text-right'p>>",

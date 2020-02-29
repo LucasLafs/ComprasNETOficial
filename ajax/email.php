@@ -18,6 +18,7 @@ if ($_REQUEST['act']) {
     } else if ($request == 'sendEmail') {
         if (isset($_REQUEST['item_id'])) {
           $item_id = $_REQUEST['item_id'];
+
           return prepareMail(0, $item_id);
         }
         $idRef = $_REQUEST['id'];
