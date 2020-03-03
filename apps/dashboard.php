@@ -38,7 +38,7 @@ require_once("../header/cabecalho.php");
           <div class="small-box bg-primary">
             <div class="inner">
               <h3 id='nCotacoesvigentes'>0</h3>
-              <p>Cotações Vigentes</p>
+              <p id="pvigentes">Cotações Vigentes</p>
             </div>
             <div class="icon">
               <i class="fas fa-align-justify"></i>
@@ -93,11 +93,17 @@ require_once("../header/cabecalho.php");
 
 
         <div class="row" id="msgVazio" style="display: none">
+
           <div class="col-12 text-center">
             <h4 class="text-info">Sem cotações até o momento.</h4>
           </div>
         </div>
         <div class='card divFiltro' id='vigentes' style="display: none;">
+          <div class="row" style="padding: 25px 21px 0px 0px; margin-bottom: -5px;">
+            <div class="col-12 text-center">
+              <h5 style="margin-bottom: -25px; float: right;" class="text-info">Cotações Vigentes</h5>
+            </div>
+          </div>
           <div class="card-body">
             <div class='row'>
               <div class='col-12'>
@@ -130,6 +136,11 @@ require_once("../header/cabecalho.php");
           </div>
         </div>
         <div class='card divFiltro' id='estados' style="display: none;">
+          <div class="row" style="padding: 25px 21px 0px 0px; margin-bottom: -5px;">
+            <div class="col-12 text-center">
+              <h5 style="margin-bottom: -25px; float: right;" class="text-info">Cotações dos Principais Estados</h5>
+            </div>
+          </div>
           <div class="card-body">
             <div class='row'>
               <div class='col-12'>
@@ -163,6 +174,12 @@ require_once("../header/cabecalho.php");
         </div>
 
         <div class='card divFiltro' id='recomendadas' style="display: none;">
+          <div class="row" style="padding: 25px 21px 0px 0px; margin-bottom: -5px;">
+            <div class="col-12 text-center">
+              <h5 style="margin-bottom: -25px; float: right;" class="text-info">Itens Relacionados</h5>
+            </div>
+          </div>
+
           <div class="card-body">
             <div class='row'>
               <div class='col-12'>
@@ -195,7 +212,15 @@ require_once("../header/cabecalho.php");
           </div>
         </div>
 
-        <div class='card divFiltro' id='nao-enviados' style="display: none;">
+
+        <div class="card divFiltro" id='nao-enviados' style="display: none;">
+
+          <div class="row" style="padding: 25px 21px 0px 0px; margin-bottom: -5px;">
+            <div class="col-12 text-center">
+              <h5 style="margin-bottom: -25px; float: right;" class="text-info">E-mails não enviados</h5>
+            </div>
+          </div>
+
           <div class="card-body ">
             <div class="tab1-loading overlay loadTable" style="display: none"></div>
             <div class="tab1-loading loading-img loadTable" style="display: none"></div>
@@ -215,7 +240,7 @@ require_once("../header/cabecalho.php");
                     <th scope="col">Descrição</th>
                     <th scope="col">Objeto</th>
                     <th scope="col">Situação</th>
-                    <th style='text-align: right;'  scope="col">Ações</th>
+                    <th style='text-align: right;' scope="col">Ações</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -239,7 +264,7 @@ require_once("../header/cabecalho.php");
 
   buscaContFiltros();
 
-  function buscaContFiltros(){
+  function buscaContFiltros() {
     $.ajax({
       type: 'GET',
       url: '../ajax/dashboard.php',
@@ -368,8 +393,8 @@ require_once("../header/cabecalho.php");
               "lengthMenu": "Exibir _MENU_ registros"
             },
             lengthMenu: [
-              [ 15, 30, 50, 70, 100 ],
-              [ 15, 30, 50, 70, 100 ]
+              [15, 30, 50, 70, 100],
+              [15, 30, 50, 70, 100]
             ],
             "dom": "<'row'<'col-2'l><'offset-2 col-sm-4 text-center'f>>" +
               "<'row'<'col-sm-12'tr>>" +
@@ -387,11 +412,12 @@ require_once("../header/cabecalho.php");
     }).done(function () {
       $('.tab1-loading').hide();
       $("#loadingAllEmails").hide();
-  });;
+    });
+    ;
   }
 
   function locationBrVal(valor) {
-    return parseFloat(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2});
+    return parseFloat(valor).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL', minimumFractionDigits: 2});
   }
 
   function getItensLicitacao(filtroX) {
@@ -463,7 +489,7 @@ require_once("../header/cabecalho.php");
                   value = "value='" + d.id + "'";
 
                   input = '<label class="container" >\n' +
-                    '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-ident="'+identificador+'"  data-pf_id="'+produto_id+'"  class="checkOne checkOneItem'+identificador+'">\n' +
+                    '  <input type="checkbox" style="background: white !important"  value="' + d.id + '" data-ident="' + identificador + '"  data-pf_id="' + produto_id + '"  class="checkOne checkOneItem' + identificador + '">\n' +
                     '  <span class="checkmark"></span>\n' +
                     '</label>';
                 }
@@ -480,7 +506,7 @@ require_once("../header/cabecalho.php");
                   }
                 }
 
-                flag = "<i class='fa fa-check-square text-success' title='" + info + "'" + disabled + " id=flag" + produto_id + " style='display: "+display+"; float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
+                flag = "<i class='fa fa-check-square text-success' title='" + info + "'" + disabled + " id=flag" + produto_id + " style='display: " + display + "; float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
 
                 itens.push([
                   input || '-',
@@ -493,7 +519,7 @@ require_once("../header/cabecalho.php");
                   d.unidade || '-',
                   d.valor_estimado ? locationBrVal(d.valor_estimado) : '-',
                   " <button style='color: " + iconColor + "' class='btn btn-sm btn-edit pull-left sendMail'\n" +
-                  "      title='" + title + "' id='" + d.id + "' data-pf_id='"+produto_id+"' data-fabricante='" + idFabricante + "' " + disabled + " " + value + " > " +
+                  "      title='" + title + "' id='" + d.id + "' data-pf_id='" + produto_id + "' data-fabricante='" + idFabricante + "' " + disabled + " " + value + " > " +
                   "<span class='fas fa-mail-bulk'/> </button>" + flag,
                 ]);
               });
