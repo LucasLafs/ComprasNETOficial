@@ -55,7 +55,7 @@ require_once("../header/cabecalho.php");
                                     </div>
                                   </form>
 
-                                    <table id="table-data-licitacoes" class="table table-responsive table-hover vertical-align text-center"  style="width: 100% !important;">
+                                    <table id="table-data-licitacoes" class="table table-responsive table-hover vertical-align"  style="width: 100% !important;">
                                         <thead>
                                             <tr>
                                                 <th scope="col"></th>
@@ -64,7 +64,7 @@ require_once("../header/cabecalho.php");
                                                 <th scope="col">UF</th>
                                                 <th scope="col">Data Entrega</th>
                                                 <th scope="col">Data Abertura</th>
-                                                <th style='text-align: center;' scope="col">Descrição</th>
+                                                <th scope="col">Descrição</th>
                                                 <th scope="col">Objeto</th>
                                                 <th scope="col">Situação</th>
                                                 <th style='text-align: right;' scope="col">Ações</th>
@@ -335,7 +335,6 @@ function makeTblLicitacoes(data) {
                   }
 
                   flag = "<i class='fa fa-check-square text-success' title='" + info + "'" + disabled + " id=flag" + produto_id + " style='display: "+display+"; float: right; margin-top: -21px;margin-left: 57px; font-size: 12px;'></i>";
-
                   itens.push([
                     input || '-',
                     d.lic_id  || '-',
@@ -346,7 +345,7 @@ function makeTblLicitacoes(data) {
                     d.quantidade || '-',
                     d.unidade || '-',
                     d.valor_estimado ? locationBrVal(d.valor_estimado) : '-',
-                    " <button style='color: "+iconColor+"' class='btn btn-sm btn-edit pull-left sendMail'\n" +
+                    " <button style='float:right; margin-right: -8px; color: "+iconColor+";' class='btn btn-sm btn-edit pull-left sendMail'\n" +
                     "      title='"+title+"' id='"+d.id+"'  data-pf_id='"+produto_id+"' data-fabricante='"+idFabricante+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
                     "          </button>" + flag,
                     //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",
@@ -425,7 +424,7 @@ function makeTblLicitacoes(data) {
           '    display: none;" class="btn btn-sm btn-edit text-info pull-left enviarVariosEmails" id="enviarVariosEmails'+id+'" value="'+id+'" title="Enviar E-mails" >' +
           '<span id="loadingAllEmails" style="display: none"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;</span> <span class=\'fas fa-mail-bulk\'/>\n' +
           '              </button></div><div class="table-responsive" style="background: #f5f5f5;">' +
-          '<table style="width: 100% !important;" class="table table-responsive table-condesed tblItens text-center" cellpadding="5" cellspacing="0" border="0"> <thead>' +
+          '<table style="width: 100% !important;" class="table table-responsive table-condesed tblItens" cellpadding="5" cellspacing="0" border="0"> <thead>' +
           '        <tr> ' +
           '         <th scope="col"><label class="container"><input type="checkbox"  value="'+id+'" class="checkAllItens"> <span class="checkmark"  ></span></label></th>' +
           '         <th scope="col">ID Licitação</th>' +
@@ -436,7 +435,7 @@ function makeTblLicitacoes(data) {
           '         <th scope="col">Quantidade</th>' +
           '         <th scope="col">Unidade</th>' +
           '         <th scope="col">Valor Estimado</th>' +
-          '         <th scope="col">Ações</th>' +
+          '         <th style="text-align: right" scope="col">Ações</th>' +
           '        </tr>' +
           '      </thead><tbody></tbody></table> </div>'
           ;

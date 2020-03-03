@@ -331,8 +331,8 @@ require_once("../header/cabecalho.php");
               d.informacoes_gerais || '-',
               d.objeto || '-',
               d.situacao_aviso || '-',
-              `<button target title='Gerar PDF' style='float:left; margin-left: -20px;  min-width: 33px;' class='btn btn-sm btn-edit pdfLicitacao' id=${d.identificador}><i class='far fa-file-pdf'></i></button>
-                        <button title='Imprimir' style='float:right; margin-right: -10px;' class='btn btn-sm btn-edit printLicitacao' id=${d.identificador}><i class='fa fa-print'></i></button>`,
+              `<button target title='Gerar PDF' style='float:left; margin-left: -10px; width: 31px; height: 30px;' class='btn btn-sm btn-edit pdfLicitacao' id=${d.identificador}><i class='far fa-file-pdf'></i></button>
+                        <button title='Imprimir' style='float:right; margin-right: -13px;width: 31px;height: 30px;' class='btn btn-sm btn-edit printLicitacao' id=${d.identificador}><i style='padding-right: 6px;' class='fa fa-print'></i></button>`,
             ]);
           });
 
@@ -597,7 +597,7 @@ require_once("../header/cabecalho.php");
         '    display: none;" class="btn btn-sm btn-edit text-info pull-left enviarVariosEmails" id="enviarVariosEmails' + id + '" value="' + id + '" title="Enviar E-mail" >' +
         '<span id="loadingAllEmails" style="display: none"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>&nbsp;&nbsp;</span> <span class=\'fas fa-mail-bulk\'/>\n' +
         '              </button></div><div class="table-responsive" style="background: #f5f5f5;">' +
-        '<table style="width: 100% !important;" class="table table-responsive table-condesed tblItens text-center" cellpadding="5" cellspacing="0" border="0"> <thead>' +
+        '<table style="width: 100% !important;" class="table table-responsive table-condesed tblItens" cellpadding="5" cellspacing="0" border="0"> <thead>' +
         '        <tr> ' +
         '         <th scope="col"><label class="container"><input type="checkbox" style="background: white !important"  value="' + id + '" class="checkAllItens"> <span class="checkmark"></span></label></th>' +
         '         <th scope="col">ID Licitação</th>' +
@@ -608,7 +608,7 @@ require_once("../header/cabecalho.php");
         '         <th scope="col">Quantidade</th>' +
         '         <th scope="col">Unidade</th>' +
         '         <th scope="col">Valor Estimado</th>' +
-        '         <th scope="col">Ações</th>' +
+        '         <th style="text-align: right;" scope="col">Ações</th>' +
         '        </tr>' +
         '      </thead><tbody></tbody></table> </div>'
         ;
