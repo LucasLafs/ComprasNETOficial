@@ -92,7 +92,7 @@ CREATE TABLE `licitacao_itens` (
   `num_item_licitacao` int(11) DEFAULT NULL,
   `cod_item_servico` int(11) DEFAULT NULL,
   `cod_item_material` int(11) DEFAULT NULL,
-  `descricao_item` varchar(999) DEFAULT NULL,
+  `descricao_item` varchar(9999) DEFAULT NULL,
   `sustentavel` int(11) DEFAULT NULL,
   `quantidade` varchar(45) DEFAULT NULL,
   `unidade` varchar(45) DEFAULT NULL,

@@ -102,7 +102,7 @@ require_once("../header/cabecalho.php");
             <div class='row'>
               <div class='col-12'>
                 <table id="table-data-licitacoes-vigentes"
-                       class="table table-responsive table-hover vertical-align text-center"
+                       class="table table-responsive table-hover vertical-align"
                        style="width: 100% !important;">
                   <thead>
                   <tr>
@@ -115,7 +115,7 @@ require_once("../header/cabecalho.php");
                     <th scope="col">Descrição</th>
                     <th scope="col">Objeto</th>
                     <th scope="col">Situação</th>
-                    <th scope="col">Ações</th>
+                    <th style='text-align: right;' scope="col">Ações</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -134,7 +134,7 @@ require_once("../header/cabecalho.php");
             <div class='row'>
               <div class='col-12'>
                 <table id="table-data-licitacoes-estados"
-                       class="table table-responsive table-hover vertical-align text-center"
+                       class="table table-responsive table-hover vertical-align"
                        style="width: 100% !important;">
                   <thead>
                   <tr>
@@ -147,7 +147,7 @@ require_once("../header/cabecalho.php");
                     <th scope="col">Descrição</th>
                     <th scope="col">Objeto</th>
                     <th scope="col">Situação</th>
-                    <th scope="col">Ações</th>
+                    <th style='text-align: right;' scope="col">Ações</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -167,7 +167,7 @@ require_once("../header/cabecalho.php");
             <div class='row'>
               <div class='col-12'>
                 <table id="table-data-licitacoes-recomendadas"
-                       class="table table-responsive table-hover vertical-align text-center"
+                       class="table table-responsive table-hover vertical-align"
                        style="width: 100% !important;">
                   <thead>
                   <tr>
@@ -180,7 +180,7 @@ require_once("../header/cabecalho.php");
                     <th scope="col">Descrição</th>
                     <th scope="col">Objeto</th>
                     <th scope="col">Situação</th>
-                    <th scope="col">Ações</th>
+                    <th style='text-align: right;' scope="col">Ações</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -197,10 +197,12 @@ require_once("../header/cabecalho.php");
 
         <div class='card divFiltro' id='nao-enviados' style="display: none;">
           <div class="card-body ">
+            <div class="tab1-loading overlay loadTable" style="display: none"></div>
+            <div class="tab1-loading loading-img loadTable" style="display: none"></div>
             <div class='row'>
               <div class='col-12'>
                 <table id="table-data-licitacoes-nao-enviados"
-                       class="table table-responsive table-hover vertical-align text-center"
+                       class="table table-responsive table-hover vertical-align"
                        style="width: 100% !important;">
                   <thead>
                   <tr>
@@ -213,7 +215,7 @@ require_once("../header/cabecalho.php");
                     <th scope="col">Descrição</th>
                     <th scope="col">Objeto</th>
                     <th scope="col">Situação</th>
-                    <th scope="col">Ações</th>
+                    <th style='text-align: right;'  scope="col">Ações</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -272,12 +274,12 @@ require_once("../header/cabecalho.php");
 
 
     if ($("#nCotacoes" + filtroX).html() == 0) {
-      $("#msgVazio").fadeIn(2000);
+      $("#msgVazio").fadeIn(1000);
       return false;
     }
 
-    $(`#${filtroX}`).fadeIn(2000);
-
+    $(`#${filtroX}`).fadeIn(1000);
+    $('.tab1-loading').show();
 
     $.ajax({
       type: 'GET',
@@ -382,7 +384,10 @@ require_once("../header/cabecalho.php");
           });
         }
       }
-    });
+    }).done(function () {
+      $('.tab1-loading').hide();
+      $("#loadingAllEmails").hide();
+  });;
   }
 
   function locationBrVal(valor) {

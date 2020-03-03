@@ -64,10 +64,10 @@ require_once("../header/cabecalho.php");
                                                 <th scope="col">UF</th>
                                                 <th scope="col">Data Entrega</th>
                                                 <th scope="col">Data Abertura</th>
-                                                <th scope="col">Descrição</th>
+                                                <th style='text-align: center;' scope="col">Descrição</th>
                                                 <th scope="col">Objeto</th>
                                                 <th scope="col">Situação</th>
-                                                <th scope="col">Ações</th>
+                                                <th style='text-align: right;' scope="col">Ações</th>
                                             </tr>
                                         </thead>
                                         <tbody id='licitacao-itens'>
@@ -103,10 +103,10 @@ $(document).ready(function() {
     getCotacoes();
     // getLicGerais();
 
-    $(window).on('load', function() {
-        $('.tab1-loading').hide();
-        $("#loadingAllEmails").hide();
-    });
+    // $(window).on('load', function() {
+    //     $('.tab1-loading').hide();
+    //     $("#loadingAllEmails").hide();
+    // });
 
     $(function() {
         $(".sidebar-light-orange").find('.nav-pills').find('a[href="./cotacoes.php"]').addClass('active');
@@ -155,6 +155,8 @@ function getProdGerais() {
 }
 
 function getCotacoes() {
+  $('.tab1-loading').show();
+  $("#loadingAllEmails").show();
   $.ajax({
     type: "GET",
     url: "../ajax/cotacoes.php?act=getLicitacoes",
@@ -169,9 +171,11 @@ function getCotacoes() {
 
       makeTblLicitacoes(data);
 
-
     }
 
+  }).done(function () {
+      $('.tab1-loading').hide();
+      $("#loadingAllEmails").hide();
   });
 }
 
@@ -261,7 +265,6 @@ function makeTblLicitacoes(data) {
           // Open this row
           var infos = row.data();
           var identificador = infos[0];
-          console.log(identificador);
           tr.addClass('shown');
 
           $.ajax({
@@ -529,24 +532,17 @@ $(document).on('click', '.printLicitacao', function () {
 
 $(document).on('click', '.checkOne', function () {
 
-  console.log('chamando funca o click ');
-
   var id = $(this).attr('data-ident');
   var clicked = 0;
 
   $.each($(".checkOne"), function () {
-    console.log($(this).prop("checked"));
     if ($(this).prop('checked') == true) {
       clicked++;
     }
-    console.log(clicked);
   });
 
-  console.log(clicked);
 
   if (clicked > 1) {
-    console.log(clicked);
-    console.log('cai noif');
     $("#enviarVariosEmails" + id).show();
     $("#loadingAllEmails").hide();
   } else {
