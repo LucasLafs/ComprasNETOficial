@@ -11,7 +11,7 @@ require_once("../header/cabecalho.php");
   }
   div.table-responsive > div.dataTables_wrapper > div.row {
     margin: 0;
-    max-width: 98% !important;
+    max-width: 100% !important;
   }
 
   div.dataTables_wrapper div.dataTables_filter label {
@@ -55,13 +55,13 @@ require_once("../header/cabecalho.php");
                                     </button>
                                     <h4 id='msgSemFabricante' style='display: none;' class='text-info text-center'>Nenhum fabricante cadastrado.</h4>
                                   <div class="table-responsive" id="divTblFabricantes" style="display: none; ">
-                                    <table id="tblFabricantes" class="table table-hover table-responsive text-center" style="width: 100%; ">
+                                    <table id="tblFabricantes" class="table table-hover table-responsive" style="width: 100%; ">
                                       <thead>
                                       <tr>
                                         <th scope="col">Nome</th>
                                         <th scope="col">E-mail</th>
                                         <th scope="col">Descrição</th>
-                                        <th scope="col">Ações</th>
+                                        <th style='text-align:right;' scope="col">Ações</th>
                                       </tr>
                                       </thead>
                                       <tbody>
@@ -144,7 +144,7 @@ function getFabris() {
                     d.nome || '-',
                     d.email || '-',
                     descricao || '-',
-                    " <button  data-toggle='modal' data-target='#modalEditaFabri' class='btn btn-sm btn-edit text-info pull-left'\n" +
+                    " <button data-toggle='modal' data-target='#modalEditaFabri' style='margin-left: 25px;' class='btn btn-sm btn-edit text-info'\n" +
                     "      title='Editar Fabricante' data-id='" + d.id + "'>\n" +
                     "                                <span class='fa fa-edit'/>\n" +
                     "          </button>  " +

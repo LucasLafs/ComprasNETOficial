@@ -81,7 +81,8 @@ function buscaCotacoes(){
 
         $sql = "SELECT lic.uasg, 
         identificador, 
-        DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta_ord, 
+        lic.data_entrega_proposta as data_entrega_proposta, 
+        DATE_FORMAT(lic.data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta_ord, 
         informacoes_gerais, 
         objeto, 
         situacao_aviso,
@@ -90,7 +91,7 @@ function buscaCotacoes(){
         FROM licitacoes_cab AS lic
         LEFT JOIN licitacao_orgao AS o ON o.uasg = lic.uasg
         WHERE data_entrega_proposta > '$date' 
-        order by data_entrega_proposta_ord limit 5000";
+        order by data_entrega_proposta desc limit 5000";
 
         $query = mysqli_query($con, $sql);
         if($query){
@@ -149,6 +150,7 @@ function buscaCotacoes(){
 
         $sql = "SELECT DISTINCT lic.identificador as identificador,
         lic.uasg as uasg, 
+        lic.data_entrega_proposta AS data_entrega_proposta, 
         DATE_FORMAT(lic.data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta_ord, 
         lic.informacoes_gerais as informacoes_gerais, 
         lic.objeto as objeto, 
@@ -157,7 +159,7 @@ function buscaCotacoes(){
         o.lic_estado AS uf 
         FROM licitacoes_cab AS lic
         LEFT JOIN licitacao_orgao AS o ON o.uasg = lic.uasg 
-        LEFT JOIN licitacao_itens ON lic.identificador = licitacao_itens.lic_id WHERE licitacao_itens.id IN (" . implode(',', $ids_nao_enviados) . ") ";  // order by data_entrega_proposta_ord limit 5000";
+        LEFT JOIN licitacao_itens ON lic.identificador = licitacao_itens.lic_id WHERE licitacao_itens.id IN (" . implode(',', $ids_nao_enviados) . ") ORDER BY lic.data_entrega_proposta DESC ";  // order by data_entrega_proposta_ord limit 5000";
 
         $query = mysqli_query($con, $sql);
         if($query){
@@ -190,6 +192,8 @@ function buscaCotacoes(){
                 $data[1] = $total;
                 echo json_encode($data);
             }
+        } else {
+            echo $sql;
         }
     } else if ($_REQUEST['filtro'] == 'recomendadas'){
         $date = date('Y-m-d', strtotime('01/01/1999'));
@@ -209,6 +213,7 @@ function buscaCotacoes(){
 
         $sql = "SELECT DISTINCT lic.identificador as identificador,
         lic.uasg as uasg, 
+        lic.data_entrega_proposta AS data_entrega_proposta, 
         DATE_FORMAT(lic.data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta_ord, 
         lic.informacoes_gerais as informacoes_gerais, 
         lic.objeto as objeto, 
@@ -217,7 +222,7 @@ function buscaCotacoes(){
         o.lic_estado AS uf 
         FROM licitacoes_cab AS lic
         LEFT JOIN licitacao_orgao AS o ON o.uasg = lic.uasg
-        LEFT JOIN licitacao_itens ON lic.identificador = licitacao_itens.lic_id WHERE licitacao_itens.id IN (" . implode(',', $ids_relacionados) . ") ";  // order by data_entrega_proposta_ord limit 5000";
+        LEFT JOIN licitacao_itens ON lic.identificador = licitacao_itens.lic_id WHERE licitacao_itens.id IN (" . implode(',', $ids_relacionados) . ") ORDER BY lic.data_entrega_proposta DESC ";  // order by data_entrega_proposta_ord limit 5000";
 
         $query = mysqli_query($con, $sql);
         if($query){
@@ -245,13 +250,14 @@ function buscaCotacoes(){
 
         $sql = "SELECT DISTINCT lc.identificador as identificador, 
         lc.uasg as uasg, 
+        lc.data_entrega_proposta AS data_entrega_proposta, 
         DATE_FORMAT(lc.data_entrega_proposta, '%d/%m/%Y') AS data_entrega_proposta_ord, 
         lc.informacoes_gerais as informacoes_gerais, 
         lc.objeto as objeto, 
         lc.situacao_aviso as situacao_aviso,
         DATE_FORMAT(data_abertura_proposta, '%d/%m/%Y') AS data_abertura_proposta,
         lo.lic_estado AS uf
-        FROM licitacoes_cab AS lc LEFT JOIN licitacao_orgao AS lo ON lc.uasg = lo.uasg WHERE lo.lic_estado='SP' or lo.lic_estado='DF' or lo.lic_estado='RJ' ";
+        FROM licitacoes_cab AS lc LEFT JOIN licitacao_orgao AS lo ON lc.uasg = lo.uasg WHERE lo.lic_estado='SP' or lo.lic_estado='DF' or lo.lic_estado='RJ' ORDER BY lc.data_entrega_proposta DESC ";
 
         $query = mysqli_query($con, $sql);
         if($query){

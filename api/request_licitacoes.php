@@ -2,8 +2,8 @@
 
 set_time_limit(0);
 ignore_user_abort(false);
-require_once ("../ajax/conexao.php");//alterar
-require_once ("./request_produtos.php");//usr/bin/php7.0 test.php
+require_once ("/var/www/html/ComprasNET/ajax/conexao.php");//alterar
+require_once ("/var/www/html/ComprasNET/api/request_produtos.php");//usr/bin/php7.0 test.php
 
 if($_REQUEST['act']){
     if ($_REQUEST['act'] == 'requestLicitacoes'){
@@ -37,18 +37,20 @@ function saveTimeout(){
         echo "<br>";
         echo $sql;
     } else {
-        $op = round($time / 60);
+        $op = $time / 60;
         $hour = '*';
         $min = '*';
-        if ($op > 0) {
-            $hour = round($time / 60);
+
+        if ($op > 1) {
+            $hour = "*/" . round($time / 60);
         } else {
-            $min = $time; 
+            $min = "*/" . $time; 
         }
 
+        // $cmd = 'for i in `ps aux| grep timeout | awk \'{print$2}\' `; do kill -9 "$i" ; done ';
         $cmd = "sudo chown www-data /etc/crontab";
         shell_exec($cmd);
-        file_put_contents('/etc/crontab', "# /etc/crontab: system-wide crontab\n# Unlike any other crontab you don't have to run the `crontab'\n# command to install the new version when you edit this file\n# and files in /etc/cron.d. These files also have username fields,\n# that none of the other crontabs do.\nSHELL=/bin/sh\nPATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin\n# m h dom mon dow user  command\n17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly\n25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )\n47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )\n52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )\n*/$min $hour   * * *   root    /usr/bin/php7.0 /var/www/html/ComprasNET/api/timeout.php > /etc/cron.d/temp.txt\n#");
+        file_put_contents('/etc/crontab', "# /etc/crontab: system-wide crontab\n# Unlike any other crontab you don't have to run the `crontab'\n# command to install the new version when you edit this file\n# and files in /etc/cron.d. These files also have username fields,\n# that none of the other crontabs do.\nSHELL=/bin/sh\nPATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin\n# m h dom mon dow user  command\n17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly\n25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )\n47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )\n52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )\n$min $hour   * * *   root    /usr/bin/php7.0 /var/www/html/ComprasNET/api/timeout.php >> /var/log/comprasnet/getapi.log\n5 8    * * *   root    /bin/sh /var/www/html/ComprasNET/rotate.sh\n#");
         $cmd = "sudo chown root.root /etc/crontab";
         shell_exec($cmd);
         $cmd = "sudo systemctl restart cron";
@@ -83,16 +85,59 @@ function requestLicGeraisComprasNet(){
     libxml_use_internal_errors(true);   
     // header("Vary: Origin");
 
+    $verificaProcesso = shell_exec('ps aux | grep "ComprasNET/api/timeout.php" | grep -v "grep" | grep -v "/var/log/comprasnet" | awk \'{print$2}\'');
+    if(strlen($verificaProcesso) > 8){
+        echo "\n"; echo date('d-m-Y H:i:s'); echo " ===== Processo já em execução ===== \n";
+        exit;
+    }
+
     $con = bancoMysqli();
+  
+
     $sql = "SELECT COUNT(*) as total FROM licitacoes_cab";
     $query = mysqli_query($con, $sql);
     $offset = mysqli_fetch_assoc($query);
-    $offset = $offset['total'] ? $offset['total'] : 0;
+    $offsetBanco = $offset['total'] ? $offset['total'] : 0;
+
+    $offset = $offsetBanco;
+
+    $sql = "SELECT identificador FROM licitacoes_cab ORDER BY id ASC LIMIT 1";
+    $query = mysqli_query($con, $sql);
+
+    if($query){
+        $info = mysqli_fetch_assoc($query);
+
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => "http://compras.dados.gov.br/licitacoes/v1/licitacoes.json?order_by=data_entrega_proposta&offset=0"
+        ]);
+
+
+        $result = json_decode(curl_exec($curl));
+        
+        $licitacoes = $result->_embedded->licitacoes;
+
+        $count = 0;
+
+        foreach ($licitacoes AS $licitacao) {
+            if ($licitacao->identificador != $info['identificador']) {
+                $count++;
+            } else {
+                break;
+            }
+        }
+
+        if ($count > 0) {
+            $diff = $count;
+            $offset = 0;            
+        }
+    }
 
     $curl = curl_init();
     curl_setopt_array($curl, [
         CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => "http://compras.dados.gov.br/licitacoes/v1/licitacoes.json?offset=" . $offset
+        CURLOPT_URL => "http://compras.dados.gov.br/licitacoes/v1/licitacoes.json?order_by=data_entrega_proposta&offset=" . $offset
     ]);
 
     $offset_total = json_decode(curl_exec($curl));
@@ -111,10 +156,11 @@ function requestLicGeraisComprasNet(){
     // $i = 474;
 
     while ($i < $offset_total) {
+
         $curl = curl_init();
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => "http://compras.dados.gov.br/licitacoes/v1/licitacoes.json?offset=" . $i
+            CURLOPT_URL => "http://compras.dados.gov.br/licitacoes/v1/licitacoes.json?order_by=data_entrega_proposta&offset=" . $i
         ]);
     
         $result = json_decode(curl_exec($curl));
@@ -125,7 +171,8 @@ function requestLicGeraisComprasNet(){
             
             $identificador = $licitacao->identificador;
             $uasg = $licitacao->uasg;
-
+            
+            
             foreach ($licitacao AS $campo => $value) {
 
                 if (!is_object($value)) {
@@ -142,7 +189,6 @@ function requestLicGeraisComprasNet(){
             }
 
           $sqlVerifica = "SELECT * FROM licitacoes_cab WHERE identificador = $identificador";
-
           if (mysqli_num_rows(mysqli_query($con, $sqlVerifica)) == 0) {
 
               $sql = "INSERT INTO licitacoes_cab (
@@ -185,14 +231,18 @@ function requestLicGeraisComprasNet(){
                   $licitacao->data_publicacao
                   )
               ";
-
+                
               if (!mysqli_query($con, $sql)) {
                 echo "ERROR: " . mysqli_error($con);
                 echo "<br>";
                 echo $sql;
                 exit;
+              } else {
+                echo "\n";echo date('d-m-Y H:i:s'); echo " [====]  Identificador Licitação: " . $identificador ;echo ' [====] UASG: ' . $uasg ; echo "\n";
               }
-          }
+            } else {
+                echo "\n";echo date('d-m-Y H:i:s'); echo " [====]  Licitação já Cadastrada [====] "; echo "\n [====] Identificador Licitação: " . $identificador ;echo ' [====] UASG: ' . $uasg ; echo "\n";
+            }
 
             $itens_licitacao = requestItensLicitacao($identificador);
             
@@ -204,6 +254,7 @@ function requestLicGeraisComprasNet(){
                     $num_item_comprasnet = $item_licitacao->numero_item_licitacao;
                     $descricao_item = $item_licitacao->descricao_item;
                     $qtd_item_comprasnet = $item_licitacao->quantidade;
+                    
 
                     foreach($item_licitacao AS $campo => $value ){
                         // relacionamentos serão feitos pela Lic_id;
@@ -262,15 +313,16 @@ function requestLicGeraisComprasNet(){
                         )
                     ";
 
-                    // echo $sql;
-                    if (!mysqli_query($con, $sql)) {
-                      echo "<br>";
-                      echo "ERROR: " . mysqli_error($con);
-                      echo "<br>";
-                      echo $sql;
-                      exit;
-                    }
-
+                        // echo $sql;
+                        if (!mysqli_query($con, $sql)) {
+                            echo "<br>";
+                            echo "ERROR: " . mysqli_error($con);
+                            echo "<br>";
+                            echo $sql;
+                            exit;
+                        } else {
+                            echo "\n";echo date('d-m-Y H:i:s');echo " [====] Cadastrando Itens do Portal Comprasnet da Licitacao: \n";  echo "\n Id Licitação: " . $identificador ;  echo "\n UASG: " . $uasg ; echo "\n Descrição Item: " . $descricao_item ; echo "\n Numero do item: " . $num_item_comprasnet ;echo "\n Quantidade do Item: " . $qtd_item_comprasnet . "\n";
+                        }
                     $sql = 'SELECT MAX(id) as id FROM licitacao_itens';
                     $query = mysqli_query($con, $sql);
                     if($query){
@@ -323,19 +375,21 @@ function requestLicGeraisComprasNet(){
                                     )
                                     ";
 
-                                      if(!mysqli_query($con, $sql)){
-                                        echo "<br>";
-                                        echo "ERROR: " . mysqli_error($con);
-                                        echo $sql;
-                                        exit;
-                                      }
+                                    if(!mysqli_query($con, $sql)){
+                                    echo "<br>";
+                                    echo "ERROR: " . mysqli_error($con);
+                                    echo $sql;
+                                    exit;
+                                    } else {
+                                        echo "\n";echo date('d-m-Y H:i:s');echo " [====] Cadastrando Fabricantes Medicamentos Futura: \n"; echo "\n Descrição Fabricante: " . $desc_fabricante ; echo "\n Código do Fabricante: " . $cod_fabricante . "\n";
+                                    }
+                                    
+                                    $sql = 'SELECT MAX(id) as id FROM fabricantes';
 
-                                      $sql = 'SELECT MAX(id) as id FROM fabricantes';
-
-                                      if($query = mysqli_query($con, $sql)){
-                                        $last_fab_id = mysqli_fetch_assoc($query);
-                                        $last_fab_id = $last_fab_id['id'];
-                                      }
+                                    if($query = mysqli_query($con, $sql)){
+                                    $last_fab_id = mysqli_fetch_assoc($query);
+                                    $last_fab_id = $last_fab_id['id'];
+                                    }
 
                                     } else {
                                       $fabri = mysqli_fetch_assoc($query);
@@ -384,7 +438,6 @@ function requestLicGeraisComprasNet(){
 //          }
 
             $orgao_licitacao = requestParseOrgaosGov($uasg);
-            print_r($orgao_licitacao);
             if(count($orgao_licitacao) > 0) {
                 $orgao_licitacao = json_decode($orgao_licitacao);
 
@@ -397,7 +450,6 @@ function requestLicGeraisComprasNet(){
 
                 }
 
-
                 $sqlConsult = "SELECT * FROM licitacao_orgao WHERE uasg = $uasg AND lic_orgao = $orgao_licitacao->orgao";
 
                 if (mysqli_num_rows(mysqli_query($con, $sqlConsult)) == 0 ) {
@@ -409,9 +461,29 @@ function requestLicGeraisComprasNet(){
                   }
                 }
             }
+
+            if (isset($diff)) {
+                $count--;
+            }
+
+            if (isset($diff) && $count == 0) {
+                break;
+            }
+         //logs
         }
-        echo '<pre>'; echo $i . ' UASG: ' . $uasg ; echo '</pre>';
-        $i += 500;
+
+        if (isset($diff) && $count == 0) {
+            $i = $offsetBanco - $diff;
+        }
+
+        echo '<pre>'; echo "\n==== GRAVADO $i Licitacoes ====\n"; echo '</pre>';
+
+        if (!isset($diff)) {
+            $i += 500;
+        } else {
+            unset($diff);
+        }
+        
     }
 
     echo '1';
@@ -458,7 +530,6 @@ function requestParseOrgaosGov($uasg){
 
             $doc = explode('<table border="0" width="100%" cellspacing="1" cellpadding="2" class="td"><tr bgcolor="#FFFFFF">', $doc);
 
-            echo $parse;
             if (isset($doc[$parse])){
             $doc = explode('bgcolor="#FFFFFF" class="tex3a" align="center"', $doc[$parse]);
             }

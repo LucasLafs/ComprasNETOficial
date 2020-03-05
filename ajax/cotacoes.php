@@ -59,10 +59,10 @@ function getLicitacoes($filtro = '')
     }
 
     $sql = "SELECT li.uasg, identificador, DATE_FORMAT(data_entrega_proposta, '%d/%m/%Y')
-                AS data_entrega_proposta, informacoes_gerais, objeto, situacao_aviso, DATE_FORMAT(data_abertura_proposta, '%d/%m/%Y') AS data_abertura_proposta, o.lic_estado AS uf 
+                AS data_entrega_prop, informacoes_gerais, objeto, situacao_aviso, DATE_FORMAT(data_abertura_proposta, '%d/%m/%Y') AS data_abertura_proposta, o.lic_estado AS uf 
                 FROM licitacoes_cab AS li 
                 LEFT JOIN licitacao_orgao AS o ON o.uasg = li.uasg
-                $inner $filtro order by data_entrega_proposta limit 1000";
+                $inner $filtro order by data_entrega_proposta desc limit 1000";
 
     $query = mysqli_query($con, $sql);
     if($query){
@@ -77,13 +77,13 @@ function getLicitacoes($filtro = '')
                     '',
                     $licitacoes['uasg'] ?? '-',
                     $licitacoes['uf'] ?? '-',
-                    $licitacoes['data_entrega_proposta'] ?? '-',
+                    $licitacoes['data_entrega_prop'] ?? '-',
                     $licitacoes['data_abertura_proposta'] ?? '-',
                     $licitacoes['informacoes_gerais'] ?? '-',
                     $licitacoes['objeto'] ?? '-',
                     $licitacoes['situacao_aviso'] ?? '-',
-                    "<button target title='Gerar PDF' style='float:left; margin-left: -10px; width: 31px; height: 30px;' class='btn btn-sm btn-edit pdfLicitacao' id='".$licitacoes['identificador']."'><i class='far fa-file-pdf'></i></button>
-                    <button title='Imprimir' style='float:right; margin-right: -13px;width: 31px;height: 30px;' class='btn btn-sm btn-edit printLicitacao' id='".$licitacoes['identificador']."'><i style='padding-right: 6px;' class='fa fa-print'></i></button>"
+                    "<button target title='Gerar PDF' style='float:left; margin-left: -20px; min-width: 31px;' class='btn btn-sm btn-edit pdfLicitacao' id='".$licitacoes['identificador']."'><i class='far fa-file-pdf'></i></button>
+                    <button title='Imprimir' style='float:right; margin-right: -10px;width: 30px;' class='btn btn-sm btn-edit printLicitacao' id='".$licitacoes['identificador']."'><i style='padding-right: 6px;' class='fa fa-print'></i></button>"
                 ];
             }
     // float: left;

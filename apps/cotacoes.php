@@ -237,6 +237,7 @@ function makeTblLicitacoes(data) {
         width: "5%",
       },
     ],
+    'aaSorting': [],
     "dom": "<'row'<'col-sm-2 pull-left'f><'col-sm-2 filtroData'><'col-sm-3 filtroNomeProduto'><'col-sm-3 filtroObjDesc'><'col-sm-1 lupa'><'col-sm-1 pull-right forceSincronismo'>>" +
       "<'row'<'col-sm-12'tr>>" +
       "<'row'<'col-sm-1'i><'offset-4 col-sm-7 text-right'p>>",
@@ -345,7 +346,7 @@ function makeTblLicitacoes(data) {
                     d.quantidade || '-',
                     d.unidade || '-',
                     d.valor_estimado ? locationBrVal(d.valor_estimado) : '-',
-                    " <button style='float:right; margin-right: -8px; color: "+iconColor+";' class='btn btn-sm btn-edit pull-left sendMail'\n" +
+                    " <button style='margin-left: 20px;color: "+iconColor+";' class='btn btn-sm btn-edit pull-left sendMail'\n" +
                     "      title='"+title+"' id='"+d.id+"'  data-pf_id='"+produto_id+"' data-fabricante='"+idFabricante+"' "+disabled+" "+value+" > <span class='fas fa-mail-bulk'/>\n" +
                     "          </button>" + flag,
                     //  " <i class='fa fa-thumbs-up text-info' style='float: right; margin-top: -14px; font-size: 13px;'></i>",

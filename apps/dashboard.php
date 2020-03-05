@@ -90,7 +90,7 @@ require_once("../header/cabecalho.php");
                 class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
-
+      </div>
 
         <div class="row" id="msgVazio" style="display: none">
 
@@ -244,8 +244,6 @@ require_once("../header/cabecalho.php");
                   </tr>
                   </thead>
                   <tbody>
-                  <div class="tab1-loading overlay loadTable" style="display: none"></div>
-                  <div class="tab1-loading loading-img loadTable" style="display: none"></div>
                   <!--  <div class="tab1-loading overlay"></div>
                   <div class="tab1-loading loading-img"></div>-->
                   </tbody>
@@ -284,26 +282,26 @@ require_once("../header/cabecalho.php");
 
   function buscaCotacoes(filtroX) {
 
-    $("#msgVazio").fadeOut(1000);
+    $("#msgVazio").hide(1000);
 
     if ($(`#${filtroX}`).is(':visible')) {
-      $(`#${filtroX}`).fadeOut(1000);
+      $(`#${filtroX}`).hide();
       return false;
     }
 
     $.each($(".divFiltro"), function () {
       if ($(this).is(':visible')) {
-        $(this).fadeOut(1000);
+        $(this).hide();
       }
     });
 
 
     if ($("#nCotacoes" + filtroX).html() == 0) {
-      $("#msgVazio").fadeIn(1000);
+      $("#msgVazio").show();
       return false;
     }
 
-    $(`#${filtroX}`).fadeIn(1000);
+    $(`#${filtroX}`).show();
     $('.tab1-loading').show();
 
     $.ajax({
@@ -331,8 +329,8 @@ require_once("../header/cabecalho.php");
               d.informacoes_gerais || '-',
               d.objeto || '-',
               d.situacao_aviso || '-',
-              `<button target title='Gerar PDF' style='float:left; margin-left: -10px; width: 31px; height: 30px;' class='btn btn-sm btn-edit pdfLicitacao' id=${d.identificador}><i class='far fa-file-pdf'></i></button>
-                        <button title='Imprimir' style='float:right; margin-right: -13px;width: 31px;height: 30px;' class='btn btn-sm btn-edit printLicitacao' id=${d.identificador}><i style='padding-right: 6px;' class='fa fa-print'></i></button>`,
+              `<button target title='Gerar PDF' style='float:left; margin-left: -20px;  min-width: 31px;' class='btn btn-sm btn-edit pdfLicitacao' id=${d.identificador}><i class='far fa-file-pdf'></i></button>
+                        <button title='Imprimir' style='float:right; margin-right: -10px;width: 30px;' class='btn btn-sm btn-edit printLicitacao' id=${d.identificador}><i style='padding-right: 6px;' class='fa fa-print'></i></button>`,
             ]);
           });
 
@@ -389,6 +387,7 @@ require_once("../header/cabecalho.php");
                 width: "8%",
               },
             ],
+            'aaSorting': [],
             "language": {
               "lengthMenu": "Exibir _MENU_ registros"
             },
@@ -402,7 +401,6 @@ require_once("../header/cabecalho.php");
             // fnInitComplete: function () {
             // // $('div.forceSincronismo').html($('#btnForceSincronismo').show());
             // },
-            "order": [4, 'desc'],
             "fnDrawCallback": function () {
               getItensLicitacao(filtroX);
             }
@@ -411,7 +409,6 @@ require_once("../header/cabecalho.php");
       }
     }).done(function () {
       $('.tab1-loading').hide();
-      $("#loadingAllEmails").hide();
     });
     ;
   }
@@ -518,7 +515,7 @@ require_once("../header/cabecalho.php");
                   d.quantidade || '-',
                   d.unidade || '-',
                   d.valor_estimado ? locationBrVal(d.valor_estimado) : '-',
-                  " <button style='color: " + iconColor + "' class='btn btn-sm btn-edit pull-left sendMail'\n" +
+                  " <button style='margin-left: 20px;color: " + iconColor + "' class='btn btn-sm btn-edit pull-left sendMail'\n" +
                   "      title='" + title + "' id='" + d.id + "' data-pf_id='" + produto_id + "' data-fabricante='" + idFabricante + "' " + disabled + " " + value + " > " +
                   "<span class='fas fa-mail-bulk'/> </button>" + flag,
                 ]);

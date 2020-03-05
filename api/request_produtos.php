@@ -42,10 +42,6 @@ function reqApiFutura($num_item_comprasnet = '', $desc_item_comprasnet = '', $qt
         // echo sizeof($response);
         
 
-    } else {
-        
-        echo 'pqp';
-        exit;
     }
 
 
