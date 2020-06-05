@@ -144,11 +144,11 @@ function getFabris() {
                     d.nome || '-',
                     d.email || '-',
                     descricao || '-',
-                    " <button data-toggle='modal' data-target='#modalEditaFabri' style='margin-left: 25px;' class='btn btn-sm btn-edit text-info'\n" +
+                    " <button data-toggle='modal' data-target='#modalEditaFabri' class='btn btn-sm btn-edit text-info'\n" +
                     "      title='Editar Fabricante' data-id='" + d.id + "'>\n" +
                     "                                <span class='fa fa-edit'/>\n" +
                     "          </button>  " +
-                    "<button class='btn btn-sm btn-trash' title='Excluir Fabricante' data-toggle='modal' data-target='#exclusao' " +
+                    "<button class='btn btn-sm btn-trash' title='Excluir Fabricante' style='float:right' data-toggle='modal' data-target='#exclusao' " +
                     "data-id='" + d.id + "' data-item='o fabricante'  data-nome='" + d.nome + "'>\n" +
                     "                 <span class='fa fa-trash'/> </button>",
                 ])

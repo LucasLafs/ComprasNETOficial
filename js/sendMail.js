@@ -91,16 +91,65 @@ $(function () {
 
     let produtos = [];
     let i = 0;
-    var produto_id = $(this).attr('data-pf_id');
+    let x = 0;
+    var produto_id = '';
+
+    let idFabri = '';
+    let fabrisItens = [];
+
     $.each($(".checkOneItem" + id), function () {
       if ($(this).prop('checked') == true) {
+
+        idFabri = $(this).attr("data-idFabri");
+        produto_id = $(this).attr('data-pf_id');
+
+        produtos.push(produto_id);
+
+
+        if (fabrisItens[idFabri] != undefined) {
+            fabrisItens[idFabri].push(produto_id);
+        } else {
+            fabrisItens[idFabri] = [produto_id];
+            x++;
+        }
+
         i++;
-        produtos.push($(this).attr('data-pf_id'));
       }
 
     });
 
-    $.each(produtos, function (index, pf_id) {
+    console.log(fabrisItens);
+
+    $.each(fabrisItens, function (idFabricante, ids_pf) {
+        if (ids_pf != undefined) {
+
+            console.log(idFabricante);
+            console.log(ids_pf);
+
+            $.when(
+                $.ajax('../ajax/email.php?act=sendMailMultiFabri&idFabri=' + idFabricante + '&ids_pf=' + ids_pf),
+            ).then(function () {
+                x--;
+                $.each(ids_pf, function (i, pf_id) {
+                    $("#flag" + pf_id).show();
+                });
+                if (x == 0) {
+                    Swal.fire({
+                        title: 'Os e-mails foram enviados com sucesso.',
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: '<i class="fa fa-thumbs-up"></i>'
+                    }).then(() => {
+
+                        $("#loadingAllEmails").hide();
+                    });
+                }
+            });
+        }
+    });
+
+   /* $.each(produtos, function (index, pf_id) {
       $.when(
         $.ajax('../ajax/email.php?act=sendEmail&id=' + pf_id),
       ).then(function(){
@@ -120,7 +169,7 @@ $(function () {
         }
       });
     });
-
+*/
 
 
     console.log(produtos);

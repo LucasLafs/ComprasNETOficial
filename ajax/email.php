@@ -23,6 +23,10 @@ if ($_REQUEST['act']) {
         }
         $idRef = $_REQUEST['id'];
         return prepareMail($idRef);
+    } else if ($request == 'sendMailMultiFabri') {
+        $idFabri = $_REQUEST['idFabri'];
+        $ids_pf = $_REQUEST['ids_pf'];
+        return prepareMailMultiItensFabri($idFabri, $ids_pf);
     }
 }
 
@@ -87,6 +91,163 @@ function getBody()
     }
 }
 
+function prepareMailMultiItensFabri($idFabri, $ids_pf) {
+    $con = bancoMysqli();
+
+    $sqlInfosFabri = "SELECT
+                        f.id AS fabricante_id,
+                        f.nome,
+                        f.email
+                        FROM fabricantes f
+                        WHERE id = $idFabri";
+
+    $query = mysqli_query($con, $sqlInfosFabri);
+
+    if (mysqli_num_rows($query) > 0) {
+        $infosFabri = mysqli_fetch_assoc($query);
+    } else {
+        echo $sqlInfosFabri;
+    }
+
+    $sql = "SELECT
+                i.lic_uasg,
+                i.id AS item_id, 
+                i.num_item_licitacao AS item,
+                i.unidade,
+                i.quantidade,
+                i.valor_estimado,
+                i.quantidade * i.valor_estimado AS valor_total,
+                pf.id AS produto_id,
+                pf.desc_licitacao_jd AS descricao,
+                o.lic_orgao AS orgao,
+                DATE_FORMAT(lic.data_entrega_proposta, '%d/%m/%Y %H:%i') AS data_entrega
+                FROM produtos_futura as pf
+                INNER JOIN licitacao_itens AS i ON i.id = pf.item_id
+                LEFT JOIN licitacao_orgao AS o ON o.uasg = i.lic_uasg
+                INNER JOIN licitacoes_cab AS lic ON lic.identificador = i.lic_id
+                WHERE pf.id IN ($ids_pf)";
+
+    $query = mysqli_query($con, $sql);
+
+    if (mysqli_num_rows($query) > 0) {
+
+        $conf_body = getBody();
+        $crash_text =  explode('<tabela>', $conf_body['smtp_corpo']);
+
+        $antes = $crash_text[0];
+        $depois = $crash_text[1];
+
+        $totalGlobal = 0;
+        $infosItensHtml = "";
+
+        while ($infos = mysqli_fetch_assoc($query)) {
+
+            $totalGlobal += $infos['valor_total'] != '' ? $infos['valor_total'] : 0 ;
+            $valorEstimado = $infos['valor_estimado'] != '' ? number_format($infos['valor_estimado'], 2, ',', '.') : 0 ;
+            $valorTotal = $infos['valor_total'] != '' ? number_format($infos['valor_total'],2,',', '.') : 0 ;
+
+            $infosItensHtml .= "<tr>
+                            <td>".$infos['item']."</td>
+                            <td>".$infos['descricao']."</td>
+                            <td>".$infos['unidade']."</td>
+                            <td>".$infos['quantidade']."</td>
+                            <td>".$valorEstimado."</td>
+                            <td>R$ ".$valorTotal."</td>
+                        </tr>
+                     ";
+
+            $produto_id = $infos['produto_id'];
+
+
+            $sqlCheckEnvio = "SELECT * FROM email_enviados WHERE produto_id = $produto_id AND item_id = " . $infos['item_id'] . " AND fabricante_id = $idFabri";
+
+            $queryCheckEnvio = mysqli_query($con, $sqlCheckEnvio);
+
+            if (mysqli_num_rows($queryCheckEnvio) == 0) {
+
+                $sqlEmailEnviado = "INSERT INTO email_enviados (item_id, 
+                                              fabricante_id, 
+                                              produto_id, 
+                                              email_enviado, 
+                                              resposta,
+                                              data_envio) 
+                                      VALUES (".$infos['item_id'].",
+                                                ".$idFabri.",
+                                                $produto_id,
+                                                'Y',
+                                                'OK',
+                                                '" . date("Y-m-d H:i:s") . "')";
+
+                if (!mysqli_query($con, $sqlEmailEnviado)) {
+                    echo 'não cadastrou';
+                }
+            } else {
+                $sqlEmailEnviado = "UPDATE email_enviados SET data_envio = '" . date("Y-m-d H:i:s") . "' WHERE produto_id = $produto_id AND item_id = " . $infos['item_id'] . " AND fabricante_id = $idFabri";
+                mysqli_query($con, $sqlEmailEnviado);
+            }
+
+            $uasg = $infos['lic_uasg'];
+            $orgao = $infos['orgao'];
+            $data_entrega = $infos['data_entrega'];
+
+        }
+
+        $body = "<p>".$infos['nome'].", ". saudacao() .".</p>
+                    $antes
+
+                    <table width='950' style='text-align: center; font-size: 15px; border: 1px solid black;'>
+                    
+                         <tr>
+                            <td style='background: #ff9d00'>UASG</td>
+                            <td style='background: #ff9d00' colspan='5'>".$uasg. "</td>                           
+                        </tr>
+                        
+                         <tr>
+                            <td width='10%' style='background: #ff9d00'>ORGÃO</td>
+                            <td style='background: #ff9d00' colspan='5'>" . $orgao . "</td>                           
+                        </tr>
+                   
+                        <tr>
+                            <td style='background: #ff9d00'>DATA E HORA PREVISTA PARA A LICITAÇÃO</td>
+                            <td style='background: #ff9d00' colspan='5'><b>". $data_entrega ."h</b></td>                           
+                        </tr>
+                        
+                        <tr>
+                            <td style='background: #f5f5f5;'>Item</td>
+                            <td style='background: #f5f5f5;'>Descrição</td>
+                            <td style='background: #f5f5f5;'>Unidade de Fornecimento</td>
+                            <td style='background: #f5f5f5;'>Quantidade</td>
+                            <td style='background: #f5f5f5;'>Valor Unitário Estimado</td>
+                            <td style='background: #f5f5f5;'>Valor Total</td>
+                        </tr>
+                        
+                       $infosItensHtml
+        
+                        <tr>
+                            <td colspan='5'><b>TOTAL GLOBAL</b></td>
+                            <td>R$ ".number_format($totalGlobal, 2, ',', '.')."</td>
+                        </tr>
+                       
+                    </table> <br>
+                    
+                    $depois
+                    ";
+
+        $assunto = $conf_body['smtp_assunto'] != "" ? $conf_body['smtp_assunto'] : $orgao;
+
+        if (sendMail($assunto, $body, $infosFabri['email'])) {
+
+            echo json_encode(['status' => true]);
+        } else {
+            echo json_encode(false);
+        }
+    } else {
+        echo $sql;
+    }
+
+
+}
+
 function prepareMail($idRef, $item_id = 0)
 {
     $con = bancoMysqli();
@@ -135,7 +296,7 @@ function prepareMail($idRef, $item_id = 0)
         $depois = $crash_text[1];
 
 
-        $body = "<p>".$infos['nome'].", bom dia.</p>
+        $body = "<p>".$infos['nome']. ", ". saudacao() .".</p>
                     $antes
 
                     <table width='950' style='text-align: center; font-size: 15px; border: 1px solid black;'>
@@ -212,7 +373,6 @@ function prepareMail($idRef, $item_id = 0)
             echo $sql;
             mysqli_query($con, $sql);
           }
-
           
             echo json_encode(['status' => true]);
         } else {
@@ -280,5 +440,26 @@ function sendMail($subject, $body, $para, $cc = '')
     }else{
         return false;
         echo "Erro no envio do e-mail: " . $Mailer->ErrorInfo;
+    }
+}
+
+function saudacao()
+{
+    $hora = date('H');
+    if(($hora > 12) AND ($hora < 18))
+    {
+        return "Boa tarde";
+    }
+    else if(($hora >= 18) AND ($hora <= 23))
+    {
+        return "Boa noite";
+    }
+    else if(($hora >= 0) AND ($hora <= 4))
+    {
+        return "Boa noite";
+    }
+    else if(($hora > 4) AND ($hora <=12))
+    {
+        return "Bom dia";
     }
 }

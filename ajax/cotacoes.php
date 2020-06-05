@@ -95,6 +95,8 @@ function getLicitacoes($filtro = '')
     // width: 30px;
     // height: 30px;
             echo json_encode($obj);
+        } else {
+            echo json_encode(0);
         }
 
     } else {

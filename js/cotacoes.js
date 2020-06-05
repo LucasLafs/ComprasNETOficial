@@ -49,9 +49,20 @@ function getCotacoes() {
       $(".loadTable").show();
     },
     success: function(data) {
-      data = JSON.parse(data);
 
-      makeTblLicitacoes(data);
+      if (Array.isArray(data)) {
+          data = JSON.parse(data);
+
+          makeTblLicitacoes(data);
+
+          return;
+      }
+
+
+      getLicGerais();
+
+      setTimeout(getCotacoes, 5000);
+
 
 
     }

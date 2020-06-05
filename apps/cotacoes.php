@@ -1,5 +1,6 @@
 <?php
 require_once("../header/cabecalho.php");
+
 ?>
 
 <div class="content-wrapper">
@@ -133,7 +134,7 @@ function getLicGerais(){
     // require_once ("../api/request_licitacoes.php");
     // $_REQUEST['act'] = '&requestLicitacoes';
     // requestLicGeraisComprasNet();
-  })
+  });
 }
 
 function getProdGerais() {
@@ -154,10 +155,35 @@ function getProdGerais() {
 
 }
 
-function getCotacoes() {
-  $('.tab1-loading').show();
-  $("#loadingAllEmails").show();
-  $.ajax({
+function getCotacoes(stop = 0) {
+    $('.tab1-loading').show();
+    $("#loadingAllEmails").show();
+    $(".loadTable").show();
+
+    $.when(
+        $.ajax('../ajax/cotacoes.php?act=getLicitacoes'),
+    ).then(function (data) {
+        console.log(data);
+        if (data != 0) {
+            console.log("cai no if");
+            data = JSON.parse(data);
+
+            makeTblLicitacoes(data);
+
+            $('.tab1-loading').hide();
+            $("#loadingAllEmails").hide();
+            return;
+        }
+
+        if (stop == 0) {
+            getLicGerais();
+        }
+
+        setTimeout(getCotacoes(1), 5000);
+
+    });
+
+ /* $.ajax({
     type: "GET",
     url: "../ajax/cotacoes.php?act=getLicitacoes",
     // data: "act=getLicitacoes",
@@ -167,16 +193,26 @@ function getCotacoes() {
       $(".loadTable").show();
     },
     success: function(data) {
-      data = JSON.parse(data);
+        console.log(data);
+        if (Array.isArray(data)) {
+            data = JSON.parse(data);
 
-      makeTblLicitacoes(data);
+            makeTblLicitacoes(data);
+
+            return;
+        }
+
+
+        getLicGerais();
+
+        setTimeout(getCotacoes, 5000);
 
     }
 
   }).done(function () {
       $('.tab1-loading').hide();
       $("#loadingAllEmails").hide();
-  });
+  });*/
 }
 
 function locationBrVal(valor) {
@@ -248,7 +284,6 @@ function makeTblLicitacoes(data) {
       $('div.filtroObjDesc').html($('#filtroObjDesc').show());
       $('div.lupa').html($('#lupaFiltro').show());
     },
-    "order": [4, 'desc'],
     "fnDrawCallback": function () {
 
       $('#table-data-licitacoes tbody').off('click').on('click', 'td.details-control', function() {
@@ -319,7 +354,7 @@ function makeTblLicitacoes(data) {
                     value = "value='"+d.id+"'";
 
                     input = '<label class="container" >\n' +
-                      '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-ident="'+identificador+'" data-pf_id="'+produto_id+'" class="checkOne checkOneItem'+identificador+'">\n' +
+                      '  <input type="checkbox" style="background: white !important"  value="'+d.id+'" data-idFabri="'+idFabricante+'" data-ident="'+identificador+'" data-pf_id="'+produto_id+'" class="checkOne checkOneItem'+identificador+'">\n' +
                       '  <span class="checkmark"></span>\n' +
                       '</label>';
                   }
@@ -449,7 +484,6 @@ function makeTblLicitacoes(data) {
 
 $(document).on('click', '#filtrarCotacoes', function () {
 
-
   var element = $("#table-data-licitacoes");
   $(".loadTable").show();
   element.hide();
@@ -495,7 +529,7 @@ $(document).on('click', '#filtrarCotacoes', function () {
     },
     success: function (data) {
 
-      if (data != '') {
+      if (data != 0) {
         data = JSON.parse(data);
         makeTblLicitacoes(data);
         element.show();
